@@ -6,12 +6,14 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/05/31 02:46:45 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 16:05:26 by alavaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+#include <stdlib.h>
 
 typedef struct	s_env
 {
@@ -36,5 +38,19 @@ typedef struct s_token
 		char	*str;
 	};
 }	t_token;
+
+/* == Parsing == */
+
+/* = Tokenizer = */
+int	next_token(const char **head);
+const char	*skip_spaces(const char *head);
+
+/* == FT Libs */
+
+/* = ctype = */
+int	ft_isspace(int ch);
+int	ft_islower(int ch);
+int	ft_isupper(int ch);
+int	ft_isalpha(int ch);
 
 #endif

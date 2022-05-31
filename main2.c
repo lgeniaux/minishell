@@ -88,57 +88,40 @@ char **build_envp(t_shellenv *sh)
     return (envp);
 }
 
-void    skip_spaces(const char **head)
+char    *shell_get_var(t_shellenv *sh, const char *name)
 {
-    const char  *ptr;
-
-    ptr = *head;
-    while (isspace(*ptr))
-        ++ptr;
-    *head = ptr;
+    (void)sh;
+    (void)name;
+    return "Alexis";
 }
 
-int is_valid_text(int ch)
+int decode_var(const char *token, char *buf)
 {
-    if (isalpha(ch))
-        return (1);
-    if ((char)ch == '$' || (char)ch == '-' || (char)ch == '?')
-        return (1);
-    if ((char)ch == '"' || (char)ch == '\'')
-        return (1);
-    return (0);
-}
+    int i;
 
-int get_text_token(const char **head, char *buf, int *len)
-{
-    const char  *p;
-    int         strmode;
-
-    p = *head;
-    strmode = 0;
-    while (*p)
+    i = 0;
+    while (token[i])
     {
-        if (*p == '"' && strmode != 2)
-            strmode = 1 - strmode;
-        else if (*p == '\'' && strmode != 1)
-            strmode = 2 - strmode;
-        else if (!is_valid_text(*p) && !strmode)
+        /* TODO better cond */
+        if (isdigit(token[i]) && i == 0)
+            break ;
+        if (!isalpha(token[i]) && !isdigit(token[i]) && token[i] != '_')
             break ;
         if (buf)
-            *buf++ = *p;
-        ++p;
+            *buf++ = token[i];
+        ++i;
     }
-    if (strmode)
-    {
-        printf("Unterminated string!\n");
-        return -1;
-    }
-    if (len)
-        *len = (int)(p - *head);
-    return 1;
+    if (buf)
+        *buf = '\0';
+    return (i);
 }
 
-char    *substitute_vars(const char *token, char *buf, int *len)
+int substitude_var(const char *token, char *buf)
+{
+    return 0;
+}
+
+int substitute_vars(const char *token, char *buf)
 {
     int strmode;
     int n;
@@ -151,6 +134,9 @@ char    *substitute_vars(const char *token, char *buf, int *len)
             strmode = 1 - strmode;
         else if (*token == '\'' && strmode != 1)
             strmode = 2 - strmode;
+        else if (*token == '$' && strmode != 2)
+        {
+        }
         else
         {
             if (buf)
@@ -161,81 +147,7 @@ char    *substitute_vars(const char *token, char *buf, int *len)
     }
     if (buf)
         buf[n] = '\0';
-    if (len)
-        *len = n + 1;
-    return (buf);
-}
-
-int next_token(const char **head)
-{
-    const char *p;
-    char *buf;
-    int len;
-    int isstr;
-
-    skip_spaces(head);
-    p = *head;
-    if (*p == '\0')
-        return (0);
-    if (is_valid_text(*p))
-    {
-        if (get_text_token(&p, NULL, &len) < 0)
-            return (-1);
-        buf = malloc(len);
-        get_text_token(head, buf, NULL);
-        printf("Token: %.*s\n", len, buf);
-
-
-        char *bab;
-        int bob;
-
-        substitute_vars(buf, NULL, &bob);
-        bab = malloc(bob);
-        substitute_vars(buf, bab, NULL);
-
-        printf("Substitued token: %.*s\n", bob, bab);
-        free(bab);
-
-        free(buf);
-        *head = p + len;
-        return 1;
-    }
-    else if (*p == '>')
-    {
-        if (p[1] == '>')
-        {
-            if (p[2] == '>')
-            {
-                printf("Parse error\n");
-                return -1;
-            }
-            printf("Token: APPEND\n");
-            *head = p + 2;
-            return 1;
-        }
-        printf("Token: REDIR\n");
-        *head = p + 1;
-        return 1;
-    }
-    else if (*p == '|')
-    {
-        if (p[1] == '|')
-        {
-            if (p[2] == '|')
-            {
-                printf("Parse error\n");
-                return -1;
-            }
-            printf("Token: AND\n");
-            *head = p + 2;
-            return 1;
-        }
-        printf("Token: PIPE\n");
-        *head = p + 1;
-        return 1;
-    }
-    *head = p;
-    return 0;
+    return (n + 1);
 }
 
 void parse_line(const char *line)
