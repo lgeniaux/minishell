@@ -1,20 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_util.c                                    :+:      :+:    :+:   */
+/*   ft_ctype.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 16:04:42 by alavaud           #+#    #+#             */
-/*   Updated: 2022/05/31 16:05:20 by alavaud          ###   ########.fr       */
+/*   Created: 2022/05/31 16:02:47 by alavaud           #+#    #+#             */
+/*   Updated: 2022/09/25 19:22:00 by alavaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-const char	*skip_spaces(const char *head)
+int	ft_isspace(int ch)
 {
-	while (ft_isspace(*head))
-		++head;
-	return (head);
+	return ((char)ch == ' ' || (char)ch == '\t' || (char)ch == '\n'
+		|| (char)ch == '\r' || (char)ch == '\v' || (char)ch == '\f');
 }
+
+int	ft_islower(int ch)
+{
+	return (ch >= 'a' && ch <= 'z');
+}
+
+int	ft_isupper(int ch)
+{
+	return (ch >= 'A' && ch <= 'Z');
+}
+
+int	ft_isalpha(int ch)
+{
+	return (ft_islower(ch) || ft_isupper(ch));
+}
+
+int	ft_isprint(int ch)
+{
+	return (ch >= 32 && ch < 127);
+}
+

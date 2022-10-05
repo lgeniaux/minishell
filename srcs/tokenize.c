@@ -6,13 +6,13 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 15:35:08 by alavaud           #+#    #+#             */
-/*   Updated: 2022/05/31 23:51:36 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/09/28 18:18:12 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void init_token(t_token *tok, int type, char *str, int len)
+static void	init_token(t_token *tok, int type, char *str, int len)
 {
 	tok->type = type;
 	tok->len = len;
@@ -21,19 +21,13 @@ static void init_token(t_token *tok, int type, char *str, int len)
 
 int	is_valid_text(int ch)
 {
-	if (ft_isalpha(ch))
-		return (1);
-	if ((char)ch == '$' || (char)ch == '-' || (char)ch == '?')
-		return (1);
-	if ((char)ch == '"' || (char)ch == '\'')
-		return (1);
-	return (0);
+	return (!ft_isspace(ch) && !ft_strchr("><|", ch));
 }
 
-int	get_text_token(const char *p, int *len)
+int	get_text_token(char *p, int *len)
 {
-	const char	*start;
-	int			strmode;
+	char	*start;
+	int		strmode;
 
 	start = p;
 	strmode = 0;
@@ -49,7 +43,7 @@ int	get_text_token(const char *p, int *len)
 	}
 	if (strmode)
 	{
-		printf("Unterminated string!\n");
+		printf("Unterminated string\n");
 		return (-1);
 	}
 	if (len)
@@ -57,9 +51,9 @@ int	get_text_token(const char *p, int *len)
 	return (1);
 }
 
-int	parse_pipe_token(const char **head, t_token *tok)
+int	parse_pipe_token(char **head, t_token *tok)
 {
-	const char	*p;
+	char	*p;
 
 	p = *head + 1;
 	if (*p == '|')
@@ -69,19 +63,18 @@ int	parse_pipe_token(const char **head, t_token *tok)
 			printf("Parse error\n");
 			return (-1);
 		}
-		printf("Token: AND\n");
-		init_token(tok, TOKEN_AND, (char *)*head, 2);
+		init_token(tok, TOKEN_AND, *head, 2);
 		*head = p + 1;
 		return (1);
 	}
-	init_token(tok, TOKEN_PIPE, (char *)*head, 1);
+	init_token(tok, TOKEN_PIPE, *head, 1);
 	*head = p;
 	return (1);
 }
 
-int	parse_chevron_token(const char **head, t_token *tok)
+int	parse_chevron_right_token(char **head, t_token *tok)
 {
-	const char	*p;
+	char	*p;
 
 	p = *head + 1;
 	if (*p == '>')
@@ -91,20 +84,41 @@ int	parse_chevron_token(const char **head, t_token *tok)
 			printf("Parse error\n");
 			return (-1);
 		}
-		init_token(tok, TOKEN_APPEND, (char *)*head, 2);
+		init_token(tok, TOKEN_APPEND, *head, 2);
 		*head = p + 1;
 		return (1);
 	}
-	init_token(tok, TOKEN_REDIR_OUT, (char *)*head, 1);
+	init_token(tok, TOKEN_REDIR_OUT, *head, 1);
 	*head = p;
 	return (1);
 }
 
-int	next_token(const char **head, t_token *tok)
+int	parse_chevron_left_token(char **head, t_token *tok)
 {
-	const char	*p;
-	char		*buf;
-	int			len;
+	char	*p;
+
+	p = *head + 1;
+	if (*p == '<')
+	{
+		if (p[1] == '<')
+		{
+			printf("Parse error\n");
+			return (-1);
+		}
+		init_token(tok, TOKEN_HEREDOC, *head, 2);
+		*head = p + 1;
+		return (1);
+	}
+	init_token(tok, TOKEN_REDIR_IN, *head, 1);
+	*head = p;
+	return (1);
+}
+
+int	next_token(char **head, t_token *tok)
+{
+	char	*p;
+	char	*buf;
+	int		len;
 
 	*head = skip_spaces(*head);
 	if (**head == '\0')
@@ -113,13 +127,15 @@ int	next_token(const char **head, t_token *tok)
 	{
 		if (get_text_token(*head, &len) < 0)
 			return (-1);
-		init_token(tok, TOKEN_TEXT, (char *)*head, len);
+		init_token(tok, TOKEN_TEXT, *head, len);
 		*head += len;
 		return (1);
 	}
 	else if (**head == '>')
-		return (parse_chevron_token(head, tok));
+		return (parse_chevron_right_token(head, tok));
+	else if (**head == '<')
+		return (parse_chevron_left_token(head, tok));
 	else if (**head == '|')
 		return (parse_pipe_token(head, tok));
-	return (0);
+	return (-1);
 }

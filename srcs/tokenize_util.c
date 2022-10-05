@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ctype.c                                         :+:      :+:    :+:   */
+/*   tokenize_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 16:02:47 by alavaud           #+#    #+#             */
-/*   Updated: 2022/05/31 16:03:45 by alavaud          ###   ########.fr       */
+/*   Created: 2022/05/31 16:04:42 by alavaud           #+#    #+#             */
+/*   Updated: 2022/08/03 11:53:57 by alavaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isspace(int ch)
-{
-	return ((char)ch == ' ' || (char)ch == '\t' || (char)ch == '\n'
-		|| (char)ch == '\r' || (char)ch == '\v' || (char)ch == '\f');
-}
+#include "minishell.h"
 
-int	ft_islower(int ch)
+char	*skip_spaces(char *head)
 {
-	return (ch >= 'a' && ch <= 'z');
-}
-
-int	ft_isupper(int ch)
-{
-	return (ch >= 'A' && ch <= 'Z');
-}
-
-int	ft_isalpha(int ch)
-{
-	return (ft_islower(ch) || ft_isupper(ch));
+	while (ft_isspace(*head))
+		++head;
+	return (head);
 }

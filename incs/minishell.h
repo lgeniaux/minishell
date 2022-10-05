@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/07/29 14:24:36 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/10/05 16:23:36 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,13 @@
 # define MINISHELL_H
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
-extern int printf(char const *, ...);
-
-typedef struct	s_env
-{
-	char *name;
-	char *val;
-	struct s_env *next;
-}	t_env;
-
-typedef struct	s_shellenv
-{
-	t_env *envlist;
-	int envcount;
-} t_shellenv;
+#define ft_strndup strndup
+#define ft_strlen strlen
+#define ft_strlcat strlcat
+#define ft_strlcpy strlcpy
 
 # define TOKEN_TEXT			1
 # define TOKEN_APPEND		2
@@ -51,8 +43,8 @@ typedef struct s_token
 /* == Parsing == */
 
 /* = Tokenizer = */
-int	next_token(const char **head, t_token *tok);
-const char	*skip_spaces(const char *head);
+int		next_token(char **head, t_token *tok);
+char	*skip_spaces(char *head);
 
 /* == FT Libs */
 
@@ -61,6 +53,9 @@ int	ft_isspace(int ch);
 int	ft_islower(int ch);
 int	ft_isupper(int ch);
 int	ft_isalpha(int ch);
+int	ft_isprint(int ch);
+
+char	*ft_strchr(const char *s, int c);
 
 /* = PARSING = */
 /**
@@ -69,35 +64,46 @@ int	ft_isalpha(int ch);
  * 
  * Example command: rev < test -test < test2 -lol | grep tset | rev | cat >> output > output2 >> real_output
  */
-struct output_redir
+
+typedef struct s_output_redir
 {
 	int is_append;
 	char *path;
-	struct output_redir *next;
-};
+	struct s_output_redir *next;
+} t_output_redir;
 
-struct input_redir
+typedef struct s_input_redir
 {
 	int is_heredoc;
 	char *path_or_delim;
-	struct input_redir *next;
-};
+	struct s_input_redir *next;
+} t_input_redir;
 
-struct command
+typedef struct s_command
 {
 	char **argv;
-	int argc;
-	
-	struct output_redir *out_redirs;
-	struct input_redir *in_redirs;
-};
+	t_output_redir *out_redirs;
+	t_input_redir *in_redirs;
+	struct s_command	*next;
+} t_command;
 
-struct piped_command_group
+typedef struct s_piped_command_group
 {
-	int ncmds;
-	struct command *cmds;
-};
+	char		*raw_line;
+	t_command	*cmds;
+} t_piped_command_group;
 
-int prompt(struct piped_command_group **pgroup);
+void	pgroup_add_cmd(t_piped_command_group *pgroup, t_command *cmd);
+void	pgroup_free(t_piped_command_group *pgroup);
+int		pgroup_parse_command(t_piped_command_group *pgroup, char **head);
+int		pgroup_parse(char *line, t_piped_command_group *pgroup);
+
+/* command.c */
+int		command_parse(t_command *cmd, char **head);
+void	command_free(t_command *cmd);
+
+int parse_redir(t_command *cmd, int type, char **head);
+
+int prompt(const char *prompt, t_piped_command_group **pgroup);
 
 #endif
