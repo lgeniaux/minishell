@@ -1,5 +1,5 @@
 SRCS = srcs/ft_ctype.c srcs/parsing_demo.c srcs/tokenize.c srcs/tokenize_util.c srcs/pgroup.c srcs/redir.c \
-	srcs/ft_strchr.c srcs/command.c
+	srcs/ft_strchr.c srcs/command.c srcs/ft_itoa.c srcs/heredoc.c
 OBJS = $(patsubst srcs/%.c, .objs/%.o, $(SRCS))
 NAME = minishell
 CFLAGS += -I incs -fsanitize=address -g3

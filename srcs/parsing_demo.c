@@ -1,9 +1,4 @@
 #include "minishell.h"
-#include <readline/readline.h>
-#include <signal.h>
-#include <string.h>
-
-#define ft_memset memset
 
 void dump_pgroup(t_piped_command_group *pgroup)
 {
@@ -42,6 +37,25 @@ void sigint_handler()
 {
 }
 
+char	*str_append(char *base, char *line)
+{
+	char	*result;
+	size_t	len;
+
+	len = ft_strlen(line) + 1;
+	if (base)
+		len += ft_strlen(base);
+	result = malloc(len);
+	if (!result)
+		return (NULL);
+	*base = '\0';
+	if (base)
+		ft_strlcat(result, base, len);
+	ft_strlcat(result, line, len);
+	free(base);
+	return (result);
+}
+
 int	parse_line(t_piped_command_group **pgrp, char *line)
 {
 	*pgrp = malloc(sizeof(**pgrp));
@@ -60,6 +74,10 @@ void process_line(char *line)
 {
 	t_piped_command_group	*grp;
 
+	char path[32];
+	heredoc_path(path, 13);
+
+	heredoc(path, "EOF");
 	if (parse_line(&grp, line) == 1)
 	{
 		dump_pgroup(grp);
