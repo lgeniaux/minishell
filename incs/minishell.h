@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/05 16:23:36 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/10/05 17:05:12 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,19 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <signal.h>
 #include <string.h>
+#include <readline/readline.h>
 
 #define ft_strndup strndup
 #define ft_strlen strlen
 #define ft_strlcat strlcat
 #define ft_strlcpy strlcpy
+#define ft_memset memset
+#define ft_strcmp strcmp
+
 
 # define TOKEN_TEXT			1
 # define TOKEN_APPEND		2
@@ -56,6 +63,8 @@ int	ft_isalpha(int ch);
 int	ft_isprint(int ch);
 
 char	*ft_strchr(const char *s, int c);
+
+char	*ft_itoa(int value, char *str);
 
 /* = PARSING = */
 /**
@@ -105,5 +114,9 @@ void	command_free(t_command *cmd);
 int parse_redir(t_command *cmd, int type, char **head);
 
 int prompt(const char *prompt, t_piped_command_group **pgroup);
+
+/* heredoc.c */
+void	heredoc_path(char buf[32], int n);
+int		heredoc(const char *path, const char *stopword);
 
 #endif
