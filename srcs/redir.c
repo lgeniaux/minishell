@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 23:36:02 by alavaud           #+#    #+#             */
-/*   Updated: 2022/09/27 21:48:10 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/10/06 18:00:09 by alavaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	*append_redir_in(t_command *cmd, int toktype, const char *pos, int len)
 	r->is_heredoc = (toktype == TOKEN_HEREDOC);
 	r->next = NULL;
 	r->path_or_delim = ft_strndup(pos, len);
+	r->heredoc_path = NULL;
 	if (!cmd->in_redirs)
 	{
 		cmd->in_redirs = r;

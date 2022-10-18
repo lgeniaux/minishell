@@ -6,7 +6,11 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/10/05 17:05:12 by alavaud          ###   ########lyon.fr   */
+=======
+/*   Updated: 2022/10/18 16:41:40 by alavaud          ###   ########lyon.fr   */
+>>>>>>> heredoc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +26,7 @@
 #include <readline/readline.h>
 
 #define ft_strndup strndup
+#define ft_strdup strdup
 #define ft_strlen strlen
 #define ft_strlcat strlcat
 #define ft_strlcpy strlcpy
@@ -85,6 +90,7 @@ typedef struct s_input_redir
 {
 	int is_heredoc;
 	char *path_or_delim;
+	char *heredoc_path;
 	struct s_input_redir *next;
 } t_input_redir;
 
@@ -116,7 +122,9 @@ int parse_redir(t_command *cmd, int type, char **head);
 int prompt(const char *prompt, t_piped_command_group **pgroup);
 
 /* heredoc.c */
-void	heredoc_path(char buf[32], int n);
+char	*heredoc_path(int n);
 int		heredoc(const char *path, const char *stopword);
+int		process_heredocs(t_piped_command_group *pgroup);
+void	heredoc_cleanup(t_piped_command_group *pgroup);
 
 #endif
