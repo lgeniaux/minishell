@@ -74,10 +74,6 @@ void process_line(char *line)
 {
 	t_piped_command_group	*grp;
 
-	char path[32];
-	heredoc_path(path, 13);
-
-	heredoc(path, "EOF");
 	if (parse_line(&grp, line) == 1)
 	{
 		if (process_heredocs(grp) < 0)
