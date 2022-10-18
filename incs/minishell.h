@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/06 17:59:31 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/10/18 16:41:40 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,7 @@ int prompt(const char *prompt, t_piped_command_group **pgroup);
 /* heredoc.c */
 char	*heredoc_path(int n);
 int		heredoc(const char *path, const char *stopword);
+int		process_heredocs(t_piped_command_group *pgroup);
+void	heredoc_cleanup(t_piped_command_group *pgroup);
 
 #endif
