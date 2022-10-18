@@ -22,7 +22,7 @@ void dump_pgroup(t_piped_command_group *pgroup)
 	{
 		printf("#### Command %d ####\n", i + 1);
 		for (ir = cmd->in_redirs; ir; ir = ir->next)
-			printf("%.*s %s\n", 1 + ir->is_heredoc, "<<", ir->path_or_delim);
+			printf("%.*s %s (path: %s)\n", 1 + ir->is_heredoc, "<<", ir->path_or_delim, ir->heredoc_path);
 		for (or = cmd->out_redirs; or; or = or->next)
 			printf("%.*s %s\n", 1 + or->is_append, ">>", or->path);
 		for (int j = 0; cmd->argv[j]; ++j)
@@ -74,13 +74,17 @@ void process_line(char *line)
 {
 	t_piped_command_group	*grp;
 
-	char path[32];
-	heredoc_path(path, 13);
-
-	heredoc(path, "EOF");
 	if (parse_line(&grp, line) == 1)
 	{
+		if (process_heredocs(grp) < 0)
+		{
+			printf("Can't process heredocs\n");
+			heredoc_cleanup(grp);
+			pgroup_free(grp);
+			return ;
+		}
 		dump_pgroup(grp);
+		heredoc_cleanup(grp);
 		pgroup_free(grp);
 	}
 }
