@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/18 16:44:28 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/10/18 22:49:17 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <string.h>
 #include <readline/readline.h>
 
+#include <ctype.h>
 #define ft_strndup strndup
 #define ft_strdup strdup
 #define ft_strlen strlen
@@ -28,7 +29,7 @@
 #define ft_strlcpy strlcpy
 #define ft_memset memset
 #define ft_strcmp strcmp
-
+#define ft_isnumber isnumber
 
 # define TOKEN_TEXT			1
 # define TOKEN_APPEND		2
@@ -122,5 +123,14 @@ char	*heredoc_path(int n);
 int		heredoc(const char *path, const char *stopword);
 int		process_heredocs(t_piped_command_group *pgroup);
 void	heredoc_cleanup(t_piped_command_group *pgroup);
+
+/* resolve.c */
+char	*resolve_string(char **env, const char *str);
+
+/* env.c */
+char	**env_init(char *envp[]);
+void	env_free(char **env);
+int	ft_find_env(char **env, const char *name, int len);
+char	*ft_getenv(char **env, const char *name, int len);
 
 #endif

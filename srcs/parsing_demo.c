@@ -1,5 +1,33 @@
 #include "minishell.h"
 
+int resolve_args(t_command *cmd, char **env)
+{
+	char	*s;
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (cmd->argv[i])
+	{
+		s = resolve_string(env, cmd->argv[i]);
+		if (!s)
+			return (-1);
+		if (s[0])
+		{
+			cmd->argv[j] = s;
+			++j;
+		}
+		else
+		{
+			free(s);
+		}
+		++i;
+	}
+	cmd->argv[j] = NULL;
+	return (0);
+}
+
 void dump_pgroup(t_piped_command_group *pgroup)
 {
 	t_command		*cmd;
@@ -37,25 +65,6 @@ void sigint_handler()
 {
 }
 
-char	*str_append(char *base, char *line)
-{
-	char	*result;
-	size_t	len;
-
-	len = ft_strlen(line) + 1;
-	if (base)
-		len += ft_strlen(base);
-	result = malloc(len);
-	if (!result)
-		return (NULL);
-	*base = '\0';
-	if (base)
-		ft_strlcat(result, base, len);
-	ft_strlcat(result, line, len);
-	free(base);
-	return (result);
-}
-
 int	parse_line(t_piped_command_group **pgrp, char *line)
 {
 	*pgrp = malloc(sizeof(**pgrp));
@@ -70,12 +79,18 @@ int	parse_line(t_piped_command_group **pgrp, char *line)
 	return (1);
 }
 
+extern char **environ;
+
 void process_line(char *line)
 {
 	t_piped_command_group	*grp;
 
 	if (parse_line(&grp, line) == 1)
 	{
+		if (resolve_args(grp->cmds, environ) < 0)
+		{
+			
+		}
 		if (process_heredocs(grp) < 0)
 		{
 			printf("Can't process heredocs\n");
