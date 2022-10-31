@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/30 02:10:11 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/10/31 14:49:13 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ typedef struct s_token
 
 typedef struct s_msh
 {
-	char **env;
-	int last_code;
+	char	**env;
+	int		last_code;
+	char	status_buf[16];
 } t_msh;
 
 /* = PARSING = */

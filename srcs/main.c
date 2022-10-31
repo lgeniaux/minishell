@@ -22,8 +22,7 @@ int exec_pipeline(t_piped_command_group *pgroup)
 		if (pipeline_exec(pipeline) >= 0)
 		{
 			code = pipeline_wait_status(pipeline);
-			printf("Final status: %d\n", code);
-
+			g_minishell.last_code = code;
 			ret = 0;
 		}
 	}
@@ -95,6 +94,7 @@ int msh_check_path(t_msh *msh)
 int msh_init(t_msh *msh, char **envp)
 {
 	msh->env = clone_env(envp);
+	msh->last_code = 0;
 	if (!msh->env)
 		return (-1);
 	msh_update_shlvl(msh);

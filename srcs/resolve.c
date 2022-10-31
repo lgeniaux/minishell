@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:59:46 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/30 13:50:53 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/10/31 14:58:44 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,27 @@ int	varlen(const char *line)
 	return (i);
 }
 
+static char *get_last_status()
+{
+	int code;
+	int i;
+	
+	/* TODO kill me */
+	code = g_minishell.last_code & 255;
+	i = 0;
+	if (code >= 100)
+	{
+		g_minishell.status_buf[i++] = (code / 100) + '0';
+	}
+	if (code >= 10)
+	{
+		g_minishell.status_buf[i++] = ((code / 10) % 10) + '0';
+	}
+	g_minishell.status_buf[i++] = (code % 10) + '0';
+	g_minishell.status_buf[i] = '\0';
+	return g_minishell.status_buf;
+}
+
 char	*append_var(char **resolved, char *cmdline, char **env)
 {
 	int		len;
@@ -57,7 +78,12 @@ char	*append_var(char **resolved, char *cmdline, char **env)
 	len = varlen(cmdline);
 	var = NULL;
 	if (len > 1)
-		var = ft_getenv(env, cmdline + 1, len - 1);
+	{
+		if (len == 2 && cmdline[1] == '?')
+			var = get_last_status();
+		else
+			var = ft_getenv(env, cmdline + 1, len - 1);
+	}
 	if (var)
 		*resolved = str_append(*resolved, var, ft_strlen(var));
 	return (cmdline + len);
