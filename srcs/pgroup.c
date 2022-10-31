@@ -6,13 +6,13 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 19:28:33 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/05 16:30:44 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/10/25 15:29:01 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pgroup_add_cmd(t_piped_command_group *pgroup, t_command *cmd)
+static void	pgroup_add_cmd(t_piped_command_group *pgroup, t_command *cmd)
 {
 	t_command	*head;
 
@@ -30,11 +30,11 @@ void	pgroup_add_cmd(t_piped_command_group *pgroup, t_command *cmd)
 	}
 }
 
-void	pgroup_free(t_piped_command_group *pgroup)
+void	pgroup_destroy(t_piped_command_group *pgroup)
 {
 	t_command	*cmd;
 	t_command	*tmp;
-	int	i;
+	int			i;
 
 	if (pgroup)
 	{
@@ -48,7 +48,6 @@ void	pgroup_free(t_piped_command_group *pgroup)
 		}
 		free(pgroup->raw_line);
 	}
-	free(pgroup);
 }
 
 int	pgroup_parse_command(t_piped_command_group *pgroup, char **head)
@@ -67,7 +66,7 @@ int	pgroup_parse_command(t_piped_command_group *pgroup, char **head)
 	return (1);
 }
 
-int	pgroup_parse(char *line, t_piped_command_group *pgroup)
+int	pgroup_parse(t_piped_command_group *pgroup, char *line)
 {
 	t_token	tok;
 	int		n;
@@ -84,7 +83,7 @@ int	pgroup_parse(char *line, t_piped_command_group *pgroup)
 			return (-1);
 		n = pgroup_parse_command(pgroup, &line);
 		if (n < 0)
-			break;
+			break ;
 	}
 	return (1);
 }

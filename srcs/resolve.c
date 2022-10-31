@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:59:46 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/18 22:49:05 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/10/30 13:50:53 by alavaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,58 +32,62 @@ char	*str_append(char *base, const char *s, int len)
 	return (buf);
 }
 
-int	is_varchar(int ch, int i)
+int	varlen(const char *line)
 {
-	if (ft_isalpha(ch) || ch == '_')
-		return (1);
-	if (i > 0 && ft_isnumber(ch))
-		return (1);
-	return (0);
+	int	i;
+
+	i = 1;
+	while (line[i])
+	{
+		if (i > 1 && line[1] == '?')
+			break ;
+		if (!ft_isalpha(line[i]) && line[i] != '_'
+			&& (i > 1 && !ft_isdigit(line[i])))
+			break ;
+		++i;
+	}
+	return (i);
 }
 
-char const	*resolve_variable(char **env, char const *str, char **resolved)
+char	*append_var(char **resolved, char *cmdline, char **env)
 {
 	int		len;
 	char	*var;
 
-	len = 1;
-	while (is_varchar(str[len], len - 1))
-		++len;
-	var = ft_getenv(env, str + 1, len - 1);
-	printf("Var '%.*s'\n", len - 1, str + 1);
-	printf("Resolved to '%s'\n", var);
+	len = varlen(cmdline);
+	var = NULL;
+	if (len > 1)
+		var = ft_getenv(env, cmdline + 1, len - 1);
 	if (var)
-		*resolved = str_append(*resolved, var, strlen(var));
-	else
-		*resolved = str_append(*resolved, str, len);
-	return (str + len);
+		*resolved = str_append(*resolved, var, ft_strlen(var));
+	return (cmdline + len);
 }
 
-char	*resolve_string(char **env, const char *str)
+char	*resolve_vars(char *cmdline, char **env)
 {
-	char	*resolved;
 	int		strmode;
+	char	*resolved;
+	int		i;
 
-	resolved = NULL;
 	strmode = 0;
-	while (*str)
+	resolved = NULL;
+	while (*cmdline)
 	{
-		if (*str == '$' && strmode != 1)
-			str = resolve_variable(env, str, &resolved);
+		if (*cmdline == '$' && strmode != 1)
+			cmdline = append_var(&resolved, cmdline, env);
 		else
 		{
-			if (*str == '\'' && strmode != 2)
-				strmode = 1 - strmode;
-			else if (*str == '"' && strmode != 1)
+			i = 0;
+			if (*cmdline == '"' && strmode != 1)
 				strmode = 2 - strmode;
+			else if (*cmdline == '\'' && strmode != 2)
+				strmode = 1 - strmode;
 			else
-				resolved = str_append(resolved, str, 1);
-			++str;
+				++i;
+			resolved = str_append(resolved, cmdline++, i);
 		}
 		if (!resolved)
-			return (NULL);
+			break ;
 	}
-	if (!resolved)
-		resolved = ft_strdup("");
 	return (resolved);
 }

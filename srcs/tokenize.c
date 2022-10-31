@@ -6,23 +6,11 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 15:35:08 by alavaud           #+#    #+#             */
-/*   Updated: 2022/09/28 18:18:12 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/10/24 18:23:21 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	init_token(t_token *tok, int type, char *str, int len)
-{
-	tok->type = type;
-	tok->len = len;
-	tok->str = str;
-}
-
-int	is_valid_text(int ch)
-{
-	return (!ft_isspace(ch) && !ft_strchr("><|", ch));
-}
 
 int	get_text_token(char *p, int *len)
 {
@@ -51,7 +39,7 @@ int	get_text_token(char *p, int *len)
 	return (1);
 }
 
-int	parse_pipe_token(char **head, t_token *tok)
+static int	parse_pipe_token(char **head, t_token *tok)
 {
 	char	*p;
 
@@ -72,7 +60,7 @@ int	parse_pipe_token(char **head, t_token *tok)
 	return (1);
 }
 
-int	parse_chevron_right_token(char **head, t_token *tok)
+static int	parse_chevron_right_token(char **head, t_token *tok)
 {
 	char	*p;
 
@@ -93,7 +81,7 @@ int	parse_chevron_right_token(char **head, t_token *tok)
 	return (1);
 }
 
-int	parse_chevron_left_token(char **head, t_token *tok)
+static int	parse_chevron_left_token(char **head, t_token *tok)
 {
 	char	*p;
 

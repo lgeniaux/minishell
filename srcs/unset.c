@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ctype.c                                         :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 16:02:47 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/23 04:55:36 by alavaud          ###   ########.fr       */
+/*   Created: 2022/10/28 18:12:30 by alavaud           #+#    #+#             */
+/*   Updated: 2022/10/28 18:37:14 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isspace(int ch)
+#include "minishell.h"
+
+void ft_unset(char **env, const char *name)
 {
-	return ((char)ch == ' ' || (char)ch == '\t' || (char)ch == '\n'
-		|| (char)ch == '\r' || (char)ch == '\v' || (char)ch == '\f');
+	int i;
+
+	i = ft_find_env(env, name, -1);
+	if (i >= 0)
+	{
+		free(env[i]); /* TODO ergh */
+		while (env[i])
+		{
+			env[i] = env[i + 1];
+			++i;
+		}
+	}
 }
 
-int	ft_islower(int ch)
+int	builtin_unset(int argc, char *argv[])
 {
-	return (ch >= 'a' && ch <= 'z');
-}
+	int i;
 
-int	ft_isupper(int ch)
-{
-	return (ch >= 'A' && ch <= 'Z');
-}
-
-int	ft_isalpha(int ch)
-{
-	return (ft_islower(ch) || ft_isupper(ch));
-}
-
-int	ft_isprint(int ch)
-{
-	return (ch >= 32 && ch < 127);
+	i = 1;
+	while (i < argc)
+		ft_unset(g_minishell.env, argv[i++]);
+	return (0);	
 }

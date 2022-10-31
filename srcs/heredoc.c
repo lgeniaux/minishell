@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 17:03:00 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/18 16:43:21 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/10/28 17:36:12 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,50 @@ char	*heredoc_path(int n)
 	return (ft_strdup(buf));
 }
 
-int	heredoc(const char *path, const char *stopword)
+static char	*interpret_vars(char *line, char **env)
+{
+	char	*resolved;
+
+	resolved = NULL;
+	while (*line)
+	{
+		if (*line == '$')
+			line = append_var(&resolved, line, env);
+		else
+			resolved = str_append(resolved, line++, 1);
+	}
+	return (resolved);
+}
+
+int	heredoc(t_input_redir *redir)
 {
 	char	*line;
+	char	*tmp;
 	int		fd;
 	int		ret;
 
-	fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	fd = open(redir->heredoc_path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd < 0)
 		return (-1);
 	ret = 1;
 	while (ret)
 	{
 		line = readline("> ");
-		if (!line || !ft_strcmp(line, stopword))
+		if (!line || !ft_strcmp(line, redir->path_or_delim))
 		{
 			free(line);
 			break ;
+		}
+		if (redir->interpret_vars)
+		{
+			tmp = interpret_vars(line, g_minishell.env);
+			free(line);
+			if (!tmp)
+			{
+				close(fd);
+				return (-1);
+			}
+			line = tmp;
 		}
 		ret = write(fd, line, ft_strlen(line)) >= 0;
 		ret = ret && write(fd, "\n", 1) >= 0;
@@ -50,9 +77,9 @@ int	heredoc(const char *path, const char *stopword)
 	return (1);
 }
 
-int	command_process_heredocs(t_command *cmd, int n)
+static int	command_process_heredocs(t_command *cmd, int n)
 {
-	t_input_redir *in;
+	t_input_redir	*in;
 	
 	in = cmd->in_redirs;
 	while (in)
@@ -62,7 +89,7 @@ int	command_process_heredocs(t_command *cmd, int n)
 			in->heredoc_path = heredoc_path(n++);
 			if (!in->heredoc_path)
 				return (-1);
-			if (heredoc(in->heredoc_path, in->path_or_delim) < 0)
+			if (heredoc(in) < 0)
 				return (-1);
 		}
 		in = in->next;
@@ -102,7 +129,8 @@ void	heredoc_cleanup(t_piped_command_group *pgroup)
 		{
 			if (in->heredoc_path)
 			{
-				unlink(in->heredoc_path);
+				/* TODO for debug only */
+				// unlink(in->heredoc_path);
 				free(in->heredoc_path);
 			}
 			in = in->next;

@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:02:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/09/30 14:41:22 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/10/24 18:16:11 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	process_token(t_command *cmd, t_token *tok, char **head)
 {
 	char	**argv;
 	char	*s;
-	
+
 	if (tok->type == TOKEN_TEXT)
 	{
 		s = ft_strndup(tok->str, tok->len);
@@ -66,14 +66,14 @@ static int	process_token(t_command *cmd, t_token *tok, char **head)
 		cmd->argv = argv;
 	}
 	else if (tok->type == TOKEN_REDIR_IN || tok->type == TOKEN_REDIR_OUT
-			|| tok->type == TOKEN_APPEND || tok->type == TOKEN_HEREDOC)
+		|| tok->type == TOKEN_APPEND || tok->type == TOKEN_HEREDOC)
 	{
 		return (parse_redir(cmd, tok->type, head));
 	}
 	return (1);
 }
 
-static void command_free_redirs(t_command *cmd)
+static void	command_free_redirs(t_command *cmd)
 {
 	t_input_redir	*ir;
 	t_input_redir	*itmp;
@@ -98,7 +98,7 @@ static void command_free_redirs(t_command *cmd)
 	}
 }
 
-void command_free(t_command *cmd)
+void	command_free(t_command *cmd)
 {
 	int				i;
 
@@ -123,14 +123,14 @@ void command_free(t_command *cmd)
  * @param head 
  * @return int 
  */
-int command_parse(t_command *cmd, char **head)
+int	command_parse(t_command *cmd, char **head)
 {
 	t_token		tok;
 	int			n;
 	char		*ptr;
 
 	ptr = *head;
-	memset(cmd, 0, sizeof(*cmd));
+	ft_memset(cmd, 0, sizeof(*cmd));
 	if (next_token(&ptr, &tok) != 1 || tok.type == TOKEN_PIPE)
 		return (-1);
 	ptr = *head;
@@ -141,6 +141,8 @@ int command_parse(t_command *cmd, char **head)
 		if (n <= 0 || tok.type == TOKEN_PIPE)
 			break ;
 		n = process_token(cmd, &tok, &ptr);
+		if (n < 0)
+			break ;
 		*head = ptr;
 	}
 	return (n);

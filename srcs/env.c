@@ -6,39 +6,11 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 22:42:30 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/18 22:49:13 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/10/28 18:24:13 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**env_init(char *envp[])
-{
-	char	**cpy;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-		++i;
-	cpy = malloc(sizeof(char *) * (i + 1));
-	if (!cpy)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		cpy[i] = ft_strdup(envp[i]);
-		if (!cpy[i])
-		{
-			while (--i > 0)
-				free(cpy[i]);
-			free(cpy);
-			return (NULL);
-		}
-		++i;
-	}
-	cpy[i] = NULL;
-	return (cpy);
-}
 
 void	env_free(char **env)
 {
@@ -59,6 +31,8 @@ int	ft_find_env(char **env, const char *name, int len)
 	int	j;
 
 	i = 0;
+	if (len < 0)
+		len = ft_strlen(name);
 	while (env[i])
 	{
 		j = 0;
@@ -76,6 +50,8 @@ char	*ft_getenv(char **env, const char *name, int len)
 	int		pos;
 	char	*var;
 
+	if (len < 0)
+		len = ft_strlen(name);
 	pos = ft_find_env(env, name, len);
 	if (pos >= 0)
 	{

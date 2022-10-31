@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 12:14:13 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/05 17:00:23 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/10/23 04:54:51 by alavaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ static char	*copy_rev(char *dest, const char *src, int len)
 {
 	int	i;
 
-    i = 0;
-    while (i < len)
-    {
-        dest[i] = src[len - i - 1];
-        ++i;
-    }
-    dest[i] = '\0';
+	i = 0;
+	while (i < len)
+	{
+		dest[i] = src[len - i - 1];
+		++i;
+	}
+	dest[i] = '\0';
 	return (dest);
 }
 
