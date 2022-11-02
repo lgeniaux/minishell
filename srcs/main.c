@@ -1,12 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
+/*   Updated: 2022/11/01 14:25:46 by alavaud          ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_msh	g_minishell;
 
-void sigint_handler()
+void	sigint_handler(int sig)
 {
+	(void)sig;
 }
 
-int exec_pipeline(t_piped_command_group *pgroup)
+int	exec_pipeline(t_piped_command_group *pgroup)
 {
 	t_pipeline	*pipeline;
 	int			code;
@@ -33,9 +46,11 @@ int exec_pipeline(t_piped_command_group *pgroup)
 void	process_line(char *line)
 {
 	t_piped_command_group	pgroup;
+	int						n;
 
 	ft_memset(&pgroup, 0, sizeof(pgroup));
-	if (pgroup_parse(&pgroup, line) == 1)
+	n = pgroup_parse(&pgroup, line);
+	if (n == 1)
 	{
 		pgroup_resolve(&pgroup);
 		if (process_heredocs(&pgroup) < 0)
@@ -108,8 +123,11 @@ int	main(int argc, char *argv[], char *envp[])
 
 	msh_init(&g_minishell, envp);
 	signal(SIGINT, sigint_handler);
-	while ((line = readline("GLaDOS> ")) != NULL)
+	while (1)
 	{
+		line = readline("GLaDOS> ");
+		if (!line)
+			break ;
 		if (*line)
 		{
 			add_history(line);

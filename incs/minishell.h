@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/31 14:49:13 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/02 14:21:43 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,18 @@ char	*find_path(const char *cmd);
 /* == Parsing == */
 
 /* = Tokenizer = */
+
+/**
+ * @brief Extracts the first token found at *head.
+ * Updates *head to point
+ * at the end of the parsed token.
+ * 
+ * @param head A pointer to the current character of the string.
+ * @param tok The extracted token data
+ * @return int -1 if an error occured (invalid token), 0 if no more tokens can be extracted, 1 if a token has been successfuly extracted
+ */
 int		next_token(char **head, t_token *tok);
+
 char	*skip_spaces(char *head);
 void	init_token(t_token *tok, int type, char *str, int len);
 int	is_valid_text(int ch);
@@ -147,18 +158,50 @@ char	*ft_itoa(int value, char *str);
 
 /* pgroup.c */
 void	pgroup_destroy(t_piped_command_group *pgroup);
+
+/**
+ * @brief Parses the command starting at *head into pgroup
+ * 
+ * @param pgroup The pipeline where the parsed command is added.
+ * @param head A pointer to the read head.
+ * @return int A negative value is returned if an error occured, otherwise 0 is returned.
+ */
 int		pgroup_parse_command(t_piped_command_group *pgroup, char **head);
+
 int		pgroup_parse(t_piped_command_group *pgroup, char *line);
 
 /* pgroup_resolve.c */
 void	pgroup_resolve(t_piped_command_group *pgroup);
 
 /* command.c */
+
+/**
+ * @brief 
+ * 
+ * -1 = invalid command
+ * 0 = good command
+ * 
+ * @param cmd 
+ * @param head 
+ * @return int 
+ */
 int		command_parse(t_command *cmd, char **head);
+
 void	command_free(t_command *cmd);
 
 /* redir.c */
+/**
+ * @brief 
+ * 
+ * @param cmd 
+ * @param type 
+ * @param head 
+ * @return int Returns a negative value upon error, returns 0 otherwise.
+ */
 int	parse_redir(t_command *cmd, int type, char **head);
+
+int token_expect(char **head, t_token *tok, int expected_type);
+int token_unexpect(char **head, t_token *tok, int unexpected_type);
 
 int	prompt(const char *prompt, t_piped_command_group **pgroup);
 
@@ -170,6 +213,7 @@ void	heredoc_cleanup(t_piped_command_group *pgroup);
 
 /* resolve.c */
 char	*resolve_vars(char *cmdline, char **env);
+void	resolve_args(t_command *cmd, char **env);
 char	*append_var(char **resolved, char *cmdline, char **env);
 char	*str_append(char *base, const char *s, int len);
 int		varlen(const char *line);

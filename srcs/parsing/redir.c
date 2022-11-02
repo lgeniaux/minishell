@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 23:36:02 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/24 17:28:59 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/10/31 18:23:51 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,10 @@ int	parse_redir(t_command *cmd, int type, char **head)
 	int		n;
 
 	ptr = *head;
-	n = next_token(&ptr, &tok);
-	if (n <= 0)
-		return (n);
-	if (tok.type != TOKEN_TEXT)
-	{
-		printf("Parse error\n");
+	if (token_expect(&ptr, &tok, TOKEN_TEXT) < 0)
 		return (-1);
-	}
 	if (!command_append_redir(cmd, type, tok.str, tok.len))
 		return (-1);
 	*head = ptr;
-	return (1);
+	return (0);
 }

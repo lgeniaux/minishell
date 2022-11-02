@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 16:30:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/24 18:11:13 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/02 14:40:34 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,15 @@ char	*find_path(const char *cmd)
 	char	*bin;
 	int		i;
 
-	path = getenv("PATH");
 	if (is_relative(cmd))
 	{
 		if (!access(cmd, X_OK))
 			return (ft_strdup(cmd));
 		return (NULL);
 	}
+	path = ft_getenv(g_minishell.env, "PATH", -1);
+	if (!path)
+		return (NULL);
 	pathlist = ft_split(path, ':');
 	if (!pathlist)
 		return (NULL);

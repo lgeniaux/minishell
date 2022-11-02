@@ -6,40 +6,11 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 15:30:11 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/28 17:37:14 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/02 14:21:51 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	resolve_args(t_command *cmd, char **env)
-{
-	char	*s;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	if (!cmd->argv)
-		return (0);
-	while (cmd->argv[i])
-	{
-		s = resolve_vars(cmd->argv[i], env);
-		/* TOOD leaks */
-		if (s)
-		{
-			free(cmd->argv[j]);
-			cmd->argv[j] = s;
-			++j;
-		}
-		++i;
-	}
-	i = j;
-	while (cmd->argv[i])
-		free(cmd->argv[i++]);
-	cmd->argv[j] = NULL;
-	return (0);
-}
 
 static int	is_quoted(const char *str)
 {
@@ -52,13 +23,11 @@ static int	is_quoted(const char *str)
 	return (0);
 }
 
-int	pgroup_resolve_cmd(t_command *cmd)
+static int	resolve_in_redirs(t_command *cmd)
 {
 	t_input_redir	*in;
-	t_output_redir	*out;
 	char			*tmp;
 
-	resolve_args(cmd, g_minishell.env);
 	in = cmd->in_redirs;
 	while (in)
 	{
@@ -70,6 +39,14 @@ int	pgroup_resolve_cmd(t_command *cmd)
 		in->path_or_delim = tmp;
 		in = in->next;
 	}
+	return (0);
+}
+
+static int	resolve_out_redirs(t_command *cmd)
+{
+	t_output_redir	*out;
+	char			*tmp;
+
 	out = cmd->out_redirs;
 	while (out)
 	{
@@ -80,6 +57,16 @@ int	pgroup_resolve_cmd(t_command *cmd)
 		out->path = tmp;
 		out = out->next;
 	}
+	return (0);
+}
+
+int	pgroup_resolve_cmd(t_command *cmd)
+{
+	resolve_args(cmd, g_minishell.env);
+	if (resolve_in_redirs(cmd) < 0)
+		return (-1);
+	if (resolve_out_redirs(cmd) < 0)
+		return (-1);
 	return (0);
 }
 

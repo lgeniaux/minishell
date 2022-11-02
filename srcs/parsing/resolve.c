@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:59:46 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/31 14:58:44 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/02 14:21:37 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,6 @@ int	varlen(const char *line)
 	return (i);
 }
 
-static char *get_last_status()
-{
-	int code;
-	int i;
-	
-	/* TODO kill me */
-	code = g_minishell.last_code & 255;
-	i = 0;
-	if (code >= 100)
-	{
-		g_minishell.status_buf[i++] = (code / 100) + '0';
-	}
-	if (code >= 10)
-	{
-		g_minishell.status_buf[i++] = ((code / 10) % 10) + '0';
-	}
-	g_minishell.status_buf[i++] = (code % 10) + '0';
-	g_minishell.status_buf[i] = '\0';
-	return g_minishell.status_buf;
-}
-
 char	*append_var(char **resolved, char *cmdline, char **env)
 {
 	int		len;
@@ -80,7 +59,7 @@ char	*append_var(char **resolved, char *cmdline, char **env)
 	if (len > 1)
 	{
 		if (len == 2 && cmdline[1] == '?')
-			var = get_last_status();
+			var = ft_itoa(g_minishell.last_code, g_minishell.status_buf);
 		else
 			var = ft_getenv(env, cmdline + 1, len - 1);
 	}
@@ -116,4 +95,31 @@ char	*resolve_vars(char *cmdline, char **env)
 			break ;
 	}
 	return (resolved);
+}
+
+void	resolve_args(t_command *cmd, char **env)
+{
+	char	*s;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (!cmd->argv)
+		return ;
+	while (cmd->argv[i])
+	{
+		s = resolve_vars(cmd->argv[i], env);
+		if (s)
+		{
+			free(cmd->argv[j]);
+			cmd->argv[j] = s;
+			++j;
+		}
+		++i;
+	}
+	i = j;
+	while (cmd->argv[i])
+		free(cmd->argv[i++]);
+	cmd->argv[j] = NULL;
 }
