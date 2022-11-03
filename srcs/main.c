@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/01 14:25:46 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/02 19:25:56 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,19 @@ int msh_init(t_msh *msh, char **envp)
 {
 	msh->env = clone_env(envp);
 	msh->last_code = 0;
+	msh->should_exit = 0;
+	msh->exit_code = 0;
 	if (!msh->env)
 		return (-1);
 	msh_update_shlvl(msh);
 	msh_check_path(msh);
 	return (0);
+}
+
+void	msh_exit(int code)
+{
+	g_minishell.exit_code = code;
+	g_minishell.should_exit = 1;
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -123,7 +131,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	msh_init(&g_minishell, envp);
 	signal(SIGINT, sigint_handler);
-	while (1)
+	while (!g_minishell.should_exit)
 	{
 		line = readline("GLaDOS> ");
 		if (!line)
@@ -137,5 +145,5 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	clear_history();
 	env_free(g_minishell.env);
-	return 0;
+	return (g_minishell.exit_code);
 }

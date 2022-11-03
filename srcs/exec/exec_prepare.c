@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 22:47:57 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/23 18:51:25 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/11/02 15:26:14 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_pipeline	*pipeline_create(t_piped_command_group *pgroup)
 	return (pipeline);
 }
 
-void		pipeline_dispose(t_pipeline *pipeline)
+void	pipeline_dispose(t_pipeline *pipeline)
 {
 	t_pipeline_cmd	*cmd;
 	t_pipeline_cmd	*tmp;
@@ -72,8 +72,7 @@ int	pipeline_prepare(t_pipeline *pipeline)
 		if (!pcmd || prepare_pipeline_command(pcmd, cmd) < 0)
 		{
 			free(pcmd);
-			/* TODO */
-			abort();
+			return (-1);
 		}
 		pcmd->next = NULL;
 		if (last)

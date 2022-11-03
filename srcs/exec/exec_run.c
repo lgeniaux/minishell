@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/30 13:48:50 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/11/02 19:27:20 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,31 @@ static int builtin_id(const char *arg0)
 		return (2);
 	else if (!ft_strcmp(arg0, "cd"))
 		return (3);
-	else if (!ft_strcmp(arg0, "aled"))
+	else if (!ft_strcmp(arg0, "pwd"))
 		return (4);
+	else if (!ft_strcmp(arg0, "env"))
+		return (5);
+	else if (!ft_strcmp(arg0, "exit"))
+		return (6);
 	return (-1);
 }
 
 static int builtin_dispatch_id(int id, int argc, char *argv[])
 {
-	if (1 == id)
+	if (0 == id)
+		return (builtin_echo(argc, argv));
+	else if (1 == id)
 		return (builtin_export(argc, argv));
 	else if (2 == id)
 		return (builtin_unset(argc, argv));
+	else if (3 == id)
+		return (builtin_cd(argc, argv));
+	else if (4 == id)
+		return (builtin_pwd(argc, argv));
+	else if (5 == id)
+		return (builtin_env(argc, argv));
+	else if (6 == id)
+		return (builtin_exit(argc, argv));
 	return (-1);
 }
 
@@ -86,11 +100,7 @@ static int builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd)
 	return (rv);
 }
 
-/*
-int setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out);
-*/
-
-static int run_builtin(t_pipeline_cmd *cmd, int out)
+int run_builtin(t_pipeline_cmd *cmd, int out)
 {
 	int argc;
 	int id;
@@ -105,54 +115,10 @@ static int run_builtin(t_pipeline_cmd *cmd, int out)
 		while (cmd->argv[argc])
 			++argc;
 		builtin_dispatch(id, argc, cmd->argv, cmd);
+		cmd->pid = -1;
 		return (0);
 	}
 	return (-1);
-}
-
-static pid_t	exec_pipeline_cmd(t_pipeline_cmd *cmd,
-	int base_in, int base_out)
-{
-	pid_t	pid;
-	int		i;
-	// int		code;
-
-	pid = fork_redir(cmd, base_in, base_out);
-	if (pid < 0)
-	{
-		perror("fork");
-		return (-1);
-	}
-	if (pid == 0)
-	{
-		if (!cmd->argv || !cmd->argv[0])
-			exit(0);
-		if (run_builtin(cmd, 1) >= 0)
-			exit(0);
-		if (!cmd->path)
-		{
-			dprintf(2, "command not found: %s\n", cmd->argv[0]);
-			exit(127);
-		}
-
-		/* TODO temporary fix (pass pipe information so we can close it in the child) */
-		i = 3;
-		while (i < 1024)
-		{
-			close(i++);
-		}
-
-		/* Tries to close the pipe here */
-	/*	if (p >= 0)
-			close(p);*/
-
-		if (execve(cmd->path, cmd->argv, g_minishell.env) < 0)
-		{
-			perror("execve");
-		}
-		exit(127);
-	}
-	return (pid);
 }
 
 int	pipeline_exec(t_pipeline *pipeline)

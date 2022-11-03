@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 14:21:43 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/03 15:50:27 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -61,6 +62,8 @@ typedef struct s_msh
 	char	**env;
 	int		last_code;
 	char	status_buf[16];
+	int		should_exit;
+	int		exit_code;
 } t_msh;
 
 /* = PARSING = */
@@ -115,9 +118,12 @@ typedef struct s_pipeline
 {
 	t_piped_command_group	*pgroup;
 	t_pipeline_cmd			*cmds;
+	char					**env;
 }	t_pipeline;
 
 extern t_msh g_minishell;
+
+void	msh_exit(int code);
 
 /* path.c */
 char	*find_path(const char *cmd);
@@ -224,14 +230,52 @@ int		ft_find_env(char **env, const char *name, int len);
 char	*ft_getenv(char **env, const char *name, int len);
 
 /* exec_prepare.c */
+
+/**
+ * @brief Creates a new command pipeline from a pgroup
+ * 
+ * @param pgroup 
+ * @return t_pipeline* 
+ */
 t_pipeline	*pipeline_create(t_piped_command_group *pgroup);
+
+/**
+ * @brief Disposes the pipeline and frees everything (including the pipeline itself)
+ * 
+ * @param pipeline 
+ */
 void		pipeline_dispose(t_pipeline *pipeline);
 
-int	pipeline_prepare(t_pipeline *pipeline);
+/**
+ * @brief Prepares the pipeline for execution (path lookup and copying data)
+ * 
+ * @param pipeline 
+ * @return int 
+ */
+int			pipeline_prepare(t_pipeline *pipeline);
+int run_builtin(t_pipeline_cmd *cmd, int out);
 
 /* exec_run.c */
+
+/**
+ * @brief Executes the pipeline in sub-processes
+ * 
+ * @param pipeline 
+ * @return int 
+ */
 int	pipeline_exec(t_pipeline *pipeline);
+
+/**
+ * @brief Wait for every sub-process to terminate and returns the exit status of the last in the pipeline.
+ * 
+ * @param pipeline 
+ * @return int 
+ */
 int	pipeline_wait_status(t_pipeline *pipeline);
+
+/* exec_fork.c */
+pid_t	exec_pipeline_cmd(t_pipeline_cmd *cmd,
+	int base_in, int base_out);
 
 /* debug.c */
 void	dump_pgroup(t_piped_command_group *pgroup);
@@ -241,6 +285,11 @@ void	dump_pgroup(t_piped_command_group *pgroup);
 /* builtins */
 int builtin_export(int argc, char *argv[]);
 int	builtin_unset(int argc, char *argv[]);
+int	builtin_echo(int argc, char *argv[]);
+int	builtin_pwd(int argc, char *argv[]);
+int	builtin_cd(int argc, char *argv[]);
+int	builtin_env(int argc, char *argv[]);
+int	builtin_exit(int argc, char *argv[]);
 
 /* fork.c */
 pid_t fork_redir(t_pipeline_cmd *cmd, int base_in, int base_out);
