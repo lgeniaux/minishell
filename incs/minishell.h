@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/03 15:50:27 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/04 13:42:16 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,5 +294,7 @@ int	builtin_exit(int argc, char *argv[]);
 /* fork.c */
 pid_t fork_redir(t_pipeline_cmd *cmd, int base_in, int base_out);
 int setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out);
+
+void	signals(void);
 
 #endif

@@ -3,21 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 19:25:56 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/04 13:41:35 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 t_msh	g_minishell;
-
-void	sigint_handler(int sig)
-{
-	(void)sig;
-}
 
 int	exec_pipeline(t_piped_command_group *pgroup)
 {
@@ -130,7 +125,7 @@ int	main(int argc, char *argv[], char *envp[])
 	char	*line;
 
 	msh_init(&g_minishell, envp);
-	signal(SIGINT, sigint_handler);
+	signals();
 	while (!g_minishell.should_exit)
 	{
 		line = readline("GLaDOS> ");
