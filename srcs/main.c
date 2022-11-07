@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 19:25:56 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 11:09:21 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ char	**clone_env(char **envp)
 	return (clone);
 }
 
-int msh_update_shlvl(t_msh *msh)
+int	msh_update_shlvl(t_msh *msh)
 {
 	return (0);
 }
 
-int msh_check_path(t_msh *msh)
+int	msh_check_path(t_msh *msh)
 {
 	return (0);
 }

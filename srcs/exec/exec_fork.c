@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 10:55:40 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/07 11:11:01 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	exec_cmd(t_pipeline_cmd *cmd)
 {
 	int	i;
+
 	if (!cmd->argv || !cmd->argv[0])
 		exit(0);
 	if (run_builtin(cmd, 1) >= 0)
