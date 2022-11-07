@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:43:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 10:56:26 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:50:04 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static int	is_valid_ident(const char *v)
 			return (0);
 		++i;
 	}
+	if (!i)
+		return (0);
 	return (1);
 }
 
