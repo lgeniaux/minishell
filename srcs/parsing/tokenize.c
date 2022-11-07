@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 15:35:08 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/31 17:32:01 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 14:17:40 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,22 @@ int	get_text_token(char *p, int *len)
 	strmode = 0;
 	while (*p)
 	{
-		if (*p == '"' && strmode != 2)
-			strmode = 1 - strmode;
-		else if (*p == '\'' && strmode != 1)
+		if (*p == '"' && strmode != 1)
 			strmode = 2 - strmode;
+		else if (*p == '\'' && strmode != 2)
+			strmode = 1 - strmode;
 		else if (!is_valid_text(*p) && !strmode)
 			break ;
 		++p;
 	}
 	if (strmode)
 	{
-		printf("Unterminated string\n");
+		printf("minishell: unexpected EOF while looking for matching `%c'\n", "'\""[strmode - 1]);
 		return (-1);
 	}
 	if (len)
 		*len = (int)(p - start);
-	return (1);
+	return (0);
 }
 
 static int	parse_pipe_token(char **head, t_token *tok)
@@ -114,7 +114,10 @@ int	next_token(char **head, t_token *tok)
 	if (is_valid_text(**head))
 	{
 		if (get_text_token(*head, &len) < 0)
+		{
+			printf("minishell: syntax error: unexpected end of file\n");
 			return (-1);
+		}
 		init_token(tok, TOKEN_TEXT, *head, len);
 		*head += len;
 		return (1);
