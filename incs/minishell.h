@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/03 15:50:27 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 15:14:02 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_pipeline_cmd
 	pid_t					pid;
 	t_input_redir			*in_redirs;
 	t_output_redir			*out_redirs;
+	int						builtin_status;
 	struct s_pipeline_cmd	*next;
 }	t_pipeline_cmd;
 
@@ -253,7 +254,7 @@ void		pipeline_dispose(t_pipeline *pipeline);
  * @return int 
  */
 int			pipeline_prepare(t_pipeline *pipeline);
-int run_builtin(t_pipeline_cmd *cmd, int out);
+int run_builtin(t_pipeline_cmd *cmd, int *out);
 
 /* exec_run.c */
 

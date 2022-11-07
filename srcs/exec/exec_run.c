@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 10:55:08 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:13:50 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int	builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd)
 	return (rv);
 }
 
-int	run_builtin(t_pipeline_cmd *cmd, int out)
+int	run_builtin(t_pipeline_cmd *cmd, int *out)
 {
 	int	argc;
 	int	id;
@@ -111,8 +111,11 @@ int	run_builtin(t_pipeline_cmd *cmd, int out)
 		argc = 0;
 		while (cmd->argv[argc])
 			++argc;
-		builtin_dispatch(id, argc, cmd->argv, cmd);
+		code = builtin_dispatch(id, argc, cmd->argv, cmd);
 		cmd->pid = -1;
+		if (code < 0)
+			return (-1);
+		*out = code;
 		return (0);
 	}
 	return (-1);
@@ -127,7 +130,7 @@ int	pipeline_exec(t_pipeline *pipeline)
 	int				last_pipe;
 
 	cmd = pipeline->cmds;
-	if (cmd && !cmd->next && run_builtin(cmd, 1) >= 0)
+	if (cmd && !cmd->next && run_builtin(cmd, &cmd->builtin_status) >= 0)
 		return (0);
 	last_pipe = -1;
 	while (cmd)
@@ -166,8 +169,9 @@ int	pipeline_wait_status(t_pipeline *pipeline)
 	code = 0;
 	while (cmd)
 	{
-		code = 0; /* TODO */
-		if (cmd->pid > 0)
+		if (cmd->pid < 0)
+			code = cmd->builtin_status;
+		else
 		{
 			if (waitpid(cmd->pid, &status, 0) >= 0)
 			{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 11:11:01 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:33:51 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 static void	exec_cmd(t_pipeline_cmd *cmd)
 {
 	int	i;
+	int	code;
 
 	if (!cmd->argv || !cmd->argv[0])
 		exit(0);
-	if (run_builtin(cmd, 1) >= 0)
-		exit(0);
+	if (run_builtin(cmd, &code) >= 0)
+		exit(code);
 	if (!cmd->path)
 	{
 		dprintf(2, "command not found: %s\n", cmd->argv[0]);
