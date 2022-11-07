@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 19:28:33 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/01 14:19:11 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 14:04:08 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,13 @@ void	pgroup_destroy(t_piped_command_group *pgroup)
 int	pgroup_parse_command(t_piped_command_group *pgroup, char **head)
 {
 	t_command	*cmd;
+	t_token		tok;
 
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)
 		return (-1);
+
+
 	if (command_parse(cmd, head) < 0)
 	{
 		free(cmd);
@@ -70,7 +73,11 @@ int	pgroup_parse(t_piped_command_group *pgroup, char *line)
 {
 	t_token	tok;
 	int		n;
+	char	*ptr;
 
+	ptr = line;
+	if (next_token(&ptr, &tok) == 0)
+		return (0);
 	n = pgroup_parse_command(pgroup, &line);
 	while (n >= 0)
 	{
