@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 19:51:10 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/30 02:09:51 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/11/07 10:55:54 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	setup_out_redirs(t_output_redir *out)
 	return (0);
 }
 
-int setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out)
+int	setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out)
 {
 	if (dup2(base_in, 0) < 0
 		|| dup2(base_out, 1) < 0)
@@ -74,9 +74,9 @@ int setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out)
 	return (0);
 }
 
-pid_t fork_redir(t_pipeline_cmd *cmd, int base_in, int base_out)
+pid_t	fork_redir(t_pipeline_cmd *cmd, int base_in, int base_out)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (0 == pid)

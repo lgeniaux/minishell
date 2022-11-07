@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 19:27:20 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 10:55:08 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ typedef struct s_io
 	int	savedout;
 }	t_io;
 
-static int save_io(t_io *io)
+static int	save_io(t_io *io)
 {
 	io->savedin = dup(0);
 	if (io->savedin < 0)
@@ -32,9 +32,9 @@ static int save_io(t_io *io)
 	return (0);
 }
 
-static int restore_io(t_io *io)
+static int	restore_io(t_io *io)
 {
-	int rv;
+	int	rv;
 
 	rv = 0;
 	if (dup2(io->savedin, 0) < 0 || dup2(io->savedout, 1) < 0)
@@ -46,7 +46,7 @@ static int restore_io(t_io *io)
 	return (rv);
 }
 
-static int builtin_id(const char *arg0)
+static int	builtin_id(const char *arg0)
 {
 	if (!ft_strcmp(arg0, "echo"))
 		return (0);
@@ -65,7 +65,7 @@ static int builtin_id(const char *arg0)
 	return (-1);
 }
 
-static int builtin_dispatch_id(int id, int argc, char *argv[])
+static int	builtin_dispatch_id(int id, int argc, char *argv[])
 {
 	if (0 == id)
 		return (builtin_echo(argc, argv));
@@ -84,27 +84,24 @@ static int builtin_dispatch_id(int id, int argc, char *argv[])
 	return (-1);
 }
 
-static int builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd)
+static int	builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd)
 {
 	t_io	io;
-	int rv;
+	int 	rv;
 
 	save_io(&io);
-
 	/* TODO error handling */
 	setup_redirs(cmd, 0, 1);
-	
 	rv = builtin_dispatch_id(id, argc, argv);
-
 	restore_io(&io);
 	return (rv);
 }
 
-int run_builtin(t_pipeline_cmd *cmd, int out)
+int	run_builtin(t_pipeline_cmd *cmd, int out)
 {
-	int argc;
-	int id;
-	int code;
+	int	argc;
+	int	id;
+	int	code;
 
 	if (cmd->argv && cmd->argv[0])
 	{
@@ -123,7 +120,7 @@ int run_builtin(t_pipeline_cmd *cmd, int out)
 
 int	pipeline_exec(t_pipeline *pipeline)
 {
-	t_pipeline_cmd *cmd;
+	t_pipeline_cmd 	*cmd;
 	int				p[2];
 	int				base_in;
 	int				base_out;
@@ -155,7 +152,7 @@ int	pipeline_exec(t_pipeline *pipeline)
 	}
 	if (last_pipe >= 0)
 		close(last_pipe);
-    return (0);
+	return (0);
 }
 
 int	pipeline_wait_status(t_pipeline *pipeline)

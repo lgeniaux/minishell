@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:43:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/30 14:00:22 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/11/07 10:56:26 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	**ft_append_env(char **env, char *var)
 	return (copy);
 }
 
-static int is_valid_ident(const char *v)
+static int	is_valid_ident(const char *v)
 {
 	int	i;
 
@@ -89,10 +89,10 @@ static int	export_var(char *var)
 	return (0);
 }
 
-static int compare_keys(const char *a, const char *b)
+static int	compare_keys(const char *a, const char *b)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (a[i] && b[i])
@@ -104,10 +104,10 @@ static int compare_keys(const char *a, const char *b)
 	return (ft_strncmp(a, b, i));
 }
 
-static void sort_vars(char **env)
+static void	sort_vars(char **env)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
 	char	*tmp;
 
 	i = 0;
