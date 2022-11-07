@@ -6,11 +6,12 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/04 13:41:35 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/07 10:20:53 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "termios.h"
 
 t_msh	g_minishell;
 
@@ -122,9 +123,13 @@ void	msh_exit(int code)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char	*line;
+	char			*line;
+	struct termios	t;
 
 	msh_init(&g_minishell, envp);
+	tcgetattr(0, &t);
+    t.c_lflag &= ~ECHOCTL;
+	tcsetattr(0, TCSANOW, &t);
 	signals();
 	while (!g_minishell.should_exit)
 	{

@@ -6,21 +6,16 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:26:09 by lgeniaux          #+#    #+#             */
-/*   Updated: 2022/11/04 15:09:06 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/07 10:20:10 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "termios.h"
+
 
 // ctrl+c handler
 void	sigint_handler(int sig)
 {
-	struct termios t;
-	
-	tcgetattr(0, &t);
-    t.c_lflag &= ~ECHOCTL;
-    tcsetattr(0, TCSANOW, &t);
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);

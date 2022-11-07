@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 18:56:58 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/04 16:48:40 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	builtin_cd(int argc, char *argv[])
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 	{
-		printf("minishell: cd: %s\n", strerror(errno));
+		printf("minishell: cd: %s\n", strerror(errno));	
 		return (1);
 	}
 	if (chdir(path) < 0)
