@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 19:27:20 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 13:59:31 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,9 @@ static int builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd)
 	int rv;
 
 	save_io(&io);
-
 	/* TODO error handling */
 	setup_redirs(cmd, 0, 1);
-	
 	rv = builtin_dispatch_id(id, argc, argv);
-
 	restore_io(&io);
 	return (rv);
 }

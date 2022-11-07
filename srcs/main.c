@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 10:20:53 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/07 13:14:35 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,11 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	char			*line;
 	struct termios	t;
+	struct termios	t2;
 
 	msh_init(&g_minishell, envp);
 	tcgetattr(0, &t);
+	t2 = t;
     t.c_lflag &= ~ECHOCTL;
 	tcsetattr(0, TCSANOW, &t);
 	signals();

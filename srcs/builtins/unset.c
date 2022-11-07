@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:12:30 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/28 18:37:14 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 13:24:56 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void ft_unset(char **env, const char *name)
 	i = ft_find_env(env, name, -1);
 	if (i >= 0)
 	{
-		free(env[i]); /* TODO ergh */
+		free(env[i]);
 		while (env[i])
 		{
 			env[i] = env[i + 1];

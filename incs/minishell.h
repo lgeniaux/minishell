@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/04 13:42:16 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:00:01 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,5 +296,6 @@ pid_t fork_redir(t_pipeline_cmd *cmd, int base_in, int base_out);
 int setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out);
 
 void	signals(void);
+int	export_var(char *var);
 
 #endif
