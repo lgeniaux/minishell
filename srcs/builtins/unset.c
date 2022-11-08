@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-void ft_unset(char **env, const char *name)
+void	ft_unset(char **env, const char *name)
 {
-	int i;
+	int	i;
 
 	i = ft_find_env(env, name, -1);
 	if (i >= 0)
@@ -30,10 +30,10 @@ void ft_unset(char **env, const char *name)
 
 int	builtin_unset(int argc, char *argv[])
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (i < argc)
 		ft_unset(g_minishell.env, argv[i++]);
-	return (0);	
+	return (0);
 }

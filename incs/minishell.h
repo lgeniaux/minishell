@@ -111,6 +111,7 @@ typedef struct s_pipeline_cmd
 	pid_t					pid;
 	t_input_redir			*in_redirs;
 	t_output_redir			*out_redirs;
+	int						builtin_status;
 	struct s_pipeline_cmd	*next;
 }	t_pipeline_cmd;
 
@@ -253,7 +254,7 @@ void		pipeline_dispose(t_pipeline *pipeline);
  * @return int 
  */
 int			pipeline_prepare(t_pipeline *pipeline);
-int run_builtin(t_pipeline_cmd *cmd, int out);
+int run_builtin(t_pipeline_cmd *cmd, int *out);
 
 /* exec_run.c */
 

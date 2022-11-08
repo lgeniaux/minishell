@@ -92,12 +92,12 @@ char	**clone_env(char **envp)
 	return (clone);
 }
 
-int msh_update_shlvl(t_msh *msh)
+int	msh_update_shlvl(t_msh *msh)
 {
 	return (0);
 }
 
-int msh_check_path(t_msh *msh)
+int	msh_check_path(t_msh *msh)
 {
 	return (0);
 }

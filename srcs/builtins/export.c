@@ -33,7 +33,7 @@ char	**ft_append_env(char **env, char *var)
 	return (copy);
 }
 
-static int is_valid_ident(const char *v)
+static int	is_valid_ident(const char *v)
 {
 	int	i;
 
@@ -44,6 +44,8 @@ static int is_valid_ident(const char *v)
 			return (0);
 		++i;
 	}
+	if (!i)
+		return (0);
 	return (1);
 }
 
@@ -57,11 +59,10 @@ static int	export_var(char *var)
 	return (0);
 }
 
-
-static int compare_keys(const char *a, const char *b)
+static int	compare_keys(const char *a, const char *b)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (a[i] && b[i])
@@ -73,10 +74,10 @@ static int compare_keys(const char *a, const char *b)
 	return (ft_strncmp(a, b, i));
 }
 
-static void sort_vars(char **env)
+static void	sort_vars(char **env)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
 	char	*tmp;
 
 	i = 0;

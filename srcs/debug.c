@@ -11,7 +11,7 @@
  */
 #include "minishell.h"
 
-void dump_pgroup(t_piped_command_group *pgroup)
+void	dump_pgroup(t_piped_command_group *pgroup)
 {
 	t_command		*cmd;
 	t_input_redir	*ir;
@@ -26,7 +26,6 @@ void dump_pgroup(t_piped_command_group *pgroup)
 		cmd = cmd->next;
 	}
 	printf("# of cmds : %d\n", i);
-
 	i = 0;
 	cmd = pgroup->cmds;
 	while (cmd)
@@ -42,7 +41,6 @@ void dump_pgroup(t_piped_command_group *pgroup)
 				printf("Arg. %d = '%s'\n", j, cmd->argv[j]);
 		}
 		printf("\n");
-
 		cmd = cmd->next;
 	}
 }

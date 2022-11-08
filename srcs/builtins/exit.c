@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:12:20 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 19:30:17 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 15:46:55 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,5 @@ int	builtin_exit(int argc, char *argv[])
 		}
 	}
 	msh_exit(code);
-	return (0);
+	return (code);
 }

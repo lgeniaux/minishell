@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:59:46 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 14:21:37 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 17:01:14 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,11 @@ char	*append_var(char **resolved, char *cmdline, char **env)
 			var = ft_getenv(env, cmdline + 1, len - 1);
 	}
 	if (var)
+	{
 		*resolved = str_append(*resolved, var, ft_strlen(var));
+		if (NULL == *resolved)
+			return (NULL);
+	}
 	return (cmdline + len);
 }
 
@@ -78,7 +82,7 @@ char	*resolve_vars(char *cmdline, char **env)
 	resolved = NULL;
 	while (*cmdline)
 	{
-		if (*cmdline == '$' && strmode != 1)
+		if (*cmdline == '$' && varlen(cmdline) > 1 && strmode != 1)
 			cmdline = append_var(&resolved, cmdline, env);
 		else
 		{
@@ -90,8 +94,10 @@ char	*resolve_vars(char *cmdline, char **env)
 			else
 				++i;
 			resolved = str_append(resolved, cmdline++, i);
+			if (!resolved)
+				break ;
 		}
-		if (!resolved)
+		if (!cmdline)
 			break ;
 	}
 	return (resolved);

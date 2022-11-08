@@ -18,7 +18,7 @@ typedef struct s_io
 	int	savedout;
 }	t_io;
 
-static int save_io(t_io *io)
+static int	save_io(t_io *io)
 {
 	io->savedin = dup(0);
 	if (io->savedin < 0)
@@ -32,9 +32,9 @@ static int save_io(t_io *io)
 	return (0);
 }
 
-static int restore_io(t_io *io)
+static int	restore_io(t_io *io)
 {
-	int rv;
+	int	rv;
 
 	rv = 0;
 	if (dup2(io->savedin, 0) < 0 || dup2(io->savedout, 1) < 0)
@@ -46,7 +46,7 @@ static int restore_io(t_io *io)
 	return (rv);
 }
 
-static int builtin_id(const char *arg0)
+static int	builtin_id(const char *arg0)
 {
 	if (!ft_strcmp(arg0, "echo"))
 		return (0);
@@ -65,7 +65,7 @@ static int builtin_id(const char *arg0)
 	return (-1);
 }
 
-static int builtin_dispatch_id(int id, int argc, char *argv[])
+static int	builtin_dispatch_id(int id, int argc, char *argv[])
 {
 	if (0 == id)
 		return (builtin_echo(argc, argv));
@@ -84,10 +84,10 @@ static int builtin_dispatch_id(int id, int argc, char *argv[])
 	return (-1);
 }
 
-static int builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd)
+static int	builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd)
 {
 	t_io	io;
-	int rv;
+	int 	rv;
 
 	save_io(&io);
 	/* TODO error handling */
@@ -97,11 +97,11 @@ static int builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd)
 	return (rv);
 }
 
-int run_builtin(t_pipeline_cmd *cmd, int out)
+int	run_builtin(t_pipeline_cmd *cmd, int *out)
 {
-	int argc;
-	int id;
-	int code;
+	int	argc;
+	int	id;
+	int	code;
 
 	if (cmd->argv && cmd->argv[0])
 	{
@@ -111,8 +111,11 @@ int run_builtin(t_pipeline_cmd *cmd, int out)
 		argc = 0;
 		while (cmd->argv[argc])
 			++argc;
-		builtin_dispatch(id, argc, cmd->argv, cmd);
+		code = builtin_dispatch(id, argc, cmd->argv, cmd);
 		cmd->pid = -1;
+		if (code < 0)
+			return (-1);
+		*out = code;
 		return (0);
 	}
 	return (-1);
@@ -120,14 +123,14 @@ int run_builtin(t_pipeline_cmd *cmd, int out)
 
 int	pipeline_exec(t_pipeline *pipeline)
 {
-	t_pipeline_cmd *cmd;
+	t_pipeline_cmd 	*cmd;
 	int				p[2];
 	int				base_in;
 	int				base_out;
 	int				last_pipe;
 
 	cmd = pipeline->cmds;
-	if (cmd && !cmd->next && run_builtin(cmd, 1) >= 0)
+	if (cmd && !cmd->next && run_builtin(cmd, &cmd->builtin_status) >= 0)
 		return (0);
 	last_pipe = -1;
 	while (cmd)
@@ -152,7 +155,7 @@ int	pipeline_exec(t_pipeline *pipeline)
 	}
 	if (last_pipe >= 0)
 		close(last_pipe);
-    return (0);
+	return (0);
 }
 
 int	pipeline_wait_status(t_pipeline *pipeline)
@@ -166,8 +169,9 @@ int	pipeline_wait_status(t_pipeline *pipeline)
 	code = 0;
 	while (cmd)
 	{
-		code = 0; /* TODO */
-		if (cmd->pid > 0)
+		if (cmd->pid < 0)
+			code = cmd->builtin_status;
+		else
 		{
 			if (waitpid(cmd->pid, &status, 0) >= 0)
 			{
