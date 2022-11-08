@@ -6,13 +6,13 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:43:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 17:04:25 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:15:39 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_set_env(const char *var)
+int ft_set_env(char *var)
 {
     int     i;
     int	    pos;
@@ -40,7 +40,7 @@ int ft_set_env(const char *var)
     }
     else
     {
-        copy = ft_append_env(g_minishell.env, ft_strdup(var));
+        copy = ft_append_env(g_minishell.env, var);
         if (!copy)
             return (1);
         free(g_minishell.env);

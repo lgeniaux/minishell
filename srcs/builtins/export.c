@@ -6,13 +6,13 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:43:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 17:04:41 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:14:27 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**ft_append_env(char **env, char *var)
+char	**ft_append_env(char **env, char *var)
 {
 	char	**copy;
 	int		i;

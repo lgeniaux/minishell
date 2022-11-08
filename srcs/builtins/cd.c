@@ -6,11 +6,40 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 14:27:08 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:18:20 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	s1_len;
+	size_t	s2_len;
+	size_t	i;
+	size_t	j;
+	char	*str;
+
+	if (!s1 || !s2)
+		return (NULL);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	i = 0;
+	j = -1;
+	str = malloc(sizeof(char) * (s1_len + s2_len + 1));
+	if (!str)
+		return (NULL);
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[++j])
+		str[i++] = s2[j];
+	str[i] = '\0';
+	return (str);
+}
+
 
 int	builtin_cd(int argc, char *argv[])
 {
@@ -43,14 +72,15 @@ int	builtin_cd(int argc, char *argv[])
 		free(oldpwd);
 		return (1);
 	}
-	oldpwd_export = (char *)ft_calloc(sizeof(char), ft_strlen("OLDPWD = ") + ft_strlen(oldpwd) + 1);
+	oldpwd_export = malloc(ft_strlen(oldpwd) + 8);
 	if (!oldpwd_export)
 	{
+		printf("minishell: cd: %s\n", strerror(errno));
 		free(oldpwd);
 		return (1);
 	}
-	oldpwd_export = ft_strcat("OLDPWD = ", oldpwd);
-	export_var(oldpwd_export);
+	oldpwd_export = ft_strjoin("OLDPWD=", oldpwd);
+	ft_set_env(oldpwd_export);
 	free(oldpwd);
 	free(oldpwd_export);
 	return (0);
