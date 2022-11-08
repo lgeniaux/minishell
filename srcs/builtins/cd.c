@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 17:18:20 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:53:24 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,6 @@ int	builtin_cd(int argc, char *argv[])
 		free(oldpwd);
 		return (1);
 	}
-	oldpwd_export = ft_strjoin("OLDPWD=", oldpwd);
-	ft_set_env(oldpwd_export);
 	free(oldpwd);
-	free(oldpwd_export);
 	return (0);
 }
