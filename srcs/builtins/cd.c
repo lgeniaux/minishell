@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 18:56:58 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/08 13:29:41 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	builtin_cd(int argc, char *argv[])
 		free(oldpwd);
 		return (1);
 	}
+	set_oldpwd(oldpwd);
 	/* TODO set OLDPWD to oldpwd */
 	free(oldpwd);
 	return (0);
