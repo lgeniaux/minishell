@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:26:19 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/08 13:35:35 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:48:51 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 
-static int	ft_set_env(char *var)
+int	ft_set_env(char *var)
 {
 	int		i;
 	int		pos;

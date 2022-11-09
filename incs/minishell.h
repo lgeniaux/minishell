@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/08 13:33:11 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:49:25 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,7 +305,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int	export_var(char *var);
 
 void		signals(void);
-static int	export_var(char *var);
+void		signals_exec(void);
 int			ft_set_env(char *var);
 char	**ft_append_env(char **env, char *var);
 
