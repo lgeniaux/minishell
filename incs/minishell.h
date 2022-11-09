@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/08 14:24:40 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/08 14:04:28 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <termios.h>
 
 # include <ctype.h>
 # define ft_calloc calloc
@@ -297,5 +298,10 @@ int	builtin_exit(int argc, char *argv[]);
 /* fork.c */
 pid_t fork_redir(t_pipeline_cmd *cmd, int base_in, int base_out);
 int setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out);
+
+void		signals(void);
+static int	export_var(char *var);
+int			ft_set_env(char *var);
+char	**ft_append_env(char **env, char *var);
 
 #endif

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:43:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 15:50:04 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/08 13:52:25 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**ft_append_env(char **env, char *var)
+char	**ft_append_env(char **env, char *var)
 {
 	char	**copy;
 	int		i;
@@ -51,44 +51,46 @@ static int	is_valid_ident(const char *v)
 
 static int	export_var(char *var)
 {
-	int		i;
-	int		pos;
-	char	**copy;
-
-	i = 0;
-	while (var[i])
 	{
-		if (var[i] == '=')
-			break ;
-		++i;
-	}
+    int     i;
+    int	    pos;
+    char    **copy;
+
+    i = 0;
+    while (var[i])
+    {
+        if (var[i] == '=')
+            break ;
+        ++i;
+    }
 	if (!is_valid_ident(var))
 	{
 		printf("minishell: export: `%s': not a valid identifier\n", var);
 		return (-1);
 	}
-	pos = ft_find_env(g_minishell.env, var, i);
-	if (pos >= 0)
-	{
-		if (var[i] == '=')
-		{
-			free(g_minishell.env[pos]);
-			g_minishell.env[pos] = var;
-		}
-		else
-		{
-			free(var);
-		}
+    pos = ft_find_env(g_minishell.env, var, i);
+    if (pos >= 0)
+    {
+        if (var[i] == '=')
+        {
+            free(g_minishell.env[pos]);
+            g_minishell.env[pos] = var;
+        }
+        else
+        {
+            free(var);
+        }
+    }
+    else
+    {
+        copy = ft_append_env(g_minishell.env, var);
+        if (!copy)
+            return (1);
+        free(g_minishell.env);
+        g_minishell.env = copy;
+    }
+    return (0);
 	}
-	else
-	{
-		copy = ft_append_env(g_minishell.env, var);
-		if (!copy)
-			return (-1);
-		free(g_minishell.env);
-		g_minishell.env = copy;
-	}
-	return (0);
 }
 
 static int	compare_keys(const char *a, const char *b)

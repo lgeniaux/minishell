@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 17:31:11 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/09 17:23:16 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,9 @@ int	pipeline_wait_status(t_pipeline *pipeline)
 			{
 				/* TODO */
 				if (WIFSIGNALED(status))
-					code = 128 + WTERMSIG(status), printf("[%d] SIG %d\n", cmd->pid, WTERMSIG(status));
+				{
+					code = 128 + WTERMSIG(status); // printf("[%d] SIG %d\n", cmd->pid, WTERMSIG(status));
+				}
 				else if (WIFEXITED(status))
 					code = WEXITSTATUS(status);
 			}

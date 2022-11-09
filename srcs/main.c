@@ -6,18 +6,14 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 11:09:21 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:34:36 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "termios.h"
 
 t_msh	g_minishell;
-
-void	sigint_handler(int sig)
-{
-	(void)sig;
-}
 
 int	exec_pipeline(t_piped_command_group *pgroup)
 {
@@ -127,17 +123,24 @@ void	msh_exit(int code)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char	*line;
+	char			*line;
+	struct termios	t;
 
 	msh_init(&g_minishell, envp);
-	signal(SIGINT, sigint_handler);
+	tcgetattr(0, &t);
 	while (!g_minishell.should_exit)
 	{
+		signals();
+    	t.c_lflag &= ~ECHOCTL;
+		tcsetattr(0, TCSANOW, &t);
 		line = readline("GLaDOS> ");
 		if (!line)
 			break ;
 		if (*line)
 		{
+			signals_exec();
+			t.c_lflag |= ECHOCTL;
+			tcsetattr(0, TCSANOW, &t);
 			add_history(line);
 			process_line(line);
 		}
