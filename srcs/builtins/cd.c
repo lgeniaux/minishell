@@ -43,7 +43,7 @@ int	builtin_cd(int argc, char *argv[])
 		free(oldpwd);
 		return (1);
 	}
-	set_oldpwd(oldpwd);
+	ft_set_env_kv("OLDPWD", oldpwd);
 	free(oldpwd);
 	return (0);
 }

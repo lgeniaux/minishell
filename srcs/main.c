@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 21:23:41 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/11/09 22:02:04 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ int msh_init(t_msh *msh, char **envp)
 		return (-1);
 	msh_update_shlvl(msh);
 	msh_check_path(msh);
+	ft_set_env_kv("OLDPWD", "");
 	return (0);
 }
 

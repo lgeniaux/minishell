@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 18:05:39 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/09 21:58:14 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,7 +300,7 @@ pid_t fork_redir(t_pipeline_cmd *cmd, int base_in, int base_out);
 int setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out);
 char	**ft_append_env(char **env, char *var);
 char	*ft_strjoin(char const *s1, char const *s2);
-void set_oldpwd(char *oldpwd);
+int	ft_set_env_kv(const char *key, const char *value);
 char	*ft_strjoin(char const *s1, char const *s2);
 int	export_var(char *var);
 

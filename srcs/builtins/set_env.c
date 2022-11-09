@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:26:19 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 21:16:05 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/11/09 21:58:18 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,22 @@ int	ft_set_env(char *var)
 	return (0);
 }
 
-void set_oldpwd(char *oldpwd)
+int	ft_set_env_kv(const char *key, const char *value)
 {
-	char *tmp;
+	size_t	len;
+	char	*var;
 
-	tmp = ft_strjoin("OLDPWD=", oldpwd);
-	ft_set_env(tmp);
-	/* TODO leaks ? */
+	len = ft_strlen(key) + 1 + ft_strlen(value) + 1;
+	var = malloc(len);
+	if (!var)
+		return (-1);
+	ft_strlcpy(var, key, len);
+	ft_strlcat(var, "=", len);
+	ft_strlcat(var, value, len);
+	if (ft_set_env(var) < 0)
+	{
+		free(var);
+		return (-1);
+	}
+	return (0);
 }
