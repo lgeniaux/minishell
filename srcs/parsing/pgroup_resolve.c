@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 15:30:11 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 14:21:51 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/09 22:36:14 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,15 @@ static int	resolve_in_redirs(t_command *cmd)
 	in = cmd->in_redirs;
 	while (in)
 	{
-		tmp = resolve_vars(in->path_or_delim, g_minishell.env);
-		if (!tmp)
-			return (-1);
+		if (!in->is_heredoc)
+		{
+			tmp = resolve_vars(in->path_or_delim, g_minishell.env);
+			if (!tmp)
+				return (-1);
+			free(in->path_or_delim);
+			in->path_or_delim = tmp;
+		}
 		in->interpret_vars = !is_quoted(in->path_or_delim);
-		free(in->path_or_delim);
-		in->path_or_delim = tmp;
 		in = in->next;
 	}
 	return (0);
