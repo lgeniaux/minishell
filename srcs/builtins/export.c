@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:43:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/08 13:52:25 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:41:31 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,46 +51,44 @@ static int	is_valid_ident(const char *v)
 
 static int	export_var(char *var)
 {
-	{
-    int     i;
-    int	    pos;
-    char    **copy;
+	int		i;
+	int		pos;
+	char		**copy;
 
-    i = 0;
-    while (var[i])
-    {
-        if (var[i] == '=')
-            break ;
-        ++i;
-    }
+	i = 0;
+	while (var[i])
+	{
+		if (var[i] == '=')
+			break ;
+		++i;
+	}
 	if (!is_valid_ident(var))
 	{
 		printf("minishell: export: `%s': not a valid identifier\n", var);
 		return (-1);
 	}
-    pos = ft_find_env(g_minishell.env, var, i);
-    if (pos >= 0)
-    {
-        if (var[i] == '=')
-        {
-            free(g_minishell.env[pos]);
-            g_minishell.env[pos] = var;
-        }
-        else
-        {
-            free(var);
-        }
-    }
-    else
-    {
-        copy = ft_append_env(g_minishell.env, var);
-        if (!copy)
-            return (1);
-        free(g_minishell.env);
-        g_minishell.env = copy;
-    }
-    return (0);
+	pos = ft_find_env(g_minishell.env, var, i);
+	if (pos >= 0)
+	{
+		if (var[i] == '=')
+		{
+			free(g_minishell.env[pos]);
+			g_minishell.env[pos] = var;
+		}
+		else
+		{
+			free(var);
+		}
 	}
+	else
+	{
+		copy = ft_append_env(g_minishell.env, var);
+		if (!copy)
+			return (1);
+		free(g_minishell.env);
+		g_minishell.env = copy;
+	}
+	return (0);
 }
 
 static int	compare_keys(const char *a, const char *b)

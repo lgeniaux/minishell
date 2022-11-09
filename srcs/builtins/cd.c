@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/08 13:55:13 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:40:46 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	builtin_cd(int argc, char *argv[])
 	char	*path;
 	char	*oldpwd;
 	char	*oldpwd_export;
-	
+
 	if (argc == 1)
 	{
 		path = ft_getenv(g_minishell.env, "HOME", -1);

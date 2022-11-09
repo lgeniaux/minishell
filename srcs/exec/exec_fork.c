@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/08 14:27:29 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/09 17:41:51 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	ft_putstr_fd(const char *s, int fd)
 	write(fd, s, i);
 }
 
-static void print_error(const char *msg, const char *msg2, int errnum)
+static void	print_error(const char *msg, const char *msg2, int errnum)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(msg, 2);
@@ -37,8 +37,8 @@ static void print_error(const char *msg, const char *msg2, int errnum)
 static void	exec_cmd(t_pipeline_cmd *cmd)
 {
 	struct stat	st;
-	int	i;
-	int	code;
+	int			i;
+	int			code;
 
 	if (!cmd->argv || !cmd->argv[0])
 		exit(0);
