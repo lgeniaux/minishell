@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/08 13:52:53 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:34:36 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,16 +128,19 @@ int	main(int argc, char *argv[], char *envp[])
 
 	msh_init(&g_minishell, envp);
 	tcgetattr(0, &t);
-    t.c_lflag &= ~ECHOCTL;
-	tcsetattr(0, TCSANOW, &t);
-	signals();
 	while (!g_minishell.should_exit)
 	{
+		signals();
+    	t.c_lflag &= ~ECHOCTL;
+		tcsetattr(0, TCSANOW, &t);
 		line = readline("GLaDOS> ");
 		if (!line)
 			break ;
 		if (*line)
 		{
+			signals_exec();
+			t.c_lflag |= ECHOCTL;
+			tcsetattr(0, TCSANOW, &t);
 			add_history(line);
 			process_line(line);
 		}
