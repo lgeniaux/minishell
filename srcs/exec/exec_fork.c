@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 17:52:12 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/09 18:05:29 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	ft_putstr_fd(const char *s, int fd)
 	write(fd, s, i);
 }
 
-static void print_error(const char *msg, const char *msg2, int errnum)
+static void	print_error(const char *msg, const char *msg2, int errnum)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(msg, 2);

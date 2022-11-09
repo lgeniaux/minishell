@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 17:55:33 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/09 18:05:36 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	builtin_dispatch_id(int id, int argc, char *argv[], int *found)
 static int	builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd, int *out)
 {
 	t_io	io;
-	int 	rv;
+	int		rv;
 	int		found;
 
 	save_io(&io);
@@ -125,7 +125,7 @@ int	run_builtin(t_pipeline_cmd *cmd, int *out)
 
 int	pipeline_exec(t_pipeline *pipeline)
 {
-	t_pipeline_cmd 	*cmd;
+	t_pipeline_cmd	*cmd;
 	int				p[2];
 	int				base_in;
 	int				base_out;
