@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:26:19 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 17:48:51 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/09 21:16:05 by alavaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 int	ft_set_env(char *var)
 {
@@ -27,7 +25,6 @@ int	ft_set_env(char *var)
 			break ;
 		++i;
 	}
-	
     pos = ft_find_env(g_minishell.env, var, i);
 	if (pos >= 0)
 	{
@@ -59,4 +56,5 @@ void set_oldpwd(char *oldpwd)
 
 	tmp = ft_strjoin("OLDPWD=", oldpwd);
 	ft_set_env(tmp);
+	/* TODO leaks ? */
 }

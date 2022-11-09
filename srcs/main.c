@@ -92,16 +92,50 @@ char	**clone_env(char **envp)
 	return (clone);
 }
 
-int	msh_update_shlvl(t_msh *msh)
+static int ft_atoi(const char *s)
+{
+	int	n;
+	
+	n = 0;
+	while (ft_isdigit(*s))
+		n = n * 10 + (*s++ - '0');
+	return (n);
+}
+
+int	msh_get_shlvl(t_msh *msh)
 {
 	char	*shlvl;
+	int		i;
 
 	shlvl = ft_getenv(msh->env, "SHLVL", -1);
 	if (shlvl)
 	{
-		printf("Shell level is : %s\n", shlvl);
+		i = 0;
+		while (ft_isdigit(shlvl[i]))
+			++i;
+		if (i > 0 && !shlvl[i])
+			return (ft_atoi(shlvl));
 	}
 	return (0);
+}
+
+int	msh_update_shlvl(t_msh *msh)
+{
+	char *buf;
+	int	n;
+	int lvl;
+	int	rv;
+
+	buf = malloc(32);
+	if (!buf)
+		return (-1);
+	lvl = msh_get_shlvl(msh) + 1;
+	n = ft_strlcpy(buf, "SHLVL=", 32);
+	ft_itoa(lvl, buf + n);
+	rv = ft_set_env(buf);
+	if (rv < 0)
+		free(buf);
+	return (rv);
 }
 
 int	msh_check_path(t_msh *msh)

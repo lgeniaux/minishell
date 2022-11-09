@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:43:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/08 13:32:54 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/09 21:16:25 by alavaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	export_var(char *var)
 		printf("minishell: export: `%s': not a valid identifier\n", var);
 		return (-1);
 	}
+	return (ft_set_env(var));
 }
 
 static int	compare_keys(const char *a, const char *b)
