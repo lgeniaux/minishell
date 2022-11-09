@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -113,6 +114,7 @@ typedef struct s_pipeline_cmd
 	t_input_redir			*in_redirs;
 	t_output_redir			*out_redirs;
 	int						builtin_status;
+	int						relative;
 	struct s_pipeline_cmd	*next;
 }	t_pipeline_cmd;
 

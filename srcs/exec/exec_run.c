@@ -65,8 +65,9 @@ static int	builtin_id(const char *arg0)
 	return (-1);
 }
 
-static int	builtin_dispatch_id(int id, int argc, char *argv[])
+static int	builtin_dispatch_id(int id, int argc, char *argv[], int *found)
 {
+	*found = 1;
 	if (0 == id)
 		return (builtin_echo(argc, argv));
 	else if (1 == id)
@@ -81,18 +82,22 @@ static int	builtin_dispatch_id(int id, int argc, char *argv[])
 		return (builtin_env(argc, argv));
 	else if (6 == id)
 		return (builtin_exit(argc, argv));
+	*found = 0;
 	return (-1);
 }
 
-static int	builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd)
+static int	builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd, int *out)
 {
 	t_io	io;
 	int 	rv;
+	int		found;
 
 	save_io(&io);
 	/* TODO error handling */
 	setup_redirs(cmd, 0, 1);
-	rv = builtin_dispatch_id(id, argc, argv);
+	*out = builtin_dispatch_id(id, argc, argv, &found);
+	if (!found)
+		rv = -1;
 	restore_io(&io);
 	return (rv);
 }
@@ -101,7 +106,6 @@ int	run_builtin(t_pipeline_cmd *cmd, int *out)
 {
 	int	argc;
 	int	id;
-	int	code;
 
 	if (cmd->argv && cmd->argv[0])
 	{
@@ -111,11 +115,9 @@ int	run_builtin(t_pipeline_cmd *cmd, int *out)
 		argc = 0;
 		while (cmd->argv[argc])
 			++argc;
-		code = builtin_dispatch(id, argc, cmd->argv, cmd);
 		cmd->pid = -1;
-		if (code < 0)
+		if (builtin_dispatch(id, argc, cmd->argv, cmd, out) < 0)
 			return (-1);
-		*out = code;
 		return (0);
 	}
 	return (-1);
