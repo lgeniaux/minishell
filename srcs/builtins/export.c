@@ -44,6 +44,8 @@ static int	is_valid_ident(const char *v)
 			return (0);
 		++i;
 	}
+	if (!i)
+		return (0);
 	return (1);
 }
 
@@ -54,7 +56,6 @@ int	export_var(char *var)
 		printf("minishell: export: `%s': not a valid identifier\n", var);
 		return (-1);
 	}
-	return(0);
 }
 
 static int	compare_keys(const char *a, const char *b)

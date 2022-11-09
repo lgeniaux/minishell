@@ -21,9 +21,11 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <termios.h>
 
 # include <ctype.h>
 # define ft_calloc calloc
@@ -111,6 +113,8 @@ typedef struct s_pipeline_cmd
 	pid_t					pid;
 	t_input_redir			*in_redirs;
 	t_output_redir			*out_redirs;
+	int						builtin_status;
+	int						relative;
 	struct s_pipeline_cmd	*next;
 }	t_pipeline_cmd;
 
@@ -253,7 +257,7 @@ void		pipeline_dispose(t_pipeline *pipeline);
  * @return int 
  */
 int			pipeline_prepare(t_pipeline *pipeline);
-int run_builtin(t_pipeline_cmd *cmd, int out);
+int run_builtin(t_pipeline_cmd *cmd, int *out);
 
 /* exec_run.c */
 
@@ -299,5 +303,10 @@ char	*ft_strjoin(char const *s1, char const *s2);
 void set_oldpwd(char *oldpwd);
 char	*ft_strjoin(char const *s1, char const *s2);
 int	export_var(char *var);
+
+void		signals(void);
+static int	export_var(char *var);
+int			ft_set_env(char *var);
+char	**ft_append_env(char **env, char *var);
 
 #endif

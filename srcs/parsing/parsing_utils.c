@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:04:42 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 14:20:17 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 14:17:58 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ int	token_expect(char **head, t_token *tok, int expected_type)
 
 	n = next_token(head, tok);
 	if (n < 0)
-	{
-		printf("minishell: token error\n");
 		return (-1);
-	}
 	if (n == 0)
 	{
 		printf("minishell: syntax error near unexpected token `newline'\n");
@@ -61,10 +58,7 @@ int	token_unexpect(char **head, t_token *tok, int unexpected_type)
 
 	n = next_token(head, tok);
 	if (n < 0)
-	{
-		printf("minishell: token error\n");
 		return (-1);
-	}
 	if (n == 0)
 	{
 		printf("minishell: syntax error near unexpected token `newline'\n");

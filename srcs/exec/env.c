@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 22:42:30 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/28 18:24:13 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 16:46:37 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,12 @@ char	*ft_getenv(char **env, const char *name, int len)
 		var = env[pos];
 		while (*var)
 		{
-			if (*var++ == '=')
+			if (*var == '=')
 				break ;
+			++var;
 		}
-		return (var);
+		if (*var == '=')
+			return (var + 1);
 	}
 	return (NULL);
 }

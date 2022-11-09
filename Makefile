@@ -3,14 +3,15 @@ SRCS = srcs/builtins/export.c srcs/builtins/unset.c srcs/exec/env.c srcs/exec/ex
 	srcs/parsing/pgroup.c srcs/parsing/pgroup_resolve.c srcs/parsing/redir.c srcs/parsing/resolve.c srcs/parsing/tokenize.c srcs/parsing/parsing_utils.c \
 	srcs/main.c srcs/debug.c srcs/parsing/heredoc_parse.c srcs/exec/exec_fork.c srcs/builtins/echo.c srcs/builtins/pwd.c srcs/builtins/cd.c srcs/builtins/env.c \
 	srcs/builtins/exit.c srcs/builtins/set_env.c srcs/ft/ft_strjoin.c
+  
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 NAME = minishell
-CFLAGS += -I incs
+CFLAGS += -I incs -g
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -o $(NAME) $^ -lreadline
+	$(CC) -o $(NAME) $^ -I ~/.brew/opt/readline/include -L ~/.brew/opt/readline/lib -lreadline
 
 %.o: %.c incs/minishell.h
 	$(CC) -c -o $@ $< $(CFLAGS)

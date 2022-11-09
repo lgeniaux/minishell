@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 10:55:08 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:42:16 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ static int	builtin_id(const char *arg0)
 	return (-1);
 }
 
-static int	builtin_dispatch_id(int id, int argc, char *argv[])
+static int	builtin_dispatch_id(int id, int argc, char *argv[], int *found)
 {
+	*found = 1;
 	if (0 == id)
 		return (builtin_echo(argc, argv));
 	else if (1 == id)
@@ -81,27 +82,30 @@ static int	builtin_dispatch_id(int id, int argc, char *argv[])
 		return (builtin_env(argc, argv));
 	else if (6 == id)
 		return (builtin_exit(argc, argv));
+	*found = 0;
 	return (-1);
 }
 
-static int	builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd)
+static int	builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd, int *out)
 {
 	t_io	io;
-	int 	rv;
+	int		rv;
+	int		found;
 
 	save_io(&io);
 	/* TODO error handling */
 	setup_redirs(cmd, 0, 1);
-	rv = builtin_dispatch_id(id, argc, argv);
+	*out = builtin_dispatch_id(id, argc, argv, &found);
+	if (!found)
+		rv = -1;
 	restore_io(&io);
 	return (rv);
 }
 
-int	run_builtin(t_pipeline_cmd *cmd, int out)
+int	run_builtin(t_pipeline_cmd *cmd, int *out)
 {
 	int	argc;
 	int	id;
-	int	code;
 
 	if (cmd->argv && cmd->argv[0])
 	{
@@ -111,8 +115,9 @@ int	run_builtin(t_pipeline_cmd *cmd, int out)
 		argc = 0;
 		while (cmd->argv[argc])
 			++argc;
-		builtin_dispatch(id, argc, cmd->argv, cmd);
 		cmd->pid = -1;
+		if (builtin_dispatch(id, argc, cmd->argv, cmd, out) < 0)
+			return (-1);
 		return (0);
 	}
 	return (-1);
@@ -120,14 +125,14 @@ int	run_builtin(t_pipeline_cmd *cmd, int out)
 
 int	pipeline_exec(t_pipeline *pipeline)
 {
-	t_pipeline_cmd 	*cmd;
+	t_pipeline_cmd	*cmd;
 	int				p[2];
 	int				base_in;
 	int				base_out;
 	int				last_pipe;
 
 	cmd = pipeline->cmds;
-	if (cmd && !cmd->next && run_builtin(cmd, 1) >= 0)
+	if (cmd && !cmd->next && run_builtin(cmd, &cmd->builtin_status) >= 0)
 		return (0);
 	last_pipe = -1;
 	while (cmd)
@@ -166,14 +171,17 @@ int	pipeline_wait_status(t_pipeline *pipeline)
 	code = 0;
 	while (cmd)
 	{
-		code = 0; /* TODO */
-		if (cmd->pid > 0)
+		if (cmd->pid < 0)
+			code = cmd->builtin_status;
+		else
 		{
 			if (waitpid(cmd->pid, &status, 0) >= 0)
 			{
 				/* TODO */
 				if (WIFSIGNALED(status))
-					code = 128 + WTERMSIG(status), printf("[%d] SIG %d\n", cmd->pid, WTERMSIG(status));
+				{
+					code = 128 + WTERMSIG(status); // printf("[%d] SIG %d\n", cmd->pid, WTERMSIG(status));
+				}
 				else if (WIFEXITED(status))
 					code = WEXITSTATUS(status);
 			}
