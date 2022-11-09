@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 17:23:16 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:55:33 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ int	pipeline_exec(t_pipeline *pipeline)
 	last_pipe = -1;
 	while (cmd)
 	{
+		p[0] = -1;
 		if (cmd->next && pipe(p) < 0)
 		{
 			perror("pipe");
@@ -147,7 +148,7 @@ int	pipeline_exec(t_pipeline *pipeline)
 			base_in = last_pipe;
 		if (cmd->next)
 			base_out = p[1];
-		cmd->pid = exec_pipeline_cmd(cmd, base_in, base_out);
+		cmd->pid = exec_pipeline_cmd(cmd, base_in, base_out, p[0]);
 		if (last_pipe >= 0)
 			close(last_pipe);
 		last_pipe = p[0];
