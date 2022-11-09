@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 15:14:02 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/08 14:24:40 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -112,6 +113,7 @@ typedef struct s_pipeline_cmd
 	t_input_redir			*in_redirs;
 	t_output_redir			*out_redirs;
 	int						builtin_status;
+	int						relative;
 	struct s_pipeline_cmd	*next;
 }	t_pipeline_cmd;
 

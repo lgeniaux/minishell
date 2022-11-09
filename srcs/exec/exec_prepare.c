@@ -6,11 +6,22 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 22:47:57 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 15:26:14 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/08 14:25:41 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	is_relative(const char *path)
+{
+	while (*path)
+	{
+		if (*path == '/')
+			return (1);
+		++path;
+	}
+	return (0);
+}
 
 static int	prepare_pipeline_command(t_pipeline_cmd *pcmd, t_command *cmd)
 {
@@ -18,10 +29,17 @@ static int	prepare_pipeline_command(t_pipeline_cmd *pcmd, t_command *cmd)
 	pcmd->path = NULL;
 	pcmd->in_redirs = cmd->in_redirs;
 	pcmd->out_redirs = cmd->out_redirs;
+	pcmd->relative = 0;
 	if (pcmd->argv)
 	{
 		if (pcmd->argv[0])
-			pcmd->path = find_path(pcmd->argv[0]);
+		{
+			pcmd->relative = is_relative(pcmd->argv[0]);
+			if (pcmd->relative)
+				pcmd->path = ft_strdup(pcmd->argv[0]);
+			else
+				pcmd->path = find_path(pcmd->argv[0]);
+		}
 	}
 	return (0);
 }
