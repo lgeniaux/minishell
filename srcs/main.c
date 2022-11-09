@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 19:42:36 by alavaud          ###   ########.fr       */
+/*   Updated: 2022/11/09 21:23:41 by alavaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,20 @@ int	msh_update_shlvl(t_msh *msh)
 
 int	msh_check_path(t_msh *msh)
 {
+	char	*path;
+	int		rv;
+
+	path = ft_getenv(msh->env, "PATH", -1);
+	if (!path)
+	{
+		path = ft_strdup("PATH=/usr/local/bin:/bin:/usr/bin:.");
+		if (!path)
+			return (-1);
+		rv = ft_set_env(path);
+		if (rv < 0)
+			free(path);
+		return (rv);
+	}
 	return (0);
 }
 
