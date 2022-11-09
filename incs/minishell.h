@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/08 14:04:28 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:33:11 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,11 @@ int	builtin_exit(int argc, char *argv[]);
 /* fork.c */
 pid_t fork_redir(t_pipeline_cmd *cmd, int base_in, int base_out);
 int setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out);
+char	**ft_append_env(char **env, char *var);
+char	*ft_strjoin(char const *s1, char const *s2);
+void set_oldpwd(char *oldpwd);
+char	*ft_strjoin(char const *s1, char const *s2);
+int	export_var(char *var);
 
 void		signals(void);
 static int	export_var(char *var);

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 17:40:46 by lgeniaux         ###   ########.fr       */
+/*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */ 
+/*   Updated: 2022/11/08 13:29:41 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,7 @@ int	builtin_cd(int argc, char *argv[])
 		free(oldpwd);
 		return (1);
 	}
-	oldpwd_export = malloc(ft_strlen(oldpwd) + 8);
-	if (!oldpwd_export)
-	{
-		printf("minishell: cd: %s\n", strerror(errno));
-		free(oldpwd);
-		return (1);
-	}
+	set_oldpwd(oldpwd);
 	free(oldpwd);
 	return (0);
 }
