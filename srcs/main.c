@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 17:34:36 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/09 19:42:36 by alavaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,13 @@ char	**clone_env(char **envp)
 
 int	msh_update_shlvl(t_msh *msh)
 {
+	char	*shlvl;
+
+	shlvl = ft_getenv(msh->env, "SHLVL", -1);
+	if (shlvl)
+	{
+		printf("Shell level is : %s\n", shlvl);
+	}
 	return (0);
 }
 
