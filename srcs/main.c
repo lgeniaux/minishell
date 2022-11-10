@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 15:47:00 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 19:08:10 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,47 +61,7 @@ void	process_line(char *line)
 	pgroup_destroy(&pgroup);
 }
 
-char	**clone_env(char **envp)
-{
-	char	**clone;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-		++i;
-	clone = ft_calloc(i + 1, sizeof(char *));
-	if (clone)
-	{
-		i = 0;
-		while (envp[i])
-		{
-			clone[i] = ft_strdup(envp[i]);
-			if (!clone[i])
-			{
-				while (i-- > 0)
-				{
-					free(clone[i]);
-				}
-				free(clone);
-				return (NULL);
-			}
-			++i;
-		}
-	}
-	return (clone);
-}
-
-int	msh_update_shlvl(t_msh *msh)
-{
-	return (0);
-}
-
-int	msh_check_path(t_msh *msh)
-{
-	return (0);
-}
-
-int msh_init(t_msh *msh, char **envp)
+int	msh_init(t_msh *msh, char **envp)
 {
 	msh->env = clone_env(envp);
 	msh->last_code = 0;
@@ -114,10 +74,10 @@ int msh_init(t_msh *msh, char **envp)
 	return (0);
 }
 
-void	msh_exit(int code)
+void	show_output(struct termios *t)
 {
-	g_minishell.exit_code = code;
-	g_minishell.should_exit = 1;
+	t->c_lflag |= ECHOCTL;
+	tcsetattr(0, TCSANOW, t);
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -138,8 +98,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (*line)
 		{
 			signals_exec();
-			t.c_lflag |= ECHOCTL;
-			tcsetattr(0, TCSANOW, &t);
+			show_output(&t);
 			add_history(line);
 			process_line(line);
 		}

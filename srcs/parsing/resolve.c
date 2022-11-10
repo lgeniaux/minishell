@@ -3,34 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   resolve.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:59:46 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 17:01:14 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/10 18:47:16 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*str_append(char *base, const char *s, int len)
-{
-	int		size;
-	char	*buf;
-
-	size = len + 1;
-	if (base)
-		size += ft_strlen(base);
-	buf = malloc(size);
-	if (buf)
-	{
-		*buf = '\0';
-		if (base)
-			ft_strlcat(buf, base, size);
-		ft_strlcat(buf, s, size);
-	}
-	free(base);
-	return (buf);
-}
 
 int	varlen(const char *line)
 {
@@ -72,6 +52,17 @@ char	*append_var(char **resolved, char *cmdline, char **env)
 	return (cmdline + len);
 }
 
+int	get_str_mode(char *cmdline, int *strmode)
+{
+	if (*cmdline == '"' && *strmode != 1)
+				*strmode = 2 - *strmode;
+	else if (*cmdline == '\'' && *strmode != 2)
+		*strmode = 1 - *strmode;
+	else
+		return (1);
+	return (0);
+}
+
 char	*resolve_vars(char *cmdline, char **env)
 {
 	int		strmode;
@@ -87,12 +78,7 @@ char	*resolve_vars(char *cmdline, char **env)
 		else
 		{
 			i = 0;
-			if (*cmdline == '"' && strmode != 1)
-				strmode = 2 - strmode;
-			else if (*cmdline == '\'' && strmode != 2)
-				strmode = 1 - strmode;
-			else
-				++i;
+			i = get_str_mode(cmdline, &i);
 			resolved = str_append(resolved, cmdline++, i);
 			if (!resolved)
 				break ;

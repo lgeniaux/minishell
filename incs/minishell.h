@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 18:19:19 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:58:55 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strcmp(const char *s1, const	char *s2);
 char		*ft_strcat(char *dest, const char *src);
 char		*ft_strndup(const char *s, size_t n);
+char		*str_append(char *base, const char *s, int len);
+char		**clone_env(char **envp);
 
 /* = ctype = */
 int			ft_isspace(int ch);
@@ -309,5 +311,8 @@ int			is_valid_ident(const char *v);
 void		sort_vars(char **env);
 void		dump_vars(char **env);
 void		rl_replace_line(const char *text, int clear_undo);
+void		msh_exit(int code);
+int			msh_update_shlvl(t_msh *msh);
+int			msh_check_path(t_msh *msh);
 
 #endif
