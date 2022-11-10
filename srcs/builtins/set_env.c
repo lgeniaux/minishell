@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:26:19 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 16:01:03 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:16:31 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	ft_set_env_utils(char *var, char **copy, int pos, int i)
 		free(g_minishell.env);
 		g_minishell.env = copy;
 	}
+	return (1);
 }
 
 int	ft_set_env(char *var)
@@ -86,7 +87,7 @@ int	ft_set_env(char *var)
 	export_var(var);
 	pos = ft_find_env(g_minishell.env, var, i);
 	if (!ft_set_env_utils(var, copy, pos, i))
-		return (-1);
+		return (0);
 	return (0);
 }
 

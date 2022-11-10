@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 16:13:51 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:19:19 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <termios.h>
-
 # include <ctype.h>
-# define ft_strcmp strcmp
-# define ft_isnumber isnumber
-# define ft_strndup strndup
-# define ft_strcat strcat
 
 # define TOKEN_TEXT			1
 # define TOKEN_APPEND		2
@@ -150,6 +145,9 @@ size_t		ft_strlcat(char *s1, const char *s2, size_t n);
 size_t		ft_strlcpy(char	*dst, const char	*src, size_t dstsize);
 size_t		ft_strlen(const char *str);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strcmp(const char *s1, const	char *s2);
+char		*ft_strcat(char *dest, const char *src);
+char		*ft_strndup(const char *s, size_t n);
 
 /* = ctype = */
 int			ft_isspace(int ch);
@@ -310,5 +308,6 @@ char		**ft_append_env(char **env, char *var);
 int			is_valid_ident(const char *v);
 void		sort_vars(char **env);
 void		dump_vars(char **env);
+void		rl_replace_line(const char *text, int clear_undo);
 
 #endif

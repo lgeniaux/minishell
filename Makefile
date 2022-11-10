@@ -3,7 +3,8 @@ SRCS = srcs/builtins/export.c srcs/builtins/unset.c srcs/exec/env.c srcs/exec/ex
 	srcs/parsing/pgroup.c srcs/parsing/pgroup_resolve.c srcs/parsing/redir.c srcs/parsing/resolve.c srcs/parsing/tokenize.c srcs/parsing/parsing_utils.c \
 	srcs/main.c srcs/debug.c srcs/parsing/heredoc_parse.c srcs/exec/exec_fork.c srcs/builtins/echo.c srcs/builtins/pwd.c srcs/builtins/cd.c srcs/builtins/env.c \
 	srcs/builtins/exit.c srcs/builtins/set_env.c srcs/ft/ft_strjoin.c srcs/exec/sig.c srcs/ft/ft_strncmp.c srcs/ft/ft_strlen.c srcs/ft/ft_strdup.c \
-	srcs/ft/ft_strlcpy.c srcs/ft/ft_strlcat.c srcs/ft/ft_strchr.c srcs/ft/ft_isdigit.c srcs/ft/ft_calloc.c srcs/ft/ft_memset.c srcs/builtins/builtin_export.c
+	srcs/ft/ft_strlcpy.c srcs/ft/ft_strlcat.c srcs/ft/ft_strchr.c srcs/ft/ft_isdigit.c srcs/ft/ft_calloc.c srcs/ft/ft_memset.c srcs/builtins/builtin_export.c \
+	srcs/ft/ft_isnumber.c srcs/ft/ft_strcmp.c srcs/ft/ft_strcat.c srcs/ft/ft_strndup.c
 	
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 NAME = minishell
