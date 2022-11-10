@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 17:35:31 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 19:37:35 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	builtin_cd(int argc, char *argv[])
 {
 	char	*path;
 	char	*oldpwd;
-	char	*oldpwd_export;
 
 	if (argc == 1)
 	{
@@ -48,7 +47,7 @@ int	builtin_cd(int argc, char *argv[])
 	oldpwd = getcwd(NULL, 0);
 	if (cd_error_handler(oldpwd, path))
 		return (1);
-	set_oldpwd(oldpwd);
+	set_pwd(oldpwd);
 	free(oldpwd);
 	return (0);
 }

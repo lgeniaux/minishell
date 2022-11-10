@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:26:19 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 18:16:31 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 19:37:23 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,21 @@ int	ft_set_env(char *var)
 			break ;
 		++i;
 	}
-	export_var(var);
+	if (export_var(var) == -1)
+		return (-1);
 	pos = ft_find_env(g_minishell.env, var, i);
 	if (!ft_set_env_utils(var, copy, pos, i))
 		return (0);
 	return (0);
 }
 
-void	set_oldpwd(char *oldpwd)
+void	set_pwd(char *oldpwd)
 {
-	char	*tmp;
+	char	*tmp_oldpwd;
+	char	*tmp_pwd;
 
-	tmp = ft_strjoin("OLDPWD=", oldpwd);
-	ft_set_env(tmp);
+	tmp_oldpwd = ft_strjoin("OLDPWD=", oldpwd);
+	tmp_pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+	ft_set_env(tmp_oldpwd);
+	ft_set_env(tmp_pwd);
 }
