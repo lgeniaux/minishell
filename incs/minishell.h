@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 17:49:25 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 14:39:40 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,9 @@
 # include <termios.h>
 
 # include <ctype.h>
-# define ft_calloc calloc
-# define ft_memset memset
 # define ft_strcmp strcmp
-# define ft_strncmp strncmp
 # define ft_isnumber isnumber
-# define ft_isdigit isdigit
 # define ft_strndup strndup
-# define ft_strlen strlen
-# define ft_strlcat strlcat
-# define ft_strlcpy strlcpy
-# define ft_strdup strdup
 # define ft_strcat strcat
 
 # define TOKEN_TEXT			1
@@ -66,7 +58,7 @@ typedef struct s_msh
 	char	status_buf[16];
 	int		should_exit;
 	int		exit_code;
-} t_msh;
+}	t_msh;
 
 /* = PARSING = */
 /**
@@ -125,7 +117,7 @@ typedef struct s_pipeline
 	char					**env;
 }	t_pipeline;
 
-extern t_msh g_minishell;
+extern t_msh	g_minishell;
 
 void	msh_exit(int code);
 
@@ -149,11 +141,21 @@ int		next_token(char **head, t_token *tok);
 
 char	*skip_spaces(char *head);
 void	init_token(t_token *tok, int type, char *str, int len);
-int	is_valid_text(int ch);
+int		is_valid_text(int ch);
 
 /* == FT Libs */
 
 char	**ft_split(char const *s, char c);
+void	*ft_calloc(size_t count, size_t size);
+int		ft_isdigit(int c);
+void	*ft_memset(void *b, int c, size_t len);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlcat(char *s1, const char *s2, size_t n);
+size_t	ft_strlcpy(char	*dst, const char	*src, size_t dstsize);
+size_t	ft_strlen(const char *str);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 /* = ctype = */
 int		ft_isspace(int ch);
@@ -308,5 +310,7 @@ void		signals(void);
 void		signals_exec(void);
 int			ft_set_env(char *var);
 char	**ft_append_env(char **env, char *var);
+int		is_valid_ident(const char *v);
+void	sort_vars(char **env);
 
 #endif
