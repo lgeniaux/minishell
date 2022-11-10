@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 19:37:12 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 21:48:07 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,8 +277,8 @@ int			pipeline_exec(t_pipeline *pipeline);
 int			pipeline_wait_status(t_pipeline *pipeline);
 
 /* exec_fork.c */
-pid_t		exec_pipeline_cmd(t_pipeline_cmd *cmd,
-				int base_in, int base_out);
+pid_t	exec_pipeline_cmd(t_pipeline_cmd *cmd,
+	int base_in, int base_out, int next_pipe);
 
 /* debug.c */
 void		dump_pgroup(t_piped_command_group *pgroup);
@@ -301,6 +301,7 @@ char		**ft_append_env(char **env, char *var);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strjoin(char const *s1, char const *s2);
 int			export_var(char *var);
+int			ft_set_env_kv(const char *key, const char *value);
 
 void		signals(void);
 void		signals_exec(void);

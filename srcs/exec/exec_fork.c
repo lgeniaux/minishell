@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 16:04:24 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 21:46:34 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ static void	exec_cmd_error(t_pipeline_cmd *cmd, struct stat st)
 static void	exec_cmd(t_pipeline_cmd *cmd)
 {
 	struct stat	st;
-	int			i;
-	int			code;
+	int	code;
 
 	if (!cmd->argv || !cmd->argv[0])
 		exit(0);
@@ -67,18 +66,13 @@ static void	exec_cmd(t_pipeline_cmd *cmd)
 		print_error(cmd->argv[0], "command not found", 0);
 		exit(127);
 	}
-	i = 3;
-	while (i < 1024)
-	{
-		close(i++);
-	}
 	exec_cmd_error(cmd, st);
 	print_error(cmd->path, "cannot execute binary file", 0);
 	exit(126);
 }
 
 pid_t	exec_pipeline_cmd(t_pipeline_cmd *cmd,
-	int base_in, int base_out)
+	int base_in, int base_out, int next_pipe)
 {
 	pid_t	pid;
 
@@ -90,6 +84,8 @@ pid_t	exec_pipeline_cmd(t_pipeline_cmd *cmd,
 	}
 	if (pid == 0)
 	{
+		if (next_pipe >= 0)
+			close(next_pipe);
 		exec_cmd(cmd);
 		exit(126);
 	}
