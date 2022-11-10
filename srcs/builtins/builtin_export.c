@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 15:59:39 by lgeniaux          #+#    #+#             */
-/*   Updated: 2022/11/10 20:01:21 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 20:08:26 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	builtin_export(int argc, char *argv[])
 			s = ft_strdup(argv[i]);
 			if (!s)
 				rv = 1;
-			//if (s && export_var(s) < 0)
 			if (s && ft_set_env(s) < 0)
 			{
 				free(s);
