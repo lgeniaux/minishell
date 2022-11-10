@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 15:35:26 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:35:31 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	cd_error_handler(char *oldpwd, char *path)
 		free(oldpwd);
 		return (1);
 	}
+	return (0);
 }
 
 int	builtin_cd(int argc, char *argv[])
