@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:26:19 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 19:37:23 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 21:31:51 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,19 @@ void	set_pwd(char *oldpwd)
 {
 	char	*tmp_oldpwd;
 	char	*tmp_pwd;
+	char	*path;
 
+	path = getcwd(NULL, 0);
 	tmp_oldpwd = ft_strjoin("OLDPWD=", oldpwd);
-	tmp_pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+	tmp_pwd = ft_strjoin("PWD=", path);
+	if (!tmp_oldpwd || !tmp_pwd)
+	{
+		free(tmp_oldpwd);
+		free(tmp_pwd);
+		free(path);
+		return ;
+	}
 	ft_set_env(tmp_oldpwd);
 	ft_set_env(tmp_pwd);
+	free(path);
 }

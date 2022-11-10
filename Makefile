@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/11/10 20:31:12 by lgeniaux          #+#    #+#              #
+#    Updated: 2022/11/10 20:41:09 by lgeniaux         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SRCS = srcs/builtins/export.c srcs/builtins/unset.c srcs/exec/env.c srcs/exec/exec_prepare.c srcs/exec/exec_run.c srcs/exec/fork.c \
 	srcs/exec/path.c srcs/ft/ft_ctype.c srcs/ft/ft_itoa.c srcs/ft/ft_split.c srcs/ft/ft_strchr.c srcs/parsing/command.c srcs/parsing/heredoc.c \
 	srcs/parsing/pgroup.c srcs/parsing/pgroup_resolve.c srcs/parsing/redir.c srcs/parsing/resolve.c srcs/parsing/tokenize.c srcs/parsing/parsing_utils.c \
@@ -11,6 +23,7 @@ NAME = minishell
 CFLAGS += -I incs -g
 
 all: $(NAME)
+
 
 $(NAME): $(OBJS)
 	$(CC) -o $(NAME) $^ -I ~/.brew/opt/readline/include -L ~/.brew/opt/readline/lib -lreadline
