@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 21:54:51 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 22:22:25 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ int			is_valid_text(int ch);
 
 /* == FT Libs */
 
+int			ft_atoi(const char *s);
 char		**ft_split(char const *s, char c);
 void		*ft_calloc(size_t count, size_t size);
 int			ft_isdigit(int c);
