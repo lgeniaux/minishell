@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:26:19 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 21:50:24 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/10 21:51:54 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	dump_vars(char **env)
 
 int	ft_set_env_utils(char *var, char **copy, int pos, int i)
 {
-    pos = ft_find_env(g_minishell.env, var, i);
+	pos = ft_find_env(g_minishell.env, var, i);
 	if (pos >= 0)
 	{
 		if (var[i] == '=')
