@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:26:19 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 14:38:28 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:01:03 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	export_var(char *var)
 	return (1);
 }
 
-static void	dump_vars(char **env)
+void	dump_vars(char **env)
 {
 	int	i;
 	int	sep;
@@ -48,6 +48,27 @@ static void	dump_vars(char **env)
 	}
 }
 
+int	ft_set_env_utils(char *var, char **copy, int pos, int i)
+{
+	if (pos >= 0)
+	{
+		if (var[i] == '=')
+		{
+			free(g_minishell.env[pos]);
+			g_minishell.env[pos] = var;
+		}
+		else
+			free(var);
+	}
+	else
+	{
+		copy = ft_append_env(g_minishell.env, var);
+		if (!copy)
+			return (0);
+		free(g_minishell.env);
+		g_minishell.env = copy;
+	}
+}
 
 int	ft_set_env(char *var)
 {
@@ -64,26 +85,8 @@ int	ft_set_env(char *var)
 	}
 	export_var(var);
 	pos = ft_find_env(g_minishell.env, var, i);
-	if (pos >= 0)
-	{
-		if (var[i] == '=')
-		{
-			free(g_minishell.env[pos]);
-			g_minishell.env[pos] = var;
-		}
-		else
-		{
-			free(var);
-		}
-	}
-	else
-	{
-		copy = ft_append_env(g_minishell.env, var);
-		if (!copy)
-			return (-1);
-		free(g_minishell.env);
-		g_minishell.env = copy;
-	}
+	if (!ft_set_env_utils(var, copy, pos, i))
+		return (-1);
 	return (0);
 }
 
@@ -93,34 +96,4 @@ void	set_oldpwd(char *oldpwd)
 
 	tmp = ft_strjoin("OLDPWD=", oldpwd);
 	ft_set_env(tmp);
-}
-
-int	builtin_export(int argc, char *argv[])
-{
-	int		i;
-	char	*s;
-	int		rv;
-
-	i = 1;
-	rv = 0;
-	if (argc > 1)
-	{
-		while (i < argc)
-		{
-			s = ft_strdup(argv[i]);
-			if (!s)
-				rv = 1;
-			if (s && export_var(s) < 0)
-			{
-				free(s);
-				rv = 1;
-			}
-			++i;
-		}
-	}
-	else
-	{
-		dump_vars(g_minishell.env);
-	}
-	return (rv);
 }

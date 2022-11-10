@@ -6,11 +6,26 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 14:33:15 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 15:35:26 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	cd_error_handler(char *oldpwd, char *path)
+{
+	if (!oldpwd)
+	{
+		printf("minishell: cd: %s\n", strerror(errno));
+		return (1);
+	}
+	if (chdir(path) < 0)
+	{
+		printf("minishell: cd: %s: %s\n", path, strerror(errno));
+		free(oldpwd);
+		return (1);
+	}
+}
 
 int	builtin_cd(int argc, char *argv[])
 {
@@ -28,21 +43,10 @@ int	builtin_cd(int argc, char *argv[])
 		}
 	}
 	else
-	{
 		path = argv[1];
-	}
 	oldpwd = getcwd(NULL, 0);
-	if (!oldpwd)
-	{
-		printf("minishell: cd: %s\n", strerror(errno));
+	if (cd_error_handler(oldpwd, path))
 		return (1);
-	}
-	if (chdir(path) < 0)
-	{
-		printf("minishell: cd: %s: %s\n", path, strerror(errno));
-		free(oldpwd);
-		return (1);
-	}
 	set_oldpwd(oldpwd);
 	free(oldpwd);
 	return (0);

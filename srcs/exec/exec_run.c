@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 17:42:16 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:05:29 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ static int	builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd,
 	int		found;
 
 	save_io(&io);
-	/* TODO error handling */
 	setup_redirs(cmd, 0, 1);
 	*out = builtin_dispatch_id(id, argc, argv, &found);
 	if (!found)
@@ -177,10 +176,9 @@ int	pipeline_wait_status(t_pipeline *pipeline)
 		{
 			if (waitpid(cmd->pid, &status, 0) >= 0)
 			{
-				/* TODO */
 				if (WIFSIGNALED(status))
 				{
-					code = 128 + WTERMSIG(status); // printf("[%d] SIG %d\n", cmd->pid, WTERMSIG(status));
+					code = 128 + WTERMSIG(status);
 				}
 				else if (WIFEXITED(status))
 					code = WEXITSTATUS(status);

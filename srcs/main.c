@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 17:34:36 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 15:47:00 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	exec_pipeline(t_piped_command_group *pgroup)
 	ret = -1;
 	if (pipeline_prepare(pipeline) >= 0)
 	{
-		/* TODO */
 		if (pipeline_exec(pipeline) >= 0)
 		{
 			code = pipeline_wait_status(pipeline);
@@ -131,7 +130,7 @@ int	main(int argc, char *argv[], char *envp[])
 	while (!g_minishell.should_exit)
 	{
 		signals();
-    	t.c_lflag &= ~ECHOCTL;
+		t.c_lflag &= ~ECHOCTL;
 		tcsetattr(0, TCSANOW, &t);
 		line = readline("GLaDOS> ");
 		if (!line)

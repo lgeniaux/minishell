@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 14:39:40 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:13:51 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,6 @@ typedef struct s_msh
 }	t_msh;
 
 /* = PARSING = */
-/**
- * This contains the only functions and structures you'll ever need to exec
- * the command line input.
- * 
- * Example command: rev < test -test < test2 -lol | grep tset | rev | cat >> output > output2 >> real_output
- */
-
 typedef struct s_output_redir
 {
 	int						is_append;
@@ -119,10 +112,10 @@ typedef struct s_pipeline
 
 extern t_msh	g_minishell;
 
-void	msh_exit(int code);
+void		msh_exit(int code);
 
 /* path.c */
-char	*find_path(const char *cmd);
+char		*find_path(const char *cmd);
 
 /* == Parsing == */
 
@@ -135,55 +128,57 @@ char	*find_path(const char *cmd);
  * 
  * @param head A pointer to the current character of the string.
  * @param tok The extracted token data
- * @return int -1 if an error occured (invalid token), 0 if no more tokens can be extracted, 1 if a token has been successfuly extracted
+ * @return int -1 if an error occured (invalid token), 0 if no more tokens
+ *  can be extracted, 1 if a token has been successfuly extracted
  */
-int		next_token(char **head, t_token *tok);
+int			next_token(char **head, t_token *tok);
 
-char	*skip_spaces(char *head);
-void	init_token(t_token *tok, int type, char *str, int len);
-int		is_valid_text(int ch);
+char		*skip_spaces(char *head);
+void		init_token(t_token *tok, int type, char *str, int len);
+int			is_valid_text(int ch);
 
 /* == FT Libs */
 
-char	**ft_split(char const *s, char c);
-void	*ft_calloc(size_t count, size_t size);
-int		ft_isdigit(int c);
-void	*ft_memset(void *b, int c, size_t len);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strdup(const char *s1);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlcat(char *s1, const char *s2, size_t n);
-size_t	ft_strlcpy(char	*dst, const char	*src, size_t dstsize);
-size_t	ft_strlen(const char *str);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char		**ft_split(char const *s, char c);
+void		*ft_calloc(size_t count, size_t size);
+int			ft_isdigit(int c);
+void		*ft_memset(void *b, int c, size_t len);
+char		*ft_strchr(const char *s, int c);
+char		*ft_strdup(const char *s1);
+char		*ft_strjoin(char const *s1, char const *s2);
+size_t		ft_strlcat(char *s1, const char *s2, size_t n);
+size_t		ft_strlcpy(char	*dst, const char	*src, size_t dstsize);
+size_t		ft_strlen(const char *str);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
 /* = ctype = */
-int		ft_isspace(int ch);
-int		ft_islower(int ch);
-int		ft_isupper(int ch);
-int		ft_isalpha(int ch);
-int		ft_isprint(int ch);
+int			ft_isspace(int ch);
+int			ft_islower(int ch);
+int			ft_isupper(int ch);
+int			ft_isalpha(int ch);
+int			ft_isprint(int ch);
 
-char	*ft_strchr(const char *s, int c);
+char		*ft_strchr(const char *s, int c);
 
-char	*ft_itoa(int value, char *str);
+char		*ft_itoa(int value, char *str);
 
 /* pgroup.c */
-void	pgroup_destroy(t_piped_command_group *pgroup);
+void		pgroup_destroy(t_piped_command_group *pgroup);
 
 /**
  * @brief Parses the command starting at *head into pgroup
  * 
  * @param pgroup The pipeline where the parsed command is added.
  * @param head A pointer to the read head.
- * @return int A negative value is returned if an error occured, otherwise 0 is returned.
+ * @return int A negative value is returned if an error occured,
+ * otherwise 0 is returned.
  */
-int		pgroup_parse_command(t_piped_command_group *pgroup, char **head);
+int			pgroup_parse_command(t_piped_command_group *pgroup, char **head);
 
-int		pgroup_parse(t_piped_command_group *pgroup, char *line);
+int			pgroup_parse(t_piped_command_group *pgroup, char *line);
 
 /* pgroup_resolve.c */
-void	pgroup_resolve(t_piped_command_group *pgroup);
+void		pgroup_resolve(t_piped_command_group *pgroup);
 
 /* command.c */
 
@@ -197,9 +192,9 @@ void	pgroup_resolve(t_piped_command_group *pgroup);
  * @param head 
  * @return int 
  */
-int		command_parse(t_command *cmd, char **head);
+int			command_parse(t_command *cmd, char **head);
 
-void	command_free(t_command *cmd);
+void		command_free(t_command *cmd);
 
 /* redir.c */
 /**
@@ -210,30 +205,30 @@ void	command_free(t_command *cmd);
  * @param head 
  * @return int Returns a negative value upon error, returns 0 otherwise.
  */
-int	parse_redir(t_command *cmd, int type, char **head);
+int			parse_redir(t_command *cmd, int type, char **head);
 
-int token_expect(char **head, t_token *tok, int expected_type);
-int token_unexpect(char **head, t_token *tok, int unexpected_type);
+int			token_expect(char **head, t_token *tok, int expected_type);
+int			token_unexpect(char **head, t_token *tok, int unexpected_type);
 
-int	prompt(const char *prompt, t_piped_command_group **pgroup);
+int			prompt(const char *prompt, t_piped_command_group **pgroup);
 
 /* heredoc.c */
-char	*heredoc_path(int n);
-int		heredoc(t_input_redir *redir);
-int		process_heredocs(t_piped_command_group *pgroup);
-void	heredoc_cleanup(t_piped_command_group *pgroup);
+char		*heredoc_path(int n);
+int			heredoc(t_input_redir *redir);
+int			process_heredocs(t_piped_command_group *pgroup);
+void		heredoc_cleanup(t_piped_command_group *pgroup);
 
 /* resolve.c */
-char	*resolve_vars(char *cmdline, char **env);
-void	resolve_args(t_command *cmd, char **env);
-char	*append_var(char **resolved, char *cmdline, char **env);
-char	*str_append(char *base, const char *s, int len);
-int		varlen(const char *line);
+char		*resolve_vars(char *cmdline, char **env);
+void		resolve_args(t_command *cmd, char **env);
+char		*append_var(char **resolved, char *cmdline, char **env);
+char		*str_append(char *base, const char *s, int len);
+int			varlen(const char *line);
 
 /* env.c */
-void	env_free(char **env);
-int		ft_find_env(char **env, const char *name, int len);
-char	*ft_getenv(char **env, const char *name, int len);
+void		env_free(char **env);
+int			ft_find_env(char **env, const char *name, int len);
+char		*ft_getenv(char **env, const char *name, int len);
 
 /* exec_prepare.c */
 
@@ -246,7 +241,8 @@ char	*ft_getenv(char **env, const char *name, int len);
 t_pipeline	*pipeline_create(t_piped_command_group *pgroup);
 
 /**
- * @brief Disposes the pipeline and frees everything (including the pipeline itself)
+ * @brief Disposes the pipeline and frees everything
+ * (including the pipeline itself)
  * 
  * @param pipeline 
  */
@@ -259,7 +255,7 @@ void		pipeline_dispose(t_pipeline *pipeline);
  * @return int 
  */
 int			pipeline_prepare(t_pipeline *pipeline);
-int run_builtin(t_pipeline_cmd *cmd, int *out);
+int			run_builtin(t_pipeline_cmd *cmd, int *out);
 
 /* exec_run.c */
 
@@ -269,48 +265,50 @@ int run_builtin(t_pipeline_cmd *cmd, int *out);
  * @param pipeline 
  * @return int 
  */
-int	pipeline_exec(t_pipeline *pipeline);
+int			pipeline_exec(t_pipeline *pipeline);
 
 /**
- * @brief Wait for every sub-process to terminate and returns the exit status of the last in the pipeline.
+ * @brief Wait for every sub-process to terminate 
+ * and returns the exit status of the last in the pipeline.
  * 
  * @param pipeline 
  * @return int 
  */
-int	pipeline_wait_status(t_pipeline *pipeline);
+int			pipeline_wait_status(t_pipeline *pipeline);
 
 /* exec_fork.c */
-pid_t	exec_pipeline_cmd(t_pipeline_cmd *cmd,
-	int base_in, int base_out);
+pid_t		exec_pipeline_cmd(t_pipeline_cmd *cmd,
+				int base_in, int base_out);
 
 /* debug.c */
-void	dump_pgroup(t_piped_command_group *pgroup);
+void		dump_pgroup(t_piped_command_group *pgroup);
 
 /* builtin.c */
 
 /* builtins */
-int builtin_export(int argc, char *argv[]);
-int	builtin_unset(int argc, char *argv[]);
-int	builtin_echo(int argc, char *argv[]);
-int	builtin_pwd(int argc, char *argv[]);
-int	builtin_cd(int argc, char *argv[]);
-int	builtin_env(int argc, char *argv[]);
-int	builtin_exit(int argc, char *argv[]);
+int			builtin_export(int argc, char *argv[]);
+int			builtin_unset(int argc, char *argv[]);
+int			builtin_echo(int argc, char *argv[]);
+int			builtin_pwd(int argc, char *argv[]);
+int			builtin_cd(int argc, char *argv[]);
+int			builtin_env(int argc, char *argv[]);
+int			builtin_exit(int argc, char *argv[]);
 
 /* fork.c */
-pid_t fork_redir(t_pipeline_cmd *cmd, int base_in, int base_out);
-int setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out);
-char	**ft_append_env(char **env, char *var);
-char	*ft_strjoin(char const *s1, char const *s2);
-void set_oldpwd(char *oldpwd);
-char	*ft_strjoin(char const *s1, char const *s2);
-int	export_var(char *var);
+pid_t		fork_redir(t_pipeline_cmd *cmd, int base_in, int base_out);
+int			setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out);
+char		**ft_append_env(char **env, char *var);
+char		*ft_strjoin(char const *s1, char const *s2);
+void		set_oldpwd(char *oldpwd);
+char		*ft_strjoin(char const *s1, char const *s2);
+int			export_var(char *var);
 
 void		signals(void);
 void		signals_exec(void);
 int			ft_set_env(char *var);
-char	**ft_append_env(char **env, char *var);
-int		is_valid_ident(const char *v);
-void	sort_vars(char **env);
+char		**ft_append_env(char **env, char *var);
+int			is_valid_ident(const char *v);
+void		sort_vars(char **env);
+void		dump_vars(char **env);
 
 #endif

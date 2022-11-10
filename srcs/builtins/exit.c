@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:12:20 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 15:46:55 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/10 16:19:10 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ static int	atoi_safe(const char *s, int *value)
 			n = 10 * n + (*s++ - '0');
 			if ((sign && n > 2147483648)
 				|| (!sign && n > 2147483647))
-			{
 				return (-1);
-			}
 		}
 		if (sign)
 			*value = -n;
@@ -58,7 +56,7 @@ int	builtin_exit(int argc, char *argv[])
 		if (atoi_safe(argv[1], &code) < 0)
 		{
 			printf("minishell: exit: numeric argument required\n");
-			code = -1;
+			return (0);
 		}
 	}
 	msh_exit(code);

@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 17:41:51 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:04:24 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,24 @@ static void	print_error(const char *msg, const char *msg2, int errnum)
 	ft_putstr_fd("\n", 2);
 }
 
+static void	exec_cmd_error(t_pipeline_cmd *cmd, struct stat st)
+{
+	if (access(cmd->path, X_OK))
+	{
+		print_error(cmd->path, NULL, errno);
+		exit(127);
+	}
+	if (stat(cmd->path, &st) >= 0)
+	{
+		if (S_ISDIR(st.st_mode))
+		{
+			print_error(cmd->path, "is a directory", 0);
+			exit(126);
+		}
+		execve(cmd->path, cmd->argv, g_minishell.env);
+	}
+}
+
 static void	exec_cmd(t_pipeline_cmd *cmd)
 {
 	struct stat	st;
@@ -49,29 +67,12 @@ static void	exec_cmd(t_pipeline_cmd *cmd)
 		print_error(cmd->argv[0], "command not found", 0);
 		exit(127);
 	}
-	/* TODO temporary fix (pass pipe information so we can close it in the child) */
 	i = 3;
 	while (i < 1024)
 	{
 		close(i++);
 	}
-	/* Tries to close the pipe here */
-	/*	if (p >= 0)
-			close(p);*/
-	if (access(cmd->path, X_OK))
-	{
-		print_error(cmd->path, NULL, errno);
-		exit(127);
-	}
-	if (stat(cmd->path, &st) >= 0)
-	{
-		if (S_ISDIR(st.st_mode))
-		{
-			print_error(cmd->path, "is a directory", 0);
-			exit(126);
-		}
-		execve(cmd->path, cmd->argv, g_minishell.env);
-	}
+	exec_cmd_error(cmd, st);
 	print_error(cmd->path, "cannot execute binary file", 0);
 	exit(126);
 }

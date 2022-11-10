@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 19:51:10 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 10:55:54 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 15:43:41 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out)
 	if (setup_in_redirs(cmd->in_redirs) < 0
 		|| setup_out_redirs(cmd->out_redirs) < 0)
 	{
-		perror("Redir"); /* TODO */
+		perror("Redir");
 		return (-1);
 	}
 	return (0);
