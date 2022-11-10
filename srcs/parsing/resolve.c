@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:59:46 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 18:47:16 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/10 21:40:05 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*resolve_vars(char *cmdline, char **env)
 		else
 		{
 			i = 0;
-			i = get_str_mode(cmdline, &i);
+			i = get_str_mode(cmdline, &strmode);
 			resolved = str_append(resolved, cmdline++, i);
 			if (!resolved)
 				break ;
