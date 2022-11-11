@@ -6,26 +6,47 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 21:47:29 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 02:28:09 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd_error_handler(char *oldpwd, char *path)
+static char	*concat_path(const char *a, const char *b)
 {
-	if (!oldpwd)
+	int		len;
+	char	*out;
+
+	len = ft_strlen(a) + ft_strlen(b) + 2;
+	out = malloc(len);
+	if (!out)
+		return (NULL);
+	ft_strlcpy(out, a, len);
+	ft_strlcat(out, "/", len);
+	ft_strlcat(out, b, len);
+	return (out);
+}
+
+static int update_pwd(char *path, char *oldpwd)
+{
+	char	*pwd;
+	int		rv;
+
+	pwd = getcwd(NULL, 0);
+	rv = 0;
+	if (!pwd)
 	{
-		printf("minishell: cd: %s\n", strerror(errno));
-		return (1);
+		rv = 1;
+		printf("cd: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno));
+		pwd = concat_path(oldpwd, path);
+		if (!pwd)
+			return (1);
 	}
-	if (chdir(path) < 0)
-	{
-		printf("minishell: cd: %s: %s\n", path, strerror(errno));
-		free(oldpwd);
-		return (1);
-	}
-	return (0);
+	ft_set_env_kv("PWD", pwd);
+	ft_set_env_kv("OLDPWD", oldpwd);
+	ft_strlcpy(g_minishell.pwd, pwd, MAXPATHLEN);
+	free(pwd);
+	return (rv);
 }
 
 int	builtin_cd(int argc, char *argv[])
@@ -33,7 +54,11 @@ int	builtin_cd(int argc, char *argv[])
 	char	*path;
 	char	*oldpwd;
 
-	if (argc == 1)
+	if (argc == 2)
+	{
+		path = argv[1];
+	}
+	else
 	{
 		path = ft_getenv(g_minishell.env, "HOME", -1);
 		if (!path)
@@ -42,21 +67,12 @@ int	builtin_cd(int argc, char *argv[])
 			return (1);
 		}
 	}
-	else
-		path = argv[1];
-	oldpwd = getcwd(NULL, 0);
-	if (cd_error_handler(oldpwd, path))
-		return (1);
-	/* TODO */
-	set_pwd(oldpwd);
+	oldpwd = g_minishell.pwd;
 	if (chdir(path) < 0)
 	{
 		printf("minishell: cd: %s: %s\n", path, strerror(errno));
-		free(oldpwd);
 		return (1);
 	}
-	// TODO
-	// ft_set_env_kv("OLDPWD", oldpwd);
-	free(oldpwd);
+	update_pwd(path, oldpwd);
 	return (0);
 }

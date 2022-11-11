@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 22:22:25 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 02:13:52 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <sys/param.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
@@ -48,6 +49,7 @@ typedef struct s_token
 
 typedef struct s_msh
 {
+	char	pwd[MAXPATHLEN];
 	char	**env;
 	int		last_code;
 	char	status_buf[16];
@@ -301,16 +303,14 @@ int			setup_redirs(t_pipeline_cmd *cmd, int base_in, int base_out);
 char		**ft_append_env(char **env, char *var);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strjoin(char const *s1, char const *s2);
-int			export_var(char *var);
+
+int			ft_set_env(const char *var);
 int			ft_set_env_kv(const char *key, const char *value);
 
 void		signals(void);
 void		signals_exec(void);
-int			ft_set_env(char *var);
 char		**ft_append_env(char **env, char *var);
-int			is_valid_ident(const char *v);
 void		sort_vars(char **env);
-void		dump_vars(char **env);
 void		rl_replace_line(const char *text, int clear_undo);
 void		msh_exit(int code);
 int			msh_update_shlvl(t_msh *msh);

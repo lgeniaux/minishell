@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+         #
+#    By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 20:31:12 by lgeniaux          #+#    #+#              #
-#    Updated: 2022/11/10 21:59:19 by lgeniaux         ###   ########.fr        #
+#    Updated: 2022/11/11 01:02:13 by alavaud          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ all: $(NAME)
 
 
 $(NAME): $(OBJS)
-	$(CC) -o $(NAME) $^ -I ~/.brew/opt/readline/include -L ~/.brew/opt/readline/lib -lreadline
+	$(CC) -o $(NAME) $^ -I /usr/local/Cellar/readline/8.2.1/include/ -L /usr/local/Cellar/readline/8.2.1/lib -lreadline
 
 %.o: %.c incs/minishell.h
 	$(CC) -c -o $@ $< $(CFLAGS)

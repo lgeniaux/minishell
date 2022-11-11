@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 21:57:58 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 02:12:50 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ void	process_line(char *line)
 
 int	msh_init(t_msh *msh, char **envp)
 {
+	if (!getcwd(msh->pwd, MAXPATHLEN))
+	{
+		printf("shell-init: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno));
+		return (-1);
+	}
 	msh->env = clone_env(envp);
 	msh->last_code = 0;
 	msh->should_exit = 0;
@@ -71,7 +76,8 @@ int	msh_init(t_msh *msh, char **envp)
 		return (-1);
 	msh_update_shlvl(msh);
 	msh_check_path(msh);
-	ft_set_env_kv("OLDPWD", "");
+	ft_set_env_kv("PWD", msh->pwd);
+	ft_set_env("OLDPWD");
 	return (0);
 }
 
@@ -86,7 +92,8 @@ int	main(int argc, char *argv[], char *envp[])
 	char			*line;
 	struct termios	t;
 
-	msh_init(&g_minishell, envp);
+	if (msh_init(&g_minishell, envp) < 0)
+		return (1);
 	tcgetattr(0, &t);
 	while (!g_minishell.should_exit)
 	{
@@ -105,6 +112,8 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		free(line);
 	}
+	// if (!line)
+		// printf("\033[1A\rGLaDOS> exit\n");
 	clear_history();
 	env_free(g_minishell.env);
 	return (g_minishell.exit_code);

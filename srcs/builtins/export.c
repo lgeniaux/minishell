@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:43:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 21:49:41 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 02:07:29 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,6 @@ char	**ft_append_env(char **env, char *var)
 	}
 	copy[i] = var;
 	return (copy);
-}
-
-int	is_valid_ident(const char *v)
-{
-	int	i;
-
-	i = 0;
-	while (v[i] && v[i] != '=')
-	{
-		if (!ft_isalpha(v[i]) && (i == 0 || !ft_isdigit(v[i])))
-			return (0);
-		++i;
-	}
-	if (!i)
-		return (0);
-	return (1);
 }
 
 static int	compare_keys(const char *a, const char *b)
