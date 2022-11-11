@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 19:06:52 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 20:04:04 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,14 @@ int	main(int argc, char *argv[], char *envp[])
 			break ;
 		free(line);
 	}
-	if (!line)
-		printf("%.*s\rGLaDOS> exit\n", \
-		!!ft_getenv(g_minishell.env, "TERM", -1) * 4, "\033[A1");
-	else
-		printf("exit\n");
+	if (isatty(0))
+	{
+		if (!line)
+			printf("%.*s\rGLaDOS> exit\n", \
+			!!ft_getenv(g_minishell.env, "TERM", -1) * 4, "\033[A1");
+		else
+			printf("exit\n");
+	}
 	clear_history();
 	env_free(g_minishell.env);
 	return (g_minishell.exit_code);
