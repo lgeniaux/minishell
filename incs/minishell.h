@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 11:00:22 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 16:39:42 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ int			pipeline_wait_status(t_pipeline *pipeline);
 
 /* exec_fork.c */
 pid_t		exec_pipeline_cmd(t_pipeline_cmd *cmd,
-				int base_in, int base_out, int next_pipe);
+				int pipe_in, int pipe_out, int next_pipe);
 
 /* debug.c */
 void		dump_pgroup(t_piped_command_group *pgroup);

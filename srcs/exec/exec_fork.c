@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 13:09:35 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 16:39:30 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,15 @@ static void	exec_cmd(t_pipeline_cmd *cmd)
 }
 
 pid_t	exec_pipeline_cmd(t_pipeline_cmd *cmd,
-	int base_in, int base_out, int next_pipe)
+	int pipe_in, int pipe_out, int next_pipe)
 {
 	pid_t	pid;
 
-	pid = fork_redir(cmd, base_in, base_out);
+	if (pipe_in < 0)
+		pipe_in = 0;
+	if (pipe_out < 0)
+		pipe_out = 1;
+	pid = fork_redir(cmd, pipe_in, pipe_out);
 	if (pid < 0)
 	{
 		perror("fork");
