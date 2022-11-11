@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:26:09 by lgeniaux          #+#    #+#             */
-/*   Updated: 2022/11/11 17:14:49 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 18:58:00 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,21 @@ void	signals_exec(void)
 	signal(SIGQUIT, exec_sig_handler);
 }
 
-int	set_tty_mode(struct termios *tm, int mode)
+int	set_tty_mode(int mode)
 {
+	struct termios tm;
+
+	if (tcgetattr(0, &tm) < 0)
+		return (-1);
 	if (TTY_EXEC == mode)
 	{
-		tm->c_lflag |= ECHOCTL;
+		tm.c_lflag |= ECHOCTL;
 		signals_exec();
 	}
 	else if (TTY_INTERACTIVE == mode)
 	{
-		tm->c_lflag &= ~ECHOCTL;
+		tm.c_lflag &= ~ECHOCTL;
 		signals();
 	}
-	return (tcsetattr(0, TCSAFLUSH, tm));
+	return (tcsetattr(0, TCSAFLUSH, &tm));
 }

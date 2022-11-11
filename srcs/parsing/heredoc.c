@@ -6,13 +6,13 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 14:29:37 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/01 14:30:21 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 19:02:38 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	command_process_heredocs(t_command *cmd, int n)
+static int	command_prepare_heredocs(t_command *cmd, int n)
 {
 	t_input_redir	*in;
 
@@ -24,15 +24,13 @@ static int	command_process_heredocs(t_command *cmd, int n)
 			in->heredoc_path = heredoc_path(n++);
 			if (!in->heredoc_path)
 				return (-1);
-			if (heredoc(in) < 0)
-				return (-1);
 		}
 		in = in->next;
 	}
 	return (n);
 }
 
-int	process_heredocs(t_piped_command_group *pgroup)
+static int prepare_heredocs(t_piped_command_group *pgroup)
 {
 	t_command	*cmd;
 	int			n;
@@ -42,13 +40,76 @@ int	process_heredocs(t_piped_command_group *pgroup)
 	cmd = pgroup->cmds;
 	while (cmd)
 	{
-		r = command_process_heredocs(cmd, n);
+		r = command_prepare_heredocs(cmd, n);
 		if (r < 0)
 			return (-1);
 		n += r;
 		cmd = cmd->next;
 	}
 	return (n);
+}
+
+int collect_heredocs(t_piped_command_group *pgroup)
+{
+	t_command	*cmd;
+	t_input_redir *in;
+	pid_t		pid;
+	int			status;
+
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork");
+		return (-1);
+	}
+	if (pid)
+	{
+		if (waitpid(pid, &status, 0) < 0)
+		{
+			perror("waitpid");
+			return (-1);
+		}
+		if (WIFSIGNALED(status) && WTERMSIG(status) == 2)
+			return (0);
+		if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
+			return (1);
+		return (-1);
+	}
+	else
+	{
+		set_tty_mode(TTY_INTERACTIVE);
+		signal(SIGINT, SIG_DFL);
+		cmd = pgroup->cmds;
+		while (cmd)
+		{
+			in = cmd->in_redirs;
+			while (in)
+			{
+				if (in->is_heredoc)
+				{
+					if (heredoc(in) < 0)
+					{
+						exit(1);
+					}
+				}
+				in = in->next;
+			}
+			cmd = cmd->next;
+		}
+		exit(0);
+	}
+	return (1);
+}
+
+int	process_heredocs(t_piped_command_group *pgroup)
+{
+	int	rv;
+
+	if (prepare_heredocs(pgroup) < 0)
+		return (-1);
+	rv = collect_heredocs(pgroup);
+	set_tty_mode(TTY_EXEC);
+	return (rv);
 }
 
 void	heredoc_cleanup(t_piped_command_group *pgroup)

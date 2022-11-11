@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 17:41:49 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 19:06:52 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,28 +64,32 @@ void	process_line(char *line)
 	if (n == 1)
 	{
 		pgroup_resolve(&pgroup);
-		if (process_heredocs(&pgroup) < 0)
+		n = process_heredocs(&pgroup);
+		if (n < 0)
 		{
 			printf("Can't process heredocs\n");
 			heredoc_cleanup(&pgroup);
 			pgroup_destroy(&pgroup);
 			return ;
 		}
-		exec_pipeline(&pgroup);
+		if (n == 1)
+			exec_pipeline(&pgroup);
+		else
+			g_minishell.last_code = 1;
 		heredoc_cleanup(&pgroup);
 	}
 	pgroup_destroy(&pgroup);
 }
 
-char	*msh_loop(struct termios *tm)
+char	*msh_loop(void)
 {
 	char	*line;
 
-	set_tty_mode(tm, TTY_INTERACTIVE);
+	set_tty_mode(TTY_INTERACTIVE);
 	line = readline("GLaDOS> ");
 	if (line && *line)
 	{
-		set_tty_mode(tm, TTY_EXEC);
+		set_tty_mode(TTY_EXEC);
 		add_history(line);
 		process_line(line);
 	}
@@ -95,16 +99,14 @@ char	*msh_loop(struct termios *tm)
 int	main(int argc, char *argv[], char *envp[])
 {
 	char			*line;
-	struct termios	tm;
 
 	(void)argc;
 	(void)argv;
 	if (msh_init(&g_minishell, envp) < 0)
 		return (1);
-	tcgetattr(0, &tm);
 	while (!g_minishell.should_exit)
 	{
-		line = msh_loop(&tm);
+		line = msh_loop();
 		if (!line)
 			break ;
 		free(line);

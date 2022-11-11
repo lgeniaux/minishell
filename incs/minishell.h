@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 17:29:06 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 18:57:44 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,7 +336,7 @@ void		set_pwd(char *oldpwd);
  * @param mode Either (TTY_INTERACTIVE or TTY_EXEC)
  * @return int same as tcsetattr
  */
-int			set_tty_mode(struct termios *tm, int mode);
+int			set_tty_mode(int mode);
 
 int			save_io(t_io *io);
 int			restore_io(t_io *io);
