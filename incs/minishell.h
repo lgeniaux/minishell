@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 16:39:42 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 17:29:06 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,6 @@ typedef struct s_token
 	char	*str;
 	int		len;
 }	t_token;
-
-typedef struct s_msh
-{
-	char	pwd[MAXPATHLEN];
-	char	**env;
-	int		last_code;
-	char	status_buf[16];
-	int		should_exit;
-	int		exit_code;
-}	t_msh;
 
 typedef struct s_io
 {
@@ -115,6 +105,17 @@ typedef struct s_pipeline
 	t_pipeline_cmd			*cmds;
 	char					**env;
 }	t_pipeline;
+
+typedef struct s_msh
+{
+	char	pwd[MAXPATHLEN];
+	char	**env;
+	int		last_code;
+	char	status_buf[16];
+	int		should_exit;
+	int		exit_code;
+	t_pipeline	*pipeline;
+}	t_msh;
 
 extern t_msh	g_minishell;
 
@@ -291,6 +292,8 @@ int			pipeline_wait_status(t_pipeline *pipeline);
 /* exec_fork.c */
 pid_t		exec_pipeline_cmd(t_pipeline_cmd *cmd,
 				int pipe_in, int pipe_out, int next_pipe);
+
+void		pipeline_propagate_signal(t_pipeline *pipeline, int sig);
 
 /* debug.c */
 void		dump_pgroup(t_piped_command_group *pgroup);

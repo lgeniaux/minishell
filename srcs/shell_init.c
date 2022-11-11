@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 02:44:22 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 13:22:33 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 17:12:43 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	msh_init(t_msh *msh, char **envp)
 		return (-1);
 	}
 	msh->env = clone_env(envp);
+	msh->pipeline = NULL;
 	msh->last_code = 0;
 	msh->should_exit = 0;
 	msh->exit_code = 0;

@@ -6,16 +6,33 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 10:57:41 by lgeniaux          #+#    #+#             */
-/*   Updated: 2022/11/11 16:40:11 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 17:37:22 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	wifsignaled_status(int status)
+static void	report_signal(int sig)
 {
+	if (sig == 3)
+		printf("Quit: 3\n");
+	else if (sig == 11)
+		printf("Segmentation fault: 11\n");
+	else if (sig == 10)
+		printf("Bus error: 10\n");
+}
+
+int	wifsignaled_status(int status, int reportsig)
+{
+	int	sig;
+
 	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
+	{
+		sig = WTERMSIG(status);
+		if (reportsig)
+			report_signal(sig);
+		return (128 + sig);
+	}
 	else if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (0);
@@ -38,7 +55,7 @@ int	pipeline_wait_status(t_pipeline *pipeline)
 		{
 			if (waitpid(cmd->pid, &status, 0) >= 0)
 			{
-				code = wifsignaled_status(status);
+				code = wifsignaled_status(status, !cmd->next);
 			}
 			else
 				perror("waitpid");
