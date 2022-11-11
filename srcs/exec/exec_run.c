@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 13:10:07 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:13:25 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,20 @@ static int	builtin_dispatch(int id, t_pipeline_cmd *cmd, int *out)
 	int		argc;
 
 	argc = 0;
-	rv = 0;
+	rv = -1;
 	while (cmd->argv[argc])
 		++argc;
-	save_io(&io);
-	setup_redirs(cmd, 0, 1);
-	*out = builtin_dispatch_id(id, argc, cmd->argv, &found);
-	if (!found)
-		rv = -1;
-	restore_io(&io);
+	if (save_io(&io) < 0)
+		return (-1);
+	if (setup_redirs(cmd, 0, 1) >= 0)
+	{
+		rv = 0;
+		*out = builtin_dispatch_id(id, argc, cmd->argv, &found);
+		if (!found)
+			rv = -1;
+	}
+	if (restore_io(&io) < 0)
+		return (-1);
 	return (rv);
 }
 

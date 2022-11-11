@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 10:28:33 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:04:40 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static int	update_pwd(char *path, char *oldpwd)
 	if (!pwd)
 	{
 		rv = 1;
-		printf("cd: error retrieving current directory: getcwd: \
-				cannot access parent directories: %s\n", strerror(errno));
+		printf("cd: error retrieving current directory: getcwd: "
+			"cannot access parent directories: %s\n", strerror(errno));
 		pwd = concat_path(oldpwd, path);
 		if (!pwd)
 			return (1);
