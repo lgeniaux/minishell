@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 18:49:24 by lgeniaux          #+#    #+#             */
-/*   Updated: 2022/11/10 21:55:52 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 02:40:55 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,39 +31,17 @@ int	msh_get_shlvl(t_msh *msh)
 
 int	msh_update_shlvl(t_msh *msh)
 {
-	char	*buf;
-	int		n;
+	char	buf[16];
 	int		lvl;
-	int		rv;
 
-	buf = malloc(32);
-	if (!buf)
-		return (-1);
 	lvl = msh_get_shlvl(msh) + 1;
-	n = ft_strlcpy(buf, "SHLVL=", 32);
-	ft_itoa(lvl, buf + n);
-	rv = ft_set_env(buf);
-	if (rv < 0)
-		free(buf);
-	return (rv);
+	return (ft_set_env_kv("SHLVL", ft_itoa(lvl, buf)));
 }
 
 int	msh_check_path(t_msh *msh)
 {
-	char	*path;
-	int		rv;
-
-	path = ft_getenv(msh->env, "PATH", -1);
-	if (!path)
-	{
-		path = ft_strdup("PATH=/usr/local/bin:/bin:/usr/bin:.");
-		if (!path)
-			return (-1);
-		rv = ft_set_env(path);
-		if (rv < 0)
-			free(path);
-		return (rv);
-	}
+	if (!ft_getenv(msh->env, "PATH", -1))
+		return (ft_set_env_kv("PATH", "/usr/local/bin:/bin:/usr/bin:."));
 	return (0);
 }
 
