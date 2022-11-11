@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 10:57:41 by lgeniaux          #+#    #+#             */
-/*   Updated: 2022/11/11 12:43:25 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 16:17:54 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	wifsignaled_status(int *status)
+int	wifsignaled_status(int status)
 {
 	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
@@ -38,7 +38,7 @@ int	pipeline_wait_status(t_pipeline *pipeline)
 		{
 			if (waitpid(cmd->pid, &status, 0) >= 0)
 			{
-				code = wifsignaled_status(&status);
+				code = wifsignaled_status(status);
 			}
 			else
 				perror("waitpid");
