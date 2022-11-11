@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 18:24:38 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:45:12 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static int	builtin_dispatch(int id, t_pipeline_cmd *cmd, int *out)
 
 	argc = 0;
 	rv = -1;
+	*out = 1;
 	while (cmd->argv[argc])
 		++argc;
 	if (save_io(&io) < 0)
