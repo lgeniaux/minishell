@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 18:13:25 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:24:38 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	run_builtin(t_pipeline_cmd *cmd, int *out)
 			return (-1);
 		cmd->pid = -1;
 		if (builtin_dispatch(id, cmd, out) < 0)
-			return (-1);
+			return (0);
 		return (0);
 	}
 	return (-1);

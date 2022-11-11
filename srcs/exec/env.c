@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 22:42:30 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 10:29:38 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:21:34 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ int	restore_io(t_io *io)
 
 	rv = 0;
 	if (dup2(io->savedin, 0) < 0 || dup2(io->savedout, 1) < 0)
+	{
 		rv = -1;
-	if (rv < 0)
 		perror("could not restore io");
+	}
 	close(io->savedout);
 	close(io->savedin);
 	return (rv);
