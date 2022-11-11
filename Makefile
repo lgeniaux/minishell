@@ -6,7 +6,7 @@
 #    By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 20:31:12 by lgeniaux          #+#    #+#              #
-#    Updated: 2022/11/11 01:02:13 by alavaud          ###   ########lyon.fr    #
+#    Updated: 2022/11/11 02:44:57 by alavaud          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ SRCS = srcs/builtins/export.c srcs/builtins/unset.c srcs/exec/env.c srcs/exec/ex
 	srcs/main.c srcs/debug.c srcs/parsing/heredoc_parse.c srcs/exec/exec_fork.c srcs/builtins/echo.c srcs/builtins/pwd.c srcs/builtins/cd.c srcs/builtins/env.c \
 	srcs/builtins/exit.c srcs/builtins/set_env.c srcs/ft/ft_strjoin.c srcs/exec/sig.c srcs/ft/ft_strncmp.c srcs/ft/ft_strlen.c srcs/ft/ft_strdup.c \
 	srcs/ft/ft_strlcpy.c srcs/ft/ft_strlcat.c srcs/ft/ft_strchr.c srcs/ft/ft_isdigit.c srcs/ft/ft_calloc.c srcs/ft/ft_memset.c srcs/builtins/builtin_export.c \
-	srcs/ft/ft_isnumber.c srcs/ft/ft_strcmp.c srcs/ft/ft_strcat.c srcs/ft/ft_strndup.c srcs/ft/ft_str_append.c srcs/ft/main_utils.c srcs/ft/ft_atoi.c
+	srcs/ft/ft_isnumber.c srcs/ft/ft_strcmp.c srcs/ft/ft_strcat.c srcs/ft/ft_strndup.c srcs/ft/ft_str_append.c srcs/ft/main_utils.c srcs/ft/ft_atoi.c \
+	srcs/shell_init.c
 	
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 NAME = minishell

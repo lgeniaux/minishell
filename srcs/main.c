@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 02:12:50 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 02:45:48 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,6 @@ void	process_line(char *line)
 		heredoc_cleanup(&pgroup);
 	}
 	pgroup_destroy(&pgroup);
-}
-
-int	msh_init(t_msh *msh, char **envp)
-{
-	if (!getcwd(msh->pwd, MAXPATHLEN))
-	{
-		printf("shell-init: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno));
-		return (-1);
-	}
-	msh->env = clone_env(envp);
-	msh->last_code = 0;
-	msh->should_exit = 0;
-	msh->exit_code = 0;
-	if (!msh->env)
-		return (-1);
-	msh_update_shlvl(msh);
-	msh_check_path(msh);
-	ft_set_env_kv("PWD", msh->pwd);
-	ft_set_env("OLDPWD");
-	return (0);
 }
 
 void	show_output(struct termios *t)
