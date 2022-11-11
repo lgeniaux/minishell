@@ -6,45 +6,11 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:05:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 21:43:01 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 03:05:33 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-typedef struct s_io
-{
-	int	savedin;
-	int	savedout;
-}	t_io;
-
-static int	save_io(t_io *io)
-{
-	io->savedin = dup(0);
-	if (io->savedin < 0)
-		return (-1);
-	io->savedout = dup(1);
-	if (io->savedout < 0)
-	{
-		close(io->savedin);
-		return (-1);
-	}
-	return (0);
-}
-
-static int	restore_io(t_io *io)
-{
-	int	rv;
-
-	rv = 0;
-	if (dup2(io->savedin, 0) < 0 || dup2(io->savedout, 1) < 0)
-		rv = -1;
-	if (rv < 0)
-		perror("could not restore io");
-	close(io->savedout);
-	close(io->savedin);
-	return (rv);
-}
 
 static int	builtin_id(const char *arg0)
 {
@@ -86,15 +52,19 @@ static int	builtin_dispatch_id(int id, int argc, char *argv[], int *found)
 	return (-1);
 }
 
-static int	builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd, int *out)
+static int	builtin_dispatch(int id, t_pipeline_cmd *cmd, int *out)
 {
 	t_io	io;
 	int		rv;
 	int		found;
+	int		argc;
 
+	argc = 0;
+	while (cmd->argv[argc])
+		++argc;
 	save_io(&io);
 	setup_redirs(cmd, 0, 1);
-	*out = builtin_dispatch_id(id, argc, argv, &found);
+	*out = builtin_dispatch_id(id, argc, cmd->argv, &found);
 	if (!found)
 		rv = -1;
 	restore_io(&io);
@@ -103,7 +73,6 @@ static int	builtin_dispatch(int id, int argc, char *argv[], t_pipeline_cmd *cmd,
 
 int	run_builtin(t_pipeline_cmd *cmd, int *out)
 {
-	int	argc;
 	int	id;
 
 	if (cmd->argv && cmd->argv[0])
@@ -111,11 +80,8 @@ int	run_builtin(t_pipeline_cmd *cmd, int *out)
 		id = builtin_id(cmd->argv[0]);
 		if (id < 0)
 			return (-1);
-		argc = 0;
-		while (cmd->argv[argc])
-			++argc;
 		cmd->pid = -1;
-		if (builtin_dispatch(id, argc, cmd->argv, cmd, out) < 0)
+		if (builtin_dispatch(id, cmd, out) < 0)
 			return (-1);
 		return (0);
 	}

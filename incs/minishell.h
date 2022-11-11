@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 02:52:58 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 03:05:39 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ typedef struct s_msh
 	int		should_exit;
 	int		exit_code;
 }	t_msh;
+
+typedef struct s_io
+{
+	int	savedin;
+	int	savedout;
+}	t_io;
 
 /* = PARSING = */
 typedef struct s_output_redir
@@ -329,5 +335,8 @@ void		set_pwd(char *oldpwd);
  * @return int same as tcsetattr
  */
 int	set_tty_mode(struct termios *tm, int mode);
+
+int	save_io(t_io *io);
+int	restore_io(t_io *io);
 
 #endif

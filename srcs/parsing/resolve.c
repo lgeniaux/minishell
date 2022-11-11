@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:59:46 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 02:57:19 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 03:13:07 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int	varlen(const char *line)
 	i = 1;
 	while (line[i])
 	{
-		if (i > 1 && line[1] == '?')
+		if (i > 1 && (line[1] == '?' || ft_isdigit(line[1])))
 			break ;
 		if (!ft_isalpha(line[i]) && line[i] != '_'
-			&& (i > 1 && !ft_isdigit(line[i])))
+			&& !ft_isdigit(line[i]))
 			break ;
 		++i;
 	}
