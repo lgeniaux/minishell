@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 15:35:08 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 15:46:40 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:12:31 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ static int	parse_chevron_left_token(char **head, t_token *tok)
 
 int	next_token(char **head, t_token *tok)
 {
-	char	*p;
-	char	*buf;
 	int		len;
 
 	*head = skip_spaces(*head);

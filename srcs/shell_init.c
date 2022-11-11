@@ -65,3 +65,4 @@ int	msh_check_path(t_msh *msh)
 		return (ft_set_env_kv("PATH", "/usr/local/bin:/bin:/usr/bin:."));
 	return (0);
 }
+

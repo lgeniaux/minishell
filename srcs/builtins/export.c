@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:43:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 02:07:29 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 13:06:38 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	**ft_append_env(char **env, char *var)
 static int	compare_keys(const char *a, const char *b)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	while (a[i] && b[i])

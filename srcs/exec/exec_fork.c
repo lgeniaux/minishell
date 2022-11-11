@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 10:29:12 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:09:35 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	exec_cmd(t_pipeline_cmd *cmd)
 	struct stat	st;
 	int			code;
 
+	ft_memset(&st, 0, sizeof(st));
 	if (!cmd->argv || !cmd->argv[0])
 		exit(0);
 	if (run_builtin(cmd, &code) >= 0)

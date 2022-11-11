@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pgroup.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 19:28:33 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 15:02:45 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 13:12:03 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	pgroup_destroy(t_piped_command_group *pgroup)
 {
 	t_command	*cmd;
 	t_command	*tmp;
-	int			i;
 
 	if (pgroup)
 	{
@@ -53,7 +52,6 @@ void	pgroup_destroy(t_piped_command_group *pgroup)
 int	pgroup_parse_command(t_piped_command_group *pgroup, char **head)
 {
 	t_command	*cmd;
-	t_token		tok;
 
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)

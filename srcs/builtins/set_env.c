@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:26:19 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 10:28:40 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:07:01 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	ft_set_env_utils(const char *var, int pos, int i)
 	char	**copy;
 	char	*tmp;
 
+	copy = NULL;
 	tmp = ft_strdup(var);
 	if (!tmp)
 		return (-1);

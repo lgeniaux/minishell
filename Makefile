@@ -1,42 +1,79 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/11/10 20:31:12 by lgeniaux          #+#    #+#              #
-#    Updated: 2022/11/11 10:58:24 by lgeniaux         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME        := minishell
+CC        := gcc
+FLAGS    := -Wall -Wextra -Werror -I~/.brew/opt/readline/include -L ~/.brew/opt/readline/lib -lreadline -I incs
+READLINE_F  := 
 
-SRCS = srcs/builtins/export.c srcs/builtins/unset.c srcs/exec/env.c srcs/exec/exec_prepare.c srcs/exec/exec_run.c srcs/exec/fork.c \
-	srcs/exec/path.c srcs/ft/ft_ctype.c srcs/ft/ft_itoa.c srcs/ft/ft_split.c srcs/ft/ft_strchr.c srcs/parsing/command.c srcs/parsing/heredoc.c \
-	srcs/parsing/pgroup.c srcs/parsing/pgroup_resolve.c srcs/parsing/redir.c srcs/parsing/resolve.c srcs/parsing/tokenize.c srcs/parsing/parsing_utils.c \
-	srcs/main.c srcs/debug.c srcs/parsing/heredoc_parse.c srcs/exec/exec_fork.c srcs/builtins/echo.c srcs/builtins/pwd.c srcs/builtins/cd.c srcs/builtins/env.c \
-	srcs/builtins/exit.c srcs/builtins/set_env.c srcs/ft/ft_strjoin.c srcs/exec/sig.c srcs/ft/ft_strncmp.c srcs/ft/ft_strlen.c srcs/ft/ft_strdup.c \
-	srcs/ft/ft_strlcpy.c srcs/ft/ft_strlcat.c srcs/ft/ft_strchr.c srcs/ft/ft_isdigit.c srcs/ft/ft_calloc.c srcs/ft/ft_memset.c srcs/builtins/builtin_export.c \
-	srcs/ft/ft_isnumber.c srcs/ft/ft_strcmp.c srcs/ft/ft_strcat.c srcs/ft/ft_strndup.c srcs/ft/ft_str_append.c srcs/ft/main_utils.c srcs/ft/ft_atoi.c \
-	srcs/shell_init.c srcs/exec/exec_functions.c 
-	
-OBJS = $(patsubst %.c, %.o, $(SRCS))
-NAME = minishell
-CFLAGS += -I incs -g
+SRCS        :=      srcs/builtins/builtin_export.c \
+                          srcs/builtins/cd.c \
+                          srcs/builtins/echo.c \
+                          srcs/builtins/env.c \
+                          srcs/builtins/exit.c \
+                          srcs/builtins/export.c \
+                          srcs/builtins/pwd.c \
+                          srcs/builtins/set_env.c \
+                          srcs/builtins/unset.c \
+                          srcs/debug.c \
+                          srcs/exec/env.c \
+                          srcs/exec/exec_fork.c \
+                          srcs/exec/exec_functions.c \
+                          srcs/exec/exec_prepare.c \
+                          srcs/exec/exec_run.c \
+                          srcs/exec/fork.c \
+                          srcs/exec/path.c \
+                          srcs/ft/ft_atoi.c \
+                          srcs/ft/ft_calloc.c \
+                          srcs/ft/ft_ctype.c \
+                          srcs/ft/ft_isdigit.c \
+                          srcs/ft/ft_isnumber.c \
+                          srcs/ft/ft_itoa.c \
+                          srcs/ft/ft_memset.c \
+                          srcs/ft/ft_split.c \
+                          srcs/ft/ft_str_append.c \
+                          srcs/ft/ft_strcat.c \
+                          srcs/ft/ft_strchr.c \
+                          srcs/ft/ft_strcmp.c \
+                          srcs/ft/ft_strdup.c \
+                          srcs/ft/ft_strjoin.c \
+                          srcs/ft/ft_strlcat.c \
+                          srcs/ft/ft_strlcpy.c \
+                          srcs/ft/ft_strlen.c \
+                          srcs/ft/ft_strncmp.c \
+                          srcs/ft/ft_strndup.c \
+                          srcs/ft/main_utils.c \
+                          srcs/parsing/command.c \
+                          srcs/parsing/heredoc.c \
+                          srcs/parsing/parsing_utils.c \
+                          srcs/parsing/pgroup.c \
+                          srcs/parsing/pgroup_resolve.c \
+                          srcs/parsing/redir.c \
+                          srcs/parsing/resolve.c \
+                          srcs/parsing/tokenize.c \
+                          srcs/shell_init.c \
+						  srcs/main.c \
+						  srcs/parsing/heredoc_parse.c \
+						  srcs/exec/sig.c \
 
-all: $(NAME)
+                          
+OBJS        := $(SRCS:.c=.o)
 
-$(NAME): $(OBJS)
-	$(CC) -o $(NAME) $^ -I ~/.brew/opt/readline/include -L ~/.brew/opt/readline/lib -lreadline -lreadline
+.c.o:
+	${CC} ${FLAGS} -c $< -o ${<:.c=.o}
 
-%.o: %.c incs/minishell.h
-	$(CC) -c -o $@ $< $(CFLAGS)
+${NAME}:	${OBJS}
+			${CC} ${FLAGS} -o ${NAME} ${OBJS}
+
+all:		${NAME}
+
+bonus:		all
 
 clean:
-	rm -rf $(OBJS)
+			@ ${RM} $(OBJS)
 
-fclean:
-	rm -rf $(OBJS) minishell
+fclean:		clean
+			@ ${RM} ${NAME}
 
-re: fclean all
+re:			fclean all
 
-.PHONY: all fclean re
+.PHONY:		all clean fclean re
+
+

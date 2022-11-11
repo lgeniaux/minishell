@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 23:36:02 by alavaud           #+#    #+#             */
-/*   Updated: 2022/10/31 18:23:51 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 13:12:11 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	parse_redir(t_command *cmd, int type, char **head)
 {
 	t_token	tok;
 	char	*ptr;
-	int		n;
 
 	ptr = *head;
 	if (token_expect(&ptr, &tok, TOKEN_TEXT) < 0)

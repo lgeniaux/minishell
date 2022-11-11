@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 10:27:54 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:11:20 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	main(int argc, char *argv[], char *envp[])
 	char			*line;
 	struct termios	tm;
 
+	(void)argc;
+	(void)argv;
 	if (msh_init(&g_minishell, envp) < 0)
 		return (1);
 	tcgetattr(0, &tm);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 15:59:39 by lgeniaux          #+#    #+#             */
-/*   Updated: 2022/11/11 02:22:13 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 13:05:33 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static void	dump_vars(char **env)
 int	builtin_export(int argc, char *argv[])
 {
 	int		i;
-	char	*s;
 	int		rv;
 
 	i = 1;
