@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:26:19 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 02:32:59 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 10:28:40 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	set_copy(char **copy, char *tmp)
+{	
+	copy = ft_append_env(g_minishell.env, tmp);
+	if (!copy)
+	{
+		free(tmp);
+		return (0);
+	}
+	free(g_minishell.env);
+	g_minishell.env = copy;
+	return (1);
+}
 
 static int	ft_set_env_utils(const char *var, int pos, int i)
 {
@@ -32,14 +45,8 @@ static int	ft_set_env_utils(const char *var, int pos, int i)
 	}
 	else
 	{
-		copy = ft_append_env(g_minishell.env, tmp);
-		if (!copy)
-		{
-			free(tmp);
+		if (!set_copy(copy, tmp))
 			return (0);
-		}
-		free(g_minishell.env);
-		g_minishell.env = copy;
 	}
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 02:51:12 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 10:27:54 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		free(line);
 	}
-	// if (!line)
-		// printf("\033[1A\rGLaDOS> exit\n");
 	clear_history();
 	env_free(g_minishell.env);
 	return (g_minishell.exit_code);

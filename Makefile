@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 20:31:12 by lgeniaux          #+#    #+#              #
-#    Updated: 2022/11/11 03:00:34 by alavaud          ###   ########lyon.fr    #
+#    Updated: 2022/11/11 10:19:53 by lgeniaux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCS = srcs/builtins/export.c srcs/builtins/unset.c srcs/exec/env.c srcs/exec/ex
 	srcs/builtins/exit.c srcs/builtins/set_env.c srcs/ft/ft_strjoin.c srcs/exec/sig.c srcs/ft/ft_strncmp.c srcs/ft/ft_strlen.c srcs/ft/ft_strdup.c \
 	srcs/ft/ft_strlcpy.c srcs/ft/ft_strlcat.c srcs/ft/ft_strchr.c srcs/ft/ft_isdigit.c srcs/ft/ft_calloc.c srcs/ft/ft_memset.c srcs/builtins/builtin_export.c \
 	srcs/ft/ft_isnumber.c srcs/ft/ft_strcmp.c srcs/ft/ft_strcat.c srcs/ft/ft_strndup.c srcs/ft/ft_str_append.c srcs/ft/main_utils.c srcs/ft/ft_atoi.c \
-	srcs/shell_init.c srcs/exec/io.c
+	srcs/shell_init.c 
 	
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 NAME = minishell
@@ -26,7 +26,7 @@ CFLAGS += -I incs -g
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -o $(NAME) $^ -I /usr/local/Cellar/readline/8.2.1/include/ -L /usr/local/Cellar/readline/8.2.1/lib -lreadline
+	$(CC) -o $(NAME) $^ -I ~/.brew/opt/readline/include -L ~/.brew/opt/readline/lib -lreadline -lreadline
 
 %.o: %.c incs/minishell.h
 	$(CC) -c -o $@ $< $(CFLAGS)

@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 22:42:30 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 16:46:37 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 10:29:38 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	save_io(t_io *io)
+{
+	io->savedin = dup(0);
+	if (io->savedin < 0)
+		return (-1);
+	io->savedout = dup(1);
+	if (io->savedout < 0)
+	{
+		close(io->savedin);
+		return (-1);
+	}
+	return (0);
+}
+
+int	restore_io(t_io *io)
+{
+	int	rv;
+
+	rv = 0;
+	if (dup2(io->savedin, 0) < 0 || dup2(io->savedout, 1) < 0)
+		rv = -1;
+	if (rv < 0)
+		perror("could not restore io");
+	close(io->savedout);
+	close(io->savedin);
+	return (rv);
+}
 
 void	env_free(char **env)
 {

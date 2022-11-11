@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 02:44:22 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 02:45:52 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 10:28:49 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	msh_init(t_msh *msh, char **envp)
 {
 	if (!getcwd(msh->pwd, MAXPATHLEN))
 	{
-		printf("shell-init: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno));
+		printf("shell-init: error retrieving current directory: getcwd: \
+			cannot access parent directories: %s\n", strerror(errno));
 		return (-1);
 	}
 	msh->env = clone_env(envp);

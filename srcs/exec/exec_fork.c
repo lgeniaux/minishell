@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 21:46:34 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 10:29:12 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	exec_cmd_error(t_pipeline_cmd *cmd, struct stat st)
 static void	exec_cmd(t_pipeline_cmd *cmd)
 {
 	struct stat	st;
-	int	code;
+	int			code;
 
 	if (!cmd->argv || !cmd->argv[0])
 		exit(0);

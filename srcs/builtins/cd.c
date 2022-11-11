@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 02:28:09 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 10:28:33 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*concat_path(const char *a, const char *b)
 	return (out);
 }
 
-static int update_pwd(char *path, char *oldpwd)
+static int	update_pwd(char *path, char *oldpwd)
 {
 	char	*pwd;
 	int		rv;
@@ -37,7 +37,8 @@ static int update_pwd(char *path, char *oldpwd)
 	if (!pwd)
 	{
 		rv = 1;
-		printf("cd: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno));
+		printf("cd: error retrieving current directory: getcwd: \
+				cannot access parent directories: %s\n", strerror(errno));
 		pwd = concat_path(oldpwd, path);
 		if (!pwd)
 			return (1);

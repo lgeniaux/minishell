@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 03:05:39 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 10:05:06 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,9 +334,9 @@ void		set_pwd(char *oldpwd);
  * @param mode Either (TTY_INTERACTIVE or TTY_EXEC)
  * @return int same as tcsetattr
  */
-int	set_tty_mode(struct termios *tm, int mode);
+int			set_tty_mode(struct termios *tm, int mode);
 
-int	save_io(t_io *io);
-int	restore_io(t_io *io);
+int			save_io(t_io *io);
+int			restore_io(t_io *io);
 
 #endif
