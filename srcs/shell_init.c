@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 02:44:22 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 10:28:49 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:22:33 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,3 @@ int	msh_check_path(t_msh *msh)
 		return (ft_set_env_kv("PATH", "/usr/local/bin:/bin:/usr/bin:."));
 	return (0);
 }
-
