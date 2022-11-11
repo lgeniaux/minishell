@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 10:05:06 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 11:00:22 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,7 +326,6 @@ void		msh_exit(int code);
 int			msh_update_shlvl(t_msh *msh);
 int			msh_check_path(t_msh *msh);
 void		set_pwd(char *oldpwd);
-
 /**
  * @brief Set the tty mode according to `mode'
  * 
