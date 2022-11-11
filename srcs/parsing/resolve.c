@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resolve.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:59:46 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 21:40:05 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 02:57:19 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*append_var(char **resolved, char *cmdline, char **env)
 int	get_str_mode(char *cmdline, int *strmode)
 {
 	if (*cmdline == '"' && *strmode != 1)
-				*strmode = 2 - *strmode;
+		*strmode = 2 - *strmode;
 	else if (*cmdline == '\'' && *strmode != 2)
 		*strmode = 1 - *strmode;
 	else
@@ -77,7 +77,6 @@ char	*resolve_vars(char *cmdline, char **env)
 			cmdline = append_var(&resolved, cmdline, env);
 		else
 		{
-			i = 0;
 			i = get_str_mode(cmdline, &strmode);
 			resolved = str_append(resolved, cmdline++, i);
 			if (!resolved)
