@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:26:09 by lgeniaux          #+#    #+#             */
-/*   Updated: 2022/11/10 20:40:52 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 02:51:07 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,19 @@ void	signals_exec(void)
 {
 	signal(SIGINT, sigint_handler_redisplay);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+int	set_tty_mode(struct termios *tm, int mode)
+{
+	if (TTY_EXEC == mode)
+	{
+		tm->c_lflag |= ECHOCTL;
+		signals_exec();
+	}
+	else if (TTY_INTERACTIVE == mode)
+	{
+		tm->c_lflag &= ~ECHOCTL;
+		signals();
+	}
+	return (tcsetattr(0, TCSAFLUSH, tm));
 }

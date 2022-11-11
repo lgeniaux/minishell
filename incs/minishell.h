@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 02:46:07 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 02:52:58 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 /* Bonus */
 # define TOKEN_AND	 		7
 # define TOKEN_OR	 		8
+
+# define TTY_EXEC			1
+# define TTY_INTERACTIVE	2
 
 typedef struct s_token
 {
@@ -317,5 +320,14 @@ void		msh_exit(int code);
 int			msh_update_shlvl(t_msh *msh);
 int			msh_check_path(t_msh *msh);
 void		set_pwd(char *oldpwd);
+
+/**
+ * @brief Set the tty mode according to `mode'
+ * 
+ * @param tm The base termios structure
+ * @param mode Either (TTY_INTERACTIVE or TTY_EXEC)
+ * @return int same as tcsetattr
+ */
+int	set_tty_mode(struct termios *tm, int mode);
 
 #endif

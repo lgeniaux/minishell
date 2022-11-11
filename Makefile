@@ -6,7 +6,7 @@
 #    By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 20:31:12 by lgeniaux          #+#    #+#              #
-#    Updated: 2022/11/11 02:44:57 by alavaud          ###   ########lyon.fr    #
+#    Updated: 2022/11/11 02:46:44 by alavaud          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ NAME = minishell
 CFLAGS += -I incs -g
 
 all: $(NAME)
-
 
 $(NAME): $(OBJS)
 	$(CC) -o $(NAME) $^ -I /usr/local/Cellar/readline/8.2.1/include/ -L /usr/local/Cellar/readline/8.2.1/lib -lreadline

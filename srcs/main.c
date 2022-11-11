@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 02:45:48 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 02:51:12 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,32 +61,23 @@ void	process_line(char *line)
 	pgroup_destroy(&pgroup);
 }
 
-void	show_output(struct termios *t)
-{
-	t->c_lflag |= ECHOCTL;
-	tcsetattr(0, TCSANOW, t);
-}
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	char			*line;
-	struct termios	t;
+	struct termios	tm;
 
 	if (msh_init(&g_minishell, envp) < 0)
 		return (1);
-	tcgetattr(0, &t);
+	tcgetattr(0, &tm);
 	while (!g_minishell.should_exit)
 	{
-		signals();
-		t.c_lflag &= ~ECHOCTL;
-		tcsetattr(0, TCSANOW, &t);
+		set_tty_mode(&tm, TTY_INTERACTIVE);
 		line = readline("GLaDOS> ");
 		if (!line)
 			break ;
 		if (*line)
 		{
-			signals_exec();
-			show_output(&t);
+			set_tty_mode(&tm, TTY_EXEC);
 			add_history(line);
 			process_line(line);
 		}
