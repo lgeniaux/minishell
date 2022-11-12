@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 15:30:11 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:22:28 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 15:42:23 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	resolve_in_redirs(t_command *cmd)
 	in = cmd->in_redirs;
 	while (in)
 	{
+		in->interpret_vars = !is_quoted(in->path_or_delim);
 		if (!in->is_heredoc)
 		{
 			tmp = resolve_vars(in->path_or_delim, g_minishell.env);
@@ -64,7 +65,6 @@ static int	resolve_in_redirs(t_command *cmd)
 		}
 		else
 			dequote_inplace(in->path_or_delim);
-		in->interpret_vars = !is_quoted(in->path_or_delim);
 		in = in->next;
 	}
 	return (0);
