@@ -6,7 +6,7 @@
 #    By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 20:31:12 by lgeniaux          #+#    #+#              #
-#    Updated: 2022/11/12 16:37:06 by lgeniaux         ###   ########.fr        #
+#    Updated: 2022/11/12 16:50:55 by lgeniaux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ SRCS        :=	srcs/builtins/builtin_export.c \
 				srcs/builtins/pwd.c \
 				srcs/builtins/set_env.c \
 				srcs/builtins/unset.c \
-				srcs/debug.c \
 				srcs/exec/env.c \
 				srcs/exec/exec_fork.c \
 				srcs/exec/exec_functions.c \
