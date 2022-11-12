@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 16:35:43 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 16:43:38 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,20 +97,6 @@ char	*msh_loop(int tty)
 		process_line(line);
 	}
 	return (line);
-}
-
-static int	outc(int ch)
-{
-	return (write(1, &ch, 1));
-}
-
-void	display_exit(void)
-{
-	char	*str;
-
-	str = tgetstr("UP", NULL);
-	tputs(tgoto(str, 1, 0), 0, outc);
-	printf("\rGLaDOS> exit\n");
 }
 
 int	main(int argc, char *argv[], char *envp[])

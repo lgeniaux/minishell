@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 16:23:48 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 16:44:04 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,12 @@ typedef struct s_pipeline
 
 typedef struct s_msh
 {
-	char	pwd[MAXPATHLEN];
-	char	**env;
-	int		last_code;
-	char	status_buf[16];
-	int		should_exit;
-	int		exit_code;
+	char		pwd[MAXPATHLEN];
+	char		**env;
+	int			last_code;
+	char		status_buf[16];
+	int			should_exit;
+	int			exit_code;
 	t_pipeline	*pipeline;
 }	t_msh;
 
@@ -303,7 +303,7 @@ void		dump_pgroup(t_piped_command_group *pgroup);
 
 /* builtins */
 int			is_valid_ident(const char *v);
-void	print_error(const char *msg, const char *msg2, int errnum);
+void		print_error(const char *msg, const char *msg2, int errnum);
 void		ft_putstr_fd(const char *s, int fd);
 
 int			builtin_export(int argc, char *argv[]);
@@ -334,6 +334,8 @@ void		msh_exit(int code);
 int			msh_update_shlvl(t_msh *msh);
 int			msh_check_path(t_msh *msh);
 void		set_pwd(char *oldpwd);
+void		display_exit(void);
+
 /**
  * @brief Set the tty mode according to `mode'
  * 

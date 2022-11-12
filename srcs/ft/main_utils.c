@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 18:49:24 by lgeniaux          #+#    #+#             */
-/*   Updated: 2022/11/11 02:44:35 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 16:43:44 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	outc(int ch)
+{
+	return (write(1, &ch, 1));
+}
+
+void	display_exit(void)
+{
+	char	*str;
+
+	str = tgetstr("UP", NULL);
+	tputs(tgoto(str, 1, 0), 0, outc);
+	printf("\rGLaDOS> exit\n");
+}
 
 void	msh_exit(int code)
 {
