@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:49:47 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 13:53:10 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static int	update_pwd(char *path, char *oldpwd)
 			return (1);
 	}
 	ft_set_env_kv("PWD", pwd);
-	ft_set_env_kv("OLDPWD", oldpwd);
 	ft_strlcpy(g_minishell.pwd, pwd, MAXPATHLEN);
 	free(pwd);
 	return (rv);
@@ -69,11 +68,15 @@ int	builtin_cd(int argc, char *argv[])
 		path = argv[1];
 	}
 	oldpwd = g_minishell.pwd;
-	if (chdir(path) < 0)
+	ft_set_env_kv("OLDPWD", oldpwd);
+	if (*path)
 	{
-		printf("minishell: cd: %s: %s\n", path, strerror(errno));
-		return (1);
+		if (chdir(path) < 0)
+		{
+			printf("minishell: cd: %s: %s\n", path, strerror(errno));
+			return (1);
+		}
+		update_pwd(path, oldpwd);
 	}
-	update_pwd(path, oldpwd);
 	return (0);
 }
