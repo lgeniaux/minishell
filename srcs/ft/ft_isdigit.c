@@ -1,33 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 19:06:37 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 19:19:40 by lgeniaux         ###   ########.fr       */
+/*   Created: 2022/01/27 14:43:40 by lgeniaux          #+#    #+#             */
+/*   Updated: 2022/11/10 14:25:16 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(int argc, char *argv[])
+int	ft_isdigit(int c)
 {
-	int	i;
-	int	j;
-
-	(void)argc;
-	(void)argv;
-	i = 0;
-	while (g_minishell.env[i])
-	{
-		j = 0;
-		while (g_minishell.env[i][j] && g_minishell.env[i][j] != '=')
-			++j;
-		if (g_minishell.env[i][j] == '=' && g_minishell.env[i][j + 1])
-			printf("%s\n", g_minishell.env[i]);
-		++i;
-	}
-	return (0);
+	if (c > 47 && c < 58)
+		return (1);
+	else
+		return (0);
 }

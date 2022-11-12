@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 16:30:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/08 14:25:20 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 13:10:32 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	*find_path(const char *cmd)
 	char	*path;
 	char	**pathlist;
 	char	*bin;
-	int		i;
 
 	if (!cmd[0])
 		return (NULL);

@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 19:06:37 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 19:19:40 by lgeniaux         ###   ########.fr       */
+/*   Created: 2021/11/02 13:37:39 by lgeniaux          #+#    #+#             */
+/*   Updated: 2022/11/10 14:25:22 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(int argc, char *argv[])
+void	*ft_memset(void *b, int c, size_t len)
 {
-	int	i;
-	int	j;
+	char	*ptr;
+	size_t	i;
 
-	(void)argc;
-	(void)argv;
 	i = 0;
-	while (g_minishell.env[i])
+	ptr = b;
+	while (i < len)
 	{
-		j = 0;
-		while (g_minishell.env[i][j] && g_minishell.env[i][j] != '=')
-			++j;
-		if (g_minishell.env[i][j] == '=' && g_minishell.env[i][j + 1])
-			printf("%s\n", g_minishell.env[i]);
-		++i;
+		ptr[i] = c;
+		i++;
 	}
-	return (0);
+	return (b);
 }

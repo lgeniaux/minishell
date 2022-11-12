@@ -1,3 +1,10 @@
 .objs
 minishell
 .vscode
+*.o
+.gitignore
+TODO.txt
+test/
+print_env.c
+print_env
+playground/

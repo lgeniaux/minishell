@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 15:35:08 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/04 13:56:34 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:12:31 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	get_text_token(char *p, int *len)
 	}
 	if (strmode)
 	{
-		printf("minishell: unexpected EOF while looking for matching `%c'\n", "'\""[strmode - 1]);
+		printf("minishell: unexpected EOF while looking for matching `%c'\n",
+			"'\""[strmode - 1]);
 		return (-1);
 	}
 	if (len)
@@ -104,8 +105,6 @@ static int	parse_chevron_left_token(char **head, t_token *tok)
 
 int	next_token(char **head, t_token *tok)
 {
-	char	*p;
-	char	*buf;
 	int		len;
 
 	*head = skip_spaces(*head);

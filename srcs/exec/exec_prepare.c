@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 22:47:57 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/08 14:25:41 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 17:23:28 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ t_pipeline	*pipeline_create(t_piped_command_group *pgroup)
 	{
 		pipeline->pgroup = pgroup;
 	}
+	pipeline->env = create_clean_env(g_minishell.env);
+	if (!pipeline->env)
+	{
+		free(pipeline);
+		return (NULL);
+	}
 	return (pipeline);
 }
 
@@ -63,6 +69,7 @@ void	pipeline_dispose(t_pipeline *pipeline)
 
 	if (pipeline)
 	{
+		free(pipeline->env);
 		cmd = pipeline->cmds;
 		while (cmd)
 		{
@@ -92,6 +99,7 @@ int	pipeline_prepare(t_pipeline *pipeline)
 			free(pcmd);
 			return (-1);
 		}
+		pcmd->pipeline = pipeline;
 		pcmd->next = NULL;
 		if (last)
 			last->next = pcmd;

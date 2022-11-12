@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 19:06:37 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 19:19:40 by lgeniaux         ###   ########.fr       */
+/*   Created: 2022/01/27 14:40:51 by lgeniaux          #+#    #+#             */
+/*   Updated: 2022/11/10 14:25:14 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(int argc, char *argv[])
+void	*ft_calloc(size_t count, size_t size)
 {
-	int	i;
-	int	j;
+	char	*str;
 
-	(void)argc;
-	(void)argv;
-	i = 0;
-	while (g_minishell.env[i])
-	{
-		j = 0;
-		while (g_minishell.env[i][j] && g_minishell.env[i][j] != '=')
-			++j;
-		if (g_minishell.env[i][j] == '=' && g_minishell.env[i][j + 1])
-			printf("%s\n", g_minishell.env[i]);
-		++i;
-	}
-	return (0);
+	str = malloc(size * count);
+	if (!str)
+		return (NULL);
+	ft_memset(str, 0, (size * count));
+	return (str);
 }

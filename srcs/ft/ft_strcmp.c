@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 19:06:37 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 19:19:40 by lgeniaux         ###   ########.fr       */
+/*   Created: 2022/11/10 18:00:09 by lgeniaux          #+#    #+#             */
+/*   Updated: 2022/11/10 18:05:05 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(int argc, char *argv[])
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	int	i;
-	int	j;
 
-	(void)argc;
-	(void)argv;
 	i = 0;
-	while (g_minishell.env[i])
-	{
-		j = 0;
-		while (g_minishell.env[i][j] && g_minishell.env[i][j] != '=')
-			++j;
-		if (g_minishell.env[i][j] == '=' && g_minishell.env[i][j + 1])
-			printf("%s\n", g_minishell.env[i]);
-		++i;
-	}
-	return (0);
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
 }

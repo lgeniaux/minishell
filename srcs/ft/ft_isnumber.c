@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_isnumber.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 19:06:37 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 19:19:40 by lgeniaux         ###   ########.fr       */
+/*   Created: 2022/11/10 17:58:46 by lgeniaux          #+#    #+#             */
+/*   Updated: 2022/11/10 17:58:57 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(int argc, char *argv[])
+int	ft_isnumber(char *str)
 {
-	int	i;
-	int	j;
+	int		i;
 
-	(void)argc;
-	(void)argv;
 	i = 0;
-	while (g_minishell.env[i])
+	while (str[i] != '\0' && str[i] == ' ')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
 	{
-		j = 0;
-		while (g_minishell.env[i][j] && g_minishell.env[i][j] != '=')
-			++j;
-		if (g_minishell.env[i][j] == '=' && g_minishell.env[i][j + 1])
-			printf("%s\n", g_minishell.env[i]);
-		++i;
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
 	}
-	return (0);
+	return (1);
 }

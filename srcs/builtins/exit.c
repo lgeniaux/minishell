@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:12:20 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/07 15:46:55 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 16:39:09 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ static int	atoi_safe(const char *s, int *value)
 		while (ft_isdigit(*s))
 		{
 			n = 10 * n + (*s++ - '0');
-			if ((sign && n > 2147483648)
-				|| (!sign && n > 2147483647))
-			{
-				return (-1);
-			}
 		}
 		if (sign)
 			*value = -n;
@@ -48,17 +43,20 @@ int	builtin_exit(int argc, char *argv[])
 	int	code;
 
 	code = 0;
-	if (argc > 2)
-	{
-		printf("minishell: exit: too many arguments\n");
-		return (1);
-	}
-	else if (argc > 1)
+	if (isatty(0) && isatty(1))
+		ft_putstr_fd("exit\n", 2);
+	if (argc > 1)
 	{
 		if (atoi_safe(argv[1], &code) < 0)
 		{
-			printf("minishell: exit: numeric argument required\n");
 			code = -1;
+			print_error("exit", "numeric argument required", 0);
+		}
+		else if (argc > 2)
+		{
+			print_error("exit", "too many arguments", 0);
+			g_minishell.exit_code = 1;
+			return (1);
 		}
 	}
 	msh_exit(code);

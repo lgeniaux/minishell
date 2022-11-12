@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_str_append.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 19:06:37 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 19:19:40 by lgeniaux         ###   ########.fr       */
+/*   Created: 2022/11/10 18:47:32 by lgeniaux          #+#    #+#             */
+/*   Updated: 2022/11/10 18:47:55 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(int argc, char *argv[])
+char	*str_append(char *base, const char *s, int len)
 {
-	int	i;
-	int	j;
+	int		size;
+	char	*buf;
 
-	(void)argc;
-	(void)argv;
-	i = 0;
-	while (g_minishell.env[i])
+	size = len + 1;
+	if (base)
+		size += ft_strlen(base);
+	buf = malloc(size);
+	if (buf)
 	{
-		j = 0;
-		while (g_minishell.env[i][j] && g_minishell.env[i][j] != '=')
-			++j;
-		if (g_minishell.env[i][j] == '=' && g_minishell.env[i][j + 1])
-			printf("%s\n", g_minishell.env[i]);
-		++i;
+		*buf = '\0';
+		if (base)
+			ft_strlcat(buf, base, size);
+		ft_strlcat(buf, s, size);
 	}
-	return (0);
+	free(base);
+	return (buf);
 }

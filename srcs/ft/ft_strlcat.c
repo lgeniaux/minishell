@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 19:06:37 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 19:19:40 by lgeniaux         ###   ########.fr       */
+/*   Created: 2021/11/05 15:25:20 by lgeniaux          #+#    #+#             */
+/*   Updated: 2022/11/10 16:11:46 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(int argc, char *argv[])
+size_t	ft_strlcat(char *s1, const char *s2, size_t n)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
 
-	(void)argc;
-	(void)argv;
 	i = 0;
-	while (g_minishell.env[i])
+	if (n == 0)
+		return (ft_strlen(s2));
+	while (s1[i] && (i < n))
+		i++;
+	j = i;
+	while (s2[i - j] && (i < n - 1))
 	{
-		j = 0;
-		while (g_minishell.env[i][j] && g_minishell.env[i][j] != '=')
-			++j;
-		if (g_minishell.env[i][j] == '=' && g_minishell.env[i][j + 1])
-			printf("%s\n", g_minishell.env[i]);
-		++i;
+		s1[i] = s2[i - j];
+		i++;
 	}
-	return (0);
+	if (j < n)
+		s1[i] = '\0';
+	return (j + ft_strlen(s2));
 }

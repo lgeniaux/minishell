@@ -6,14 +6,28 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 22:02:04 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 17:08:42 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "termios.h"
 
 t_msh	g_minishell;
+
+void	pipeline_propagate_signal(t_pipeline *pipeline, int sig)
+{
+	t_pipeline_cmd	*cmd;
+
+	cmd = pipeline->cmds;
+	while (cmd)
+	{
+		if (cmd->pid > 0)
+		{
+			kill(cmd->pid, sig);
+		}
+		cmd = cmd->next;
+	}
+}
 
 int	exec_pipeline(t_piped_command_group *pgroup)
 {
@@ -27,7 +41,7 @@ int	exec_pipeline(t_piped_command_group *pgroup)
 	ret = -1;
 	if (pipeline_prepare(pipeline) >= 0)
 	{
-		/* TODO */
+		g_minishell.pipeline = pipeline;
 		if (pipeline_exec(pipeline) >= 0)
 		{
 			code = pipeline_wait_status(pipeline);
@@ -35,173 +49,71 @@ int	exec_pipeline(t_piped_command_group *pgroup)
 			ret = 0;
 		}
 	}
+	g_minishell.pipeline = NULL;
 	pipeline_dispose(pipeline);
 	return (ret);
 }
 
-void	process_line(char *line)
+int	process_line(char *line)
 {
 	t_piped_command_group	pgroup;
-	int						n;
+	int						rv;
 
 	ft_memset(&pgroup, 0, sizeof(pgroup));
-	n = pgroup_parse(&pgroup, line);
-	if (n == 1)
+	rv = -1;
+	if (pgroup_parse(&pgroup, line) == 1)
 	{
-		pgroup_resolve(&pgroup);
-		if (process_heredocs(&pgroup) < 0)
+		if (pgroup_resolve(&pgroup) >= 0)
 		{
-			printf("Can't process heredocs\n");
-			heredoc_cleanup(&pgroup);
-			pgroup_destroy(&pgroup);
-			return ;
+			if (process_heredocs(&pgroup) < 0)
+				printf("Could not process heredocs\n");
+			else
+				rv = exec_pipeline(&pgroup);
 		}
-		exec_pipeline(&pgroup);
-		heredoc_cleanup(&pgroup);
 	}
+	heredoc_cleanup(&pgroup);
 	pgroup_destroy(&pgroup);
-}
-
-char	**clone_env(char **envp)
-{
-	char	**clone;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-		++i;
-	clone = ft_calloc(i + 1, sizeof(char *));
-	if (clone)
-	{
-		i = 0;
-		while (envp[i])
-		{
-			clone[i] = ft_strdup(envp[i]);
-			if (!clone[i])
-			{
-				while (i-- > 0)
-				{
-					free(clone[i]);
-				}
-				free(clone);
-				return (NULL);
-			}
-			++i;
-		}
-	}
-	return (clone);
-}
-
-static int ft_atoi(const char *s)
-{
-	int	n;
-	
-	n = 0;
-	while (ft_isdigit(*s))
-		n = n * 10 + (*s++ - '0');
-	return (n);
-}
-
-int	msh_get_shlvl(t_msh *msh)
-{
-	char	*shlvl;
-	int		i;
-
-	shlvl = ft_getenv(msh->env, "SHLVL", -1);
-	if (shlvl)
-	{
-		i = 0;
-		while (ft_isdigit(shlvl[i]))
-			++i;
-		if (i > 0 && !shlvl[i])
-			return (ft_atoi(shlvl));
-	}
-	return (0);
-}
-
-int	msh_update_shlvl(t_msh *msh)
-{
-	char *buf;
-	int	n;
-	int lvl;
-	int	rv;
-
-	buf = malloc(32);
-	if (!buf)
-		return (-1);
-	lvl = msh_get_shlvl(msh) + 1;
-	n = ft_strlcpy(buf, "SHLVL=", 32);
-	ft_itoa(lvl, buf + n);
-	rv = ft_set_env(buf);
-	if (rv < 0)
-		free(buf);
 	return (rv);
 }
 
-int	msh_check_path(t_msh *msh)
+char	*msh_loop(int tty)
 {
-	char	*path;
-	int		rv;
+	char	*line;
 
-	path = ft_getenv(msh->env, "PATH", -1);
-	if (!path)
+	set_tty_mode(TTY_INTERACTIVE);
+	if (tty)
+		line = readline("GLaDOS> ");
+	else
+		line = readline("");
+	if (line && *line)
 	{
-		path = ft_strdup("PATH=/usr/local/bin:/bin:/usr/bin:.");
-		if (!path)
-			return (-1);
-		rv = ft_set_env(path);
-		if (rv < 0)
-			free(path);
-		return (rv);
+		set_tty_mode(TTY_EXEC);
+		add_history(line);
+		if (process_line(line) < 0)
+			g_minishell.last_code = 1;
 	}
-	return (0);
-}
-
-int msh_init(t_msh *msh, char **envp)
-{
-	msh->env = clone_env(envp);
-	msh->last_code = 0;
-	msh->should_exit = 0;
-	msh->exit_code = 0;
-	if (!msh->env)
-		return (-1);
-	msh_update_shlvl(msh);
-	msh_check_path(msh);
-	ft_set_env_kv("OLDPWD", "");
-	return (0);
-}
-
-void	msh_exit(int code)
-{
-	g_minishell.exit_code = code;
-	g_minishell.should_exit = 1;
+	return (line);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	char			*line;
-	struct termios	t;
+	int				tty;
 
-	msh_init(&g_minishell, envp);
-	tcgetattr(0, &t);
+	tty = (isatty(0) && isatty(1));
+	if (msh_init(&g_minishell, argc, argv, envp) < 0)
+		return (1);
 	while (!g_minishell.should_exit)
 	{
-		signals();
-    	t.c_lflag &= ~ECHOCTL;
-		tcsetattr(0, TCSANOW, &t);
-		line = readline("GLaDOS> ");
+		line = msh_loop(tty);
 		if (!line)
 			break ;
-		if (*line)
-		{
-			signals_exec();
-			t.c_lflag |= ECHOCTL;
-			tcsetattr(0, TCSANOW, &t);
-			add_history(line);
-			process_line(line);
-		}
 		free(line);
 	}
+	if (tty && !g_minishell.should_exit)
+		g_minishell.exit_code = g_minishell.last_code;
+	if (tty && !line)
+		display_exit();
 	clear_history();
 	env_free(g_minishell.env);
 	return (g_minishell.exit_code);

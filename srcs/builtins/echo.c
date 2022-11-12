@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:33:52 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/02 18:09:55 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 17:00:30 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ static int	parse_options(int argc, char *argv[], int *nl)
 			if (argv[i][j] == 'n')
 				*nl = 0;
 			else
+			{
+				*nl = 1;
 				break ;
+			}
 			++j;
 		}
 		if (argv[i][j])

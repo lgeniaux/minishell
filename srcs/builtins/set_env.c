@@ -3,20 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:26:19 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/09 21:58:18 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 13:07:01 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_set_env(char *var)
+int	set_copy(char **copy, char *tmp)
+{	
+	copy = ft_append_env(g_minishell.env, tmp);
+	if (!copy)
+	{
+		free(tmp);
+		return (0);
+	}
+	free(g_minishell.env);
+	g_minishell.env = copy;
+	return (1);
+}
+
+static int	ft_set_env_utils(const char *var, int pos, int i)
+{
+	char	**copy;
+	char	*tmp;
+
+	copy = NULL;
+	tmp = ft_strdup(var);
+	if (!tmp)
+		return (-1);
+	if (pos >= 0)
+	{
+		if (var[i] == '=')
+		{
+			free(g_minishell.env[pos]);
+			g_minishell.env[pos] = tmp;
+		}
+		else
+			free(tmp);
+	}
+	else
+	{
+		if (!set_copy(copy, tmp))
+			return (0);
+	}
+	return (1);
+}
+
+int	ft_set_env(const char *var)
 {
 	int		i;
 	int		pos;
-	char	**copy;
 
 	i = 0;
 	while (var[i])
@@ -25,28 +64,9 @@ int	ft_set_env(char *var)
 			break ;
 		++i;
 	}
-    pos = ft_find_env(g_minishell.env, var, i);
-	if (pos >= 0)
-	{
-		if (var[i] == '=')
-		{
-			free(g_minishell.env[pos]);
-			g_minishell.env[pos] = var;
-		}
-		else
-		{
-			free(var);
-		}
-	}
-	else
-	{
-        
-		copy = ft_append_env(g_minishell.env, var);
-		if (!copy)
-			return (-1);
-		free(g_minishell.env);
-		g_minishell.env = copy;
-	}
+	pos = ft_find_env(g_minishell.env, var, i);
+	if (!ft_set_env_utils(var, pos, i))
+		return (-1);
 	return (0);
 }
 
@@ -54,6 +74,7 @@ int	ft_set_env_kv(const char *key, const char *value)
 {
 	size_t	len;
 	char	*var;
+	int		rv;
 
 	len = ft_strlen(key) + 1 + ft_strlen(value) + 1;
 	var = malloc(len);
@@ -62,10 +83,7 @@ int	ft_set_env_kv(const char *key, const char *value)
 	ft_strlcpy(var, key, len);
 	ft_strlcat(var, "=", len);
 	ft_strlcat(var, value, len);
-	if (ft_set_env(var) < 0)
-	{
-		free(var);
-		return (-1);
-	}
-	return (0);
+	rv = ft_set_env(var);
+	free(var);
+	return (rv);
 }

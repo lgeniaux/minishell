@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_parse.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 17:03:00 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/01 14:39:38 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/11 13:11:43 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static int	heredoc_process_line(int fd, char *line, t_input_redir *redir)
 static int	heredoc_loop(int fd, t_input_redir *redir)
 {
 	char	*line;
-	char	*tmp;
 	int		ret;
 
 	ret = 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:02:24 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/01 14:27:18 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 15:36:02 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	command_free(t_command *cmd)
 			free(cmd->argv[i++]);
 		free(cmd->argv);
 	}
+	free(cmd);
 }
 
 int	command_parse(t_command *cmd, char **head)
