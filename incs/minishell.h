@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:00:49 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 13:10:29 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ int			pgroup_parse_command(t_piped_command_group *pgroup, char **head);
 int			pgroup_parse(t_piped_command_group *pgroup, char *line);
 
 /* pgroup_resolve.c */
-void		pgroup_resolve(t_piped_command_group *pgroup);
+int			pgroup_resolve(t_piped_command_group *pgroup);
 
 /* command.c */
 
