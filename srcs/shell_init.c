@@ -6,14 +6,16 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 02:44:22 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:05:28 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 13:35:51 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	msh_init(t_msh *msh, char **envp)
+int	msh_init(t_msh *msh, int argc, char *argv[], char **envp)
 {
+	(void)argc;
+	(void)argv;
 	if (!getcwd(msh->pwd, MAXPATHLEN))
 	{
 		printf("shell-init: error retrieving current directory: getcwd: "

@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:07:35 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 13:36:25 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,8 @@ int	main(int argc, char *argv[], char *envp[])
 	char			*line;
 	int				tty;
 
-	(void)argc;
-	(void)argv;
 	tty = isatty(0) && isatty(1);
-	if (msh_init(&g_minishell, envp) < 0)
+	if (msh_init(&g_minishell, argc, argv, envp) < 0)
 		return (1);
 	while (!g_minishell.should_exit)
 	{

@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:10:29 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 13:30:19 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,7 +325,7 @@ void		signals_exec(void);
 char		**ft_append_env(char **env, char *var);
 void		sort_vars(char **env);
 void		rl_replace_line(const char *text, int clear_undo);
-int			msh_init(t_msh *msh, char **envp);
+int			msh_init(t_msh *msh, int argc, char *argv[], char **envp);
 void		msh_exit(int code);
 int			msh_update_shlvl(t_msh *msh);
 int			msh_check_path(t_msh *msh);

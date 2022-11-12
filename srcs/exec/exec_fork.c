@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 16:39:30 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 13:38:09 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	exec_cmd_error(t_pipeline_cmd *cmd, struct stat st)
 			print_error(cmd->path, "is a directory", 0);
 			exit(126);
 		}
+		ft_set_env_kv("_", cmd->path);
 		execve(cmd->path, cmd->argv, g_minishell.env);
 	}
 }
