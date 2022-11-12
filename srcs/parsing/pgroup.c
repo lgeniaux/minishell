@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 19:28:33 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 13:12:03 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 15:36:20 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	pgroup_destroy(t_piped_command_group *pgroup)
 		{
 			tmp = cmd->next;
 			command_free(cmd);
-			free(cmd);
 			cmd = tmp;
 		}
 		free(pgroup->raw_line);
@@ -58,7 +57,7 @@ int	pgroup_parse_command(t_piped_command_group *pgroup, char **head)
 		return (-1);
 	if (command_parse(cmd, head) < 0)
 	{
-		free(cmd);
+		command_free(cmd);
 		return (-1);
 	}
 	pgroup_add_cmd(pgroup, cmd);

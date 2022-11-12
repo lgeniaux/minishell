@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 14:29:37 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:00:37 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 13:01:17 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int	prepare_heredocs(t_piped_command_group *pgroup)
 	}
 	return (n);
 }
+
 static int	forked_heredoc_process(t_command *cmd)
 {
 	t_input_redir	*in;
