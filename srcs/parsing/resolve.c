@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:59:46 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 16:00:37 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 16:10:46 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*resolve_vars(char *cmdline, char **env)
 	resolved = NULL;
 	while (*cmdline)
 	{
-		if (cmdline[0] == '$' && strmode != 1
+		if (cmdline[0] == '$' && !strmode
 			&& (cmdline[1] == '\'' || cmdline[1] == '"'))
 			++cmdline;
 		else if (*cmdline == '$' && strmode != 1 && varlen(cmdline) > 1)
