@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 02:44:22 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:35:51 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 16:37:19 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int	msh_init(t_msh *msh, int argc, char *argv[], char **envp)
 {
-	(void)argc;
-	(void)argv;
+	msh->arg0 = "";
+	if (argc > 0)
+		msh->arg0 = argv[0];
 	if (!getcwd(msh->pwd, MAXPATHLEN))
 	{
 		printf("shell-init: error retrieving current directory: getcwd: "

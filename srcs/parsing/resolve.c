@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:59:46 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 16:10:46 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 16:44:23 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,16 @@ int	varlen(const char *line)
 
 char	*append_var(char **resolved, char *cmdline, char **env)
 {
-	int		len;
-	char	*var;
+	int			len;
+	const char	*var;
 
 	len = varlen(cmdline);
 	var = NULL;
 	if (len > 1)
 	{
-		if (len == 2 && cmdline[1] == '?')
+		if (len == 2 && cmdline[1] == '0')
+			var = g_minishell.arg0;
+		else if (len == 2 && cmdline[1] == '?')
 			var = ft_itoa(g_minishell.last_code, g_minishell.status_buf);
 		else
 			var = ft_getenv(env, cmdline + 1, len - 1);
