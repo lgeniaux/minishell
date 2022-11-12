@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 16:23:37 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 17:22:32 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	exec_cmd_error(t_pipeline_cmd *cmd, struct stat st)
 			exit(126);
 		}
 		ft_set_env_kv("_", cmd->path);
-		execve(cmd->path, cmd->argv, g_minishell.env);
+		execve(cmd->path, cmd->argv, cmd->pipeline->env);
 	}
 }
 

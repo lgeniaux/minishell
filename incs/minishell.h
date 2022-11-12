@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 16:48:47 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 17:24:03 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_piped_command_group
 
 typedef struct s_pipeline_cmd
 {
+	struct s_pipeline		*pipeline;
 	char					**argv;
 	char					*path;
 	pid_t					pid;
@@ -210,6 +211,8 @@ int			pgroup_resolve(t_piped_command_group *pgroup);
 int			command_parse(t_command *cmd, char **head);
 
 void		command_free(t_command *cmd);
+
+char		**create_clean_env(char **env);
 
 /* redir.c */
 /**
