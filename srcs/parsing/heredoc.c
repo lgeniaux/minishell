@@ -6,55 +6,64 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 14:29:37 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 12:28:57 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 13:00:37 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	command_prepare_heredocs(t_command *cmd, int n)
-{
-	t_input_redir	*in;
-
-	in = cmd->in_redirs;
-	while (in)
-	{
-		if (in->is_heredoc)
-		{
-			in->heredoc_path = heredoc_path(n++);
-			if (!in->heredoc_path)
-				return (-1);
-		}
-		in = in->next;
-	}
-	return (n);
-}
-
 static int	prepare_heredocs(t_piped_command_group *pgroup)
 {
-	t_command	*cmd;
-	int			n;
-	int			r;
+	t_command		*cmd;
+	t_input_redir	*in;
+	int				n;
 
 	n = 0;
 	cmd = pgroup->cmds;
 	while (cmd)
 	{
-		r = command_prepare_heredocs(cmd, n);
-		if (r < 0)
-			return (-1);
-		n += r;
+		in = cmd->in_redirs;
+		while (in)
+		{
+			if (in->is_heredoc)
+			{
+				in->heredoc_path = heredoc_path(n++);
+				if (!in->heredoc_path)
+					return (-1);
+			}
+			in = in->next;
+		}
 		cmd = cmd->next;
 	}
 	return (n);
 }
-
-int	collect_heredocs(t_piped_command_group *pgroup)
+static int	forked_heredoc_process(t_command *cmd)
 {
-	t_command		*cmd;
 	t_input_redir	*in;
-	pid_t			pid;
-	int				status;
+
+	set_tty_mode(TTY_INTERACTIVE);
+	signal(SIGINT, SIG_DFL);
+	while (cmd)
+	{
+		in = cmd->in_redirs;
+		while (in)
+		{
+			if (in->is_heredoc)
+			{
+				if (heredoc(in) < 0)
+					return (1);
+			}
+			in = in->next;
+		}
+		cmd = cmd->next;
+	}
+	return (0);
+}
+
+static int	collect_heredocs(t_piped_command_group *pgroup)
+{
+	pid_t		pid;
+	int			status;
 
 	pid = fork();
 	if (pid < 0)
@@ -73,32 +82,10 @@ int	collect_heredocs(t_piped_command_group *pgroup)
 			return (0);
 		if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
 			return (1);
-		return (-1);
 	}
 	else
-	{
-		set_tty_mode(TTY_INTERACTIVE);
-		signal(SIGINT, SIG_DFL);
-		cmd = pgroup->cmds;
-		while (cmd)
-		{
-			in = cmd->in_redirs;
-			while (in)
-			{
-				if (in->is_heredoc)
-				{
-					if (heredoc(in) < 0)
-					{
-						exit(1);
-					}
-				}
-				in = in->next;
-			}
-			cmd = cmd->next;
-		}
-		exit(0);
-	}
-	return (1);
+		exit(forked_heredoc_process(pgroup->cmds));
+	return (-1);
 }
 
 int	process_heredocs(t_piped_command_group *pgroup)
