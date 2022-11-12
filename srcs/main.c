@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 20:04:04 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 13:07:35 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,15 @@ void	process_line(char *line)
 	pgroup_destroy(&pgroup);
 }
 
-char	*msh_loop(void)
+char	*msh_loop(int tty)
 {
 	char	*line;
 
 	set_tty_mode(TTY_INTERACTIVE);
-	line = readline("GLaDOS> ");
+	if (tty)
+		line = readline("GLaDOS> ");
+	else
+		line = readline("");
 	if (line && *line)
 	{
 		set_tty_mode(TTY_EXEC);
@@ -96,29 +99,46 @@ char	*msh_loop(void)
 	return (line);
 }
 
+static int	outc(int ch)
+{
+	return (write(1, &ch, 1));
+}
+
+void	display_exit(int eol)
+{
+	char	*str;
+
+	if (eol)
+	{
+		str = tgetstr("UP", NULL);
+		tputs(tgoto(str, 1, 0), 0, outc);
+		printf("\rGLaDOS> exit\n");
+	}
+	else
+	{
+		printf("exit\n");
+	}
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	char			*line;
+	int				tty;
 
 	(void)argc;
 	(void)argv;
+	tty = isatty(0) && isatty(1);
 	if (msh_init(&g_minishell, envp) < 0)
 		return (1);
 	while (!g_minishell.should_exit)
 	{
-		line = msh_loop();
+		line = msh_loop(tty);
 		if (!line)
 			break ;
 		free(line);
 	}
-	if (isatty(0))
-	{
-		if (!line)
-			printf("%.*s\rGLaDOS> exit\n", \
-			!!ft_getenv(g_minishell.env, "TERM", -1) * 4, "\033[A1");
-		else
-			printf("exit\n");
-	}
+	if (tty)
+		display_exit(!line);
 	clear_history();
 	env_free(g_minishell.env);
 	return (g_minishell.exit_code);

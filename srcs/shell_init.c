@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 02:44:22 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 18:04:19 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 13:05:28 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	msh_init(t_msh *msh, char **envp)
 	msh->exit_code = 0;
 	if (!msh->env)
 		return (-1);
+	tgetent(NULL, ft_getenv(msh->env, "TERM", -1));
 	msh_update_shlvl(msh);
 	msh_check_path(msh);
 	ft_set_env_kv("PWD", msh->pwd);
