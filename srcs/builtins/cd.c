@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:30:29 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 18:04:40 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 13:49:47 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,7 @@ int	builtin_cd(int argc, char *argv[])
 	char	*path;
 	char	*oldpwd;
 
-	if (argc == 2)
-	{
-		path = argv[1];
-	}
-	else
+	if (argc == 1)
 	{
 		path = ft_getenv(g_minishell.env, "HOME", -1);
 		if (!path)
@@ -67,6 +63,10 @@ int	builtin_cd(int argc, char *argv[])
 			printf("minishell: cd: HOME not set\n");
 			return (1);
 		}
+	}
+	else
+	{
+		path = argv[1];
 	}
 	oldpwd = g_minishell.pwd;
 	if (chdir(path) < 0)
