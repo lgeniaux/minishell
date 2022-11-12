@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:12:30 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:47:47 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 15:02:08 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,22 @@ void	ft_unset(char **env, const char *name)
 	}
 }
 
+static int	is_valid_var(const char *v)
+{
+	int	i;
+
+	if (!is_valid_ident(v))
+		return (0);
+	i = 0;
+	while (v[i])
+	{
+		if (v[i] == '=')
+			return (0);
+		++i;
+	}
+	return (1);
+}
+
 int	builtin_unset(int argc, char *argv[])
 {
 	int	rv;
@@ -37,7 +53,7 @@ int	builtin_unset(int argc, char *argv[])
 	i = 1;
 	while (i < argc)
 	{
-		if (!is_valid_ident(argv[i]))
+		if (!is_valid_var(argv[i]))
 		{
 			rv = 1;
 			ft_putstr_fd("minishell: unset: ", 2);
