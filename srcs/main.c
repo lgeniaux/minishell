@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 16:43:38 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 17:08:42 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,26 @@ int	exec_pipeline(t_piped_command_group *pgroup)
 	return (ret);
 }
 
-void	process_line(char *line)
+int	process_line(char *line)
 {
 	t_piped_command_group	pgroup;
-	int						n;
+	int						rv;
 
 	ft_memset(&pgroup, 0, sizeof(pgroup));
-	n = pgroup_parse(&pgroup, line);
-	if (n == 1)
+	rv = -1;
+	if (pgroup_parse(&pgroup, line) == 1)
 	{
-		pgroup_resolve(&pgroup);
-		n = process_heredocs(&pgroup);
-		if (n < 0)
+		if (pgroup_resolve(&pgroup) >= 0)
 		{
-			printf("Can't process heredocs\n");
-			heredoc_cleanup(&pgroup);
-			pgroup_destroy(&pgroup);
-			return ;
+			if (process_heredocs(&pgroup) < 0)
+				printf("Could not process heredocs\n");
+			else
+				rv = exec_pipeline(&pgroup);
 		}
-		if (n == 1)
-			exec_pipeline(&pgroup);
-		else
-			g_minishell.last_code = 1;
-		heredoc_cleanup(&pgroup);
 	}
+	heredoc_cleanup(&pgroup);
 	pgroup_destroy(&pgroup);
+	return (rv);
 }
 
 char	*msh_loop(int tty)
@@ -94,7 +89,8 @@ char	*msh_loop(int tty)
 	{
 		set_tty_mode(TTY_EXEC);
 		add_history(line);
-		process_line(line);
+		if (process_line(line) < 0)
+			g_minishell.last_code = 1;
 	}
 	return (line);
 }
