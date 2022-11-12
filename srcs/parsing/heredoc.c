@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 14:29:37 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/11 19:02:38 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 12:28:57 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	command_prepare_heredocs(t_command *cmd, int n)
 	return (n);
 }
 
-static int prepare_heredocs(t_piped_command_group *pgroup)
+static int	prepare_heredocs(t_piped_command_group *pgroup)
 {
 	t_command	*cmd;
 	int			n;
@@ -49,12 +49,12 @@ static int prepare_heredocs(t_piped_command_group *pgroup)
 	return (n);
 }
 
-int collect_heredocs(t_piped_command_group *pgroup)
+int	collect_heredocs(t_piped_command_group *pgroup)
 {
-	t_command	*cmd;
-	t_input_redir *in;
-	pid_t		pid;
-	int			status;
+	t_command		*cmd;
+	t_input_redir	*in;
+	pid_t			pid;
+	int				status;
 
 	pid = fork();
 	if (pid < 0)

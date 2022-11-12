@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:26:09 by lgeniaux          #+#    #+#             */
-/*   Updated: 2022/11/11 18:58:00 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 12:28:40 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	signals_exec(void)
 
 int	set_tty_mode(int mode)
 {
-	struct termios tm;
+	struct termios	tm;
 
 	if (tcgetattr(0, &tm) < 0)
 		return (-1);
