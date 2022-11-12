@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:47:14 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 16:23:48 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,6 +303,7 @@ void		dump_pgroup(t_piped_command_group *pgroup);
 
 /* builtins */
 int			is_valid_ident(const char *v);
+void	print_error(const char *msg, const char *msg2, int errnum);
 void		ft_putstr_fd(const char *s, int fd);
 
 int			builtin_export(int argc, char *argv[]);

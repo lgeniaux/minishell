@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:47:08 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 16:23:37 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_putstr_fd(const char *s, int fd)
 	write(fd, s, i);
 }
 
-static void	print_error(const char *msg, const char *msg2, int errnum)
+void	print_error(const char *msg, const char *msg2, int errnum)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(msg, 2);

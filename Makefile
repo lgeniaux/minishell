@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 20:31:12 by lgeniaux          #+#    #+#              #
-#    Updated: 2022/11/11 18:00:48 by alavaud          ###   ########lyon.fr    #
+#    Updated: 2022/11/12 16:37:06 by lgeniaux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ SRCS        :=	srcs/builtins/builtin_export.c \
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 NAME = minishell
 CFLAGS = -I incs -Wall -Werror -Wextra -I ~/.brew/opt/readline/include 
-LDFLAGS = -L ~/.brew/opt/readline/lib -lreadline
+LDFLAGS = -ltermcap -L ~/.brew/opt/readline/lib -lreadline
 
 all: $(NAME)
 

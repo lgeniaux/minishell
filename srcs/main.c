@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 14:58:49 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 16:35:43 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	main(int argc, char *argv[], char *envp[])
 	char			*line;
 	int				tty;
 
-	tty = isatty(0) && isatty(1);
+	tty = (isatty(0) && isatty(1));
 	if (msh_init(&g_minishell, argc, argv, envp) < 0)
 		return (1);
 	while (!g_minishell.should_exit)
@@ -128,6 +128,8 @@ int	main(int argc, char *argv[], char *envp[])
 			break ;
 		free(line);
 	}
+	if (tty && !g_minishell.should_exit)
+		g_minishell.exit_code = g_minishell.last_code;
 	if (tty && !line)
 		display_exit();
 	clear_history();
