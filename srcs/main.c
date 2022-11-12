@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:01 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:36:25 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 13:56:44 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,20 +104,13 @@ static int	outc(int ch)
 	return (write(1, &ch, 1));
 }
 
-void	display_exit(int eol)
+void	display_exit(void)
 {
 	char	*str;
 
-	if (eol)
-	{
-		str = tgetstr("UP", NULL);
-		tputs(tgoto(str, 1, 0), 0, outc);
-		printf("\rGLaDOS> exit\n");
-	}
-	else
-	{
-		printf("exit\n");
-	}
+	str = tgetstr("UP", NULL);
+	tputs(tgoto(str, 1, 0), 0, outc);
+	printf("\rGLaDOS> exit\n");
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -135,8 +128,8 @@ int	main(int argc, char *argv[], char *envp[])
 			break ;
 		free(line);
 	}
-	if (tty)
-		display_exit(!line);
+	if (tty && !line)
+		display_exit();
 	clear_history();
 	env_free(g_minishell.env);
 	return (g_minishell.exit_code);

@@ -6,7 +6,7 @@
 /*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:12:20 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/10 16:19:10 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 13:58:05 by lgeniaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ int	builtin_exit(int argc, char *argv[])
 	int	code;
 
 	code = 0;
-	if (argc > 2)
-	{
-		printf("minishell: exit: too many arguments\n");
-		return (1);
-	}
-	else if (argc > 1)
+	printf("exit\n");
+	if (argc > 1)
 	{
 		if (atoi_safe(argv[1], &code) < 0)
 		{
 			printf("minishell: exit: numeric argument required\n");
-			return (0);
+		}
+		else if (argc > 2)
+		{
+			printf("minishell: exit: too many arguments\n");
+			return (1);
 		}
 	}
 	msh_exit(code);
