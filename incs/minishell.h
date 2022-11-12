@@ -6,7 +6,7 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 22:28:03 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:30:19 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 13:47:14 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,6 +302,9 @@ void		dump_pgroup(t_piped_command_group *pgroup);
 /* builtin.c */
 
 /* builtins */
+int			is_valid_ident(const char *v);
+void		ft_putstr_fd(const char *s, int fd);
+
 int			builtin_export(int argc, char *argv[]);
 int			builtin_unset(int argc, char *argv[]);
 int			builtin_echo(int argc, char *argv[]);

@@ -6,13 +6,13 @@
 /*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:29:12 by alavaud           #+#    #+#             */
-/*   Updated: 2022/11/12 13:38:09 by alavaud          ###   ########lyon.fr   */
+/*   Updated: 2022/11/12 13:47:08 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_putstr_fd(const char *s, int fd)
+void	ft_putstr_fd(const char *s, int fd)
 {
 	size_t	i;
 

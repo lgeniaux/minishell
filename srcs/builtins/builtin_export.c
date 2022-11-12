@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgeniaux <lgeniaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alavaud <alavaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 15:59:39 by lgeniaux          #+#    #+#             */
-/*   Updated: 2022/11/11 13:05:33 by lgeniaux         ###   ########.fr       */
+/*   Updated: 2022/11/12 13:43:12 by alavaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_valid_ident(const char *v)
+int	is_valid_ident(const char *v)
 {
 	int	i;
 
