@@ -21,6 +21,7 @@ SRCS        :=	srcs/builtins/builtin_export.c \
 				srcs/builtins/set_env.c \
 				srcs/builtins/unset.c \
 				srcs/exec/env.c \
+				srcs/exec/env_clean.c \
 				srcs/exec/exec_fork.c \
 				srcs/exec/exec_functions.c \
 				srcs/exec/exec_prepare.c \
