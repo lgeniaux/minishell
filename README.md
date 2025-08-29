@@ -11,7 +11,7 @@
 
 *A feature-complete Unix shell implementation built from scratch in C*
 
-**Authors**: [Alexis Lavaud](https://github.com/alavaud) & [lgeniaux](https://github.com/lgeniaux)
+**Authors**: [alavaud](https://github.com/mario8705) & [lgeniaux](https://github.com/lgeniaux)
 
 </div>
 
